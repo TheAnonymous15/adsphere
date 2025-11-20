@@ -31,7 +31,7 @@ $currentPage = '403';
 
 <body class="min-h-screen flex flex-col items-center justify-center text-white font-sans overflow-hidden
              bg-cover bg-center relative"
-      style="background-image: url('ad.jpg');">
+      style="background-image: url('/app/assets/images/ad.jpg');">
 
   <!-- Floating blurry orbs -->
   <div class="absolute top-10 left-10 w-72 h-72 bg-pink-400/30 blur-3xl rounded-full animate-pulse-glow"></div>

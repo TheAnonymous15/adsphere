@@ -21,12 +21,14 @@ define('VIEW_PATH', APP_PATH . 'views/');
 // ------------------------------
 // Maintenance mode
 // ------------------------------
-$maintenanceMode = true;
-if ($maintenanceMode) {
+$maintenanceMode = 0;
+
+if ($maintenanceMode === 1) {
     http_response_code(503);
     require INCLUDE_PATH . 'maintenance.php';
     exit;
 }
+
 
 // ------------------------------
 // Parse pretty URL
@@ -48,7 +50,9 @@ foreach ($views as $view) {
 $routes['404'] = INCLUDE_PATH . '404.php';
 $routes['403'] = INCLUDE_PATH . '403.php';
 $routes['500'] = INCLUDE_PATH . '500.php';
-$routes['home'] = INCLUDE_PATH . 'coming.php';
+$routes['home'] = INCLUDE_PATH . 'home.php';
+$routes['login'] = INCLUDE_PATH . 'login.php';
+
 
 // ------------------------------
 // Resolve controller if exists
@@ -95,11 +99,7 @@ function render(string $view, array $data = []): void {
     }
 }
 
-// ------------------------------
-// Auto-include WhatsApp component
-// ------------------------------
-$whatsappFile = INCLUDE_PATH . 'whatsapp.php';
-if (file_exists($whatsappFile)) require_once $whatsappFile;
+
 
 // ------------------------------
 // Page caching (query-aware)
@@ -127,6 +127,14 @@ if ($cacheEnabled && file_exists($cacheFile)) {
         $cacheValid = true;
     }
 }
+
+// ------------------------------
+// Auto-include WhatsApp component
+// ------------------------------
+$whatsappFile = INCLUDE_PATH . 'whatsapp.php';
+if (file_exists($whatsappFile)) require_once $whatsappFile;
+
+
 
 // Serve cached page if valid
 if ($cacheValid) {
