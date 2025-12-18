@@ -1,0 +1,19 @@
+{
+    "ad_id": "0.6144748284220954",
+    "total_views": 1,
+    "total_clicks": 0,
+    "total_contacts": 0,
+    "events": [
+        {
+            "type": "view",
+            "timestamp": 1766094050,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        }
+    ],
+    "updated_at": 1766094050
+}
