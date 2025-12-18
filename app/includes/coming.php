@@ -5,20 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="/app/assets/css/tailwind.js"></script>
+    <link rel="icon" type="image/png" href="/app/assets/images/icon.png">
+    <link rel="stylesheet" href="/app/assets/css/all.min.css">
     <title>AdSphere | Coming Soon</title>
 </head>
 
-<body class="bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-sans min-h-screen flex flex-col"
-      style="background-image: url('/app/assets/images/ad.jpg');">
+<body class="
+             animated-gradient
+             text-white font-sans min-h-screen flex flex-col">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div class="absolute w-72 h-72 bg-white/10 rounded-full -top-16 -left-16 animate-spin-slow"></div>
         <div class="absolute w-96 h-96 bg-white/10 rounded-full -bottom-24 -right-24 animate-spin-slow-reverse"></div>
         <div class="absolute w-60 h-60 bg-white/5 rounded-full -bottom-12 left-1/3 animate-pulse-slow"></div>
     </div>
-    <section class="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-12 relative z-10">
+
+
+
+
+
+    <section class="max-w-7xl mx-auto gradient px-6 py-20 flex flex-col md:flex-row items-center gap-12 relative z-10">
         <div class="flex-1 text-center md:text-left space-y-6 bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl animate-fadeIn">
           
 
@@ -87,6 +93,10 @@
             </div>
         </div>
     </section>
+
+
+
+
     <script>
         const targetDate = new Date("Dec 31, 2025 00:00:00").getTime();
         const daysEl = document.getElementById('days');
@@ -111,6 +121,24 @@
     </script>
 
     <style>
+
+
+
+        .animated-gradient {
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6,
+    #d946ef      );
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .animate-fadeIn { animation: fadeIn 1s ease-out forwards; }
 

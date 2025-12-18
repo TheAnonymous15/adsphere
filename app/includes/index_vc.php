@@ -6,9 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/app/assets/css/tailwind.js"></script>
     <script defer src="script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="/app/assets/css/all.min.css">
     <link rel="icon" type="image/png" href="icon.png">
     <title>  AdSphere | Power  </title>
 </head>

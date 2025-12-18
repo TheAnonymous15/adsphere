@@ -1,154 +1,102 @@
-<div id="whatsappWidget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-2">
-  <!-- WhatsApp Floating Button -->
-  <button id="whatsappBtn" 
-    class="bg-gradient-to-br from-pink-400 to-indigo-500 hover:from-pink-500 hover:to-indigo-600 text-white p-4 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 hover:shadow-[0_10px_20px_rgba(236,72,153,0.5)]">
-    <i class="fab fa-whatsapp fa-lg"></i>
-  </button>
+<link rel="stylesheet" href="/app/assets/css/all.min.css">
+<script src="/app/assets/css/tailwind.js"></script>
 
-  <!-- Chat Box -->
-  <div id="whatsappChat" 
-    class="hidden absolute w-80 bg-white/10 backdrop-blur-xl rounded-2xl shadow-[0_10px_25px_rgba(0,0,0,0.2),0_5px_10px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300">
+<!-- ===================== CONTACT MODAL ===================== -->
+<div id="contactModals" class="fixed bottom-6 right-6 z-50 hidden">
+  <div id="contactCard" class="w-80 rounded-2xl bg-slate-900 p-6 shadow-xl transform scale-95 opacity-0 transition-all duration-300">
 
-    <!-- Header -->
-    <div id="whatsappHeader" class="bg-gradient-to-r from-pink-400 to-indigo-500 text-white px-4 py-3 font-semibold flex justify-between items-center cursor-move shadow-md">
-      <span>Send us a message</span>
-      <button id="closeWhatsapp" class="text-white text-xl font-bold hover:text-gray-200">&times;</button>
+    <!-- HEADER -->
+    <div class="mb-4 flex items-center justify-between">
+      <h3 class="text-lg font-bold text-white">Contact Seller</h3>
+      <button id="closeModalBtn" class="text-white text-xl hover:text-gray-300">&times;</button>
     </div>
 
-    <!-- Message Box -->
-    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-      <textarea id="whatsappMessage" rows="4" placeholder="Type your message..."
-        class="w-full p-3 border border-white/20 rounded-xl bg-white/10 backdrop-blur-md text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none shadow-inner transition-all duration-300 hover:shadow-lg"></textarea>
+    <!-- MESSAGE -->
+    <textarea id="contactMessage" rows="4" placeholder="Type your message..."
+      class="mb-4 w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70
+             focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
 
-        <!-- Send WhatsApp -->
-        
-
-         <button id="sendWhatsapp" 
-        class="bg-gradient-to-r from-pink-400 to-indigo-500 hover:from-pink-500 hover:to-indigo-600 text-white px-5 py-3 rounded-xl font-semibold shadow-[0_5px_15px_rgba(236,72,153,0.5)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(236,72,153,0.6)] flex items-center justify-center space-x-2">
-        <i class="fas fa-paper-plane"></i>
-        <span>Send whatsapp</span>
-
-         <button id="sendSMS" 
-        class="bg-gradient-to-r from-pink-400 to-indigo-500 hover:from-pink-500 hover:to-indigo-600 text-white px-5 py-3 rounded-xl font-semibold shadow-[0_5px_15px_rgba(236,72,153,0.5)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(236,72,153,0.6)] flex items-center justify-center space-x-2">
-        <i class="fas fa-paper-plane"></i>
-        <span>Send SMS</span>
-
-
-      </div>
-
-
+    <!-- ACTION BUTTONS -->
+    <div class="grid grid-cols-2 gap-2">
+      <button id="sendWhatsap" class="rounded bg-green-600 py-2 font-semibold hover:bg-green-700">WhatsApp</button>
+      <button id="sendSMSs" class="rounded bg-blue-600 py-2 font-semibold hover:bg-blue-700">SMS</button>
+      <button id="sendEmaill" class="rounded bg-indigo-600 py-2 font-semibold hover:bg-indigo-700">Email</button>
+      <button id="callNoww" class="rounded bg-red-600 py-2 font-semibold hover:bg-red-700">Call</button>
+    </div>
 
   </div>
 </div>
 
+<!-- ===================== TOGGLE BUTTON ===================== -->
+<button id="contactBtn" 
+  class="fixed bottom-6 right-6 z-50 bg-gradient-to-br from-pink-400 to-indigo-500
+         hover:from-pink-500 hover:to-indigo-600 text-white p-4 rounded-full
+         shadow-2xl transform transition-all duration-300 hover:scale-110">
+  <i class="fas fa-comment fa-lg"></i>
+</button>
+
 <script>
-const whatsappBtn = document.getElementById('whatsappBtn');
-const whatsappChat = document.getElementById('whatsappChat');
-const closeWhatsapp = document.getElementById('closeWhatsapp');
-const sendWhatsapp = document.getElementById('sendWhatsapp');
-const sendSMS = document.getElementById('sendSMS');
-const whatsappMessage = document.getElementById('whatsappMessage');
-const whatsappWidget = document.getElementById('whatsappWidget');
-const whatsappHeader = document.getElementById('whatsappHeader');
+const contactBtn = document.getElementById('contactBtn');
+const contactModal = document.getElementById('contactModals');
+const contactCard = document.getElementById('contactCard');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const contactMessage = document.getElementById('contactMessage');
+const sendWhatsapp = document.getElementById('sendWhatsap');
+const sendSMS = document.getElementById('sendSMSs');
+const sendEmail = document.getElementById('sendEmaill');
+const callNow = document.getElementById('callNoww');
 
-// Toggle chat box
-whatsappBtn.addEventListener('click', () => {
-  if (whatsappChat.classList.contains('hidden')) {
-    whatsappChat.classList.remove('hidden');
-    whatsappChat.style.bottom = '60px';
-    whatsappChat.style.right = '0px';
-    setTimeout(() => {
-      whatsappChat.classList.remove('scale-95', 'opacity-0');
-      whatsappMessage.focus();
-    }, 20);
-  } else {
-    whatsappChat.classList.add('scale-95', 'opacity-0');
-    setTimeout(() => whatsappChat.classList.add('hidden'), 300);
-  }
+const phoneNumber = '+254726781724';
+const emailAddress = 'ld@aplus.anonaddy.com';
+
+// -------------------------
+// Open/Close Modal
+// -------------------------
+contactBtn.addEventListener('click', () => {
+  contactModal.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    contactCard.classList.remove('scale-95', 'opacity-0');
+    contactCard.classList.add('scale-100', 'opacity-100');
+    contactMessage.focus();
+  });
 });
 
-closeWhatsapp.addEventListener('click', () => {
-  whatsappChat.classList.add('scale-95', 'opacity-0');
-  setTimeout(() => whatsappChat.classList.add('hidden'), 300);
+closeModalBtn.addEventListener('click', () => {
+  contactCard.classList.add('scale-95', 'opacity-0');
+  setTimeout(() => contactModal.classList.add('hidden'), 200);
 });
 
-// Send WhatsApp message
+// -------------------------
+// Action Buttons
+// -------------------------
 sendWhatsapp.addEventListener('click', () => {
-  const message = encodeURIComponent(whatsappMessage.value.trim());
-  if(message) {
-    const number = "254728512780";
-    const url = `https://wa.me/${number}?text=${message}`;
-    window.open(url, '_blank');
-    whatsappMessage.value = '';
-    whatsappChat.classList.add('scale-95', 'opacity-0');
-    setTimeout(() => whatsappChat.classList.add('hidden'), 300);
-  } else {
-    alert("Please type a message first!");
-  }
+  const msg = encodeURIComponent(contactMessage.value.trim());
+  if(msg) window.open(`https://wa.me/${phoneNumber.replace(/\D/g,'')}?text=${msg}`, '_blank');
+  else alert('Please type a message first!');
 });
 
-// Send SMS with typed message
 sendSMS.addEventListener('click', () => {
-  const message = encodeURIComponent(whatsappMessage.value.trim());
-  if(message) {
-    const number = "+254726781724";
-    const url = `sms:${number}?body=${message}`;
-    window.open(url, '_blank');
-    whatsappMessage.value = '';
-    whatsappChat.classList.add('scale-95', 'opacity-0');
-    setTimeout(() => whatsappChat.classList.add('hidden'), 300);
-  } else {
-    alert("Please type a message first!");
-  }
+  const msg = encodeURIComponent(contactMessage.value.trim());
+  if(msg) window.open(`sms:${phoneNumber}?body=${msg}`, '_blank');
+  else alert('Please type a message first!');
 });
 
-// Click outside to close
+sendEmail.addEventListener('click', () => {
+  const msg = encodeURIComponent(contactMessage.value.trim());
+  window.open(`mailto:${emailAddress}?body=${msg}`, '_blank');
+});
+
+callNow.addEventListener('click', () => {
+  window.open(`tel:${phoneNumber}`, '_self');
+});
+
+// -------------------------
+// Close when clicking outside modal
+// -------------------------
 document.addEventListener('click', (e) => {
-  if (!whatsappWidget.contains(e.target) && !whatsappChat.classList.contains('hidden')) {
-    whatsappChat.classList.add('scale-95', 'opacity-0');
-    setTimeout(() => whatsappChat.classList.add('hidden'), 300);
+  if (!contactCard.contains(e.target) && !contactBtn.contains(e.target) && !contactModal.classList.contains('hidden')) {
+    contactCard.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => contactModal.classList.add('hidden'), 200);
   }
 });
-
-// Drag functionality
-let isDragging = false, offsetX = 0, offsetY = 0;
-
-whatsappHeader.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  const rect = whatsappChat.getBoundingClientRect();
-  offsetX = e.clientX - rect.left;
-  offsetY = e.clientY - rect.top;
-  whatsappChat.style.position = 'fixed';
-  whatsappChat.style.margin = '0';
-  whatsappChat.style.zIndex = '1000';
-});
-document.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    let x = e.clientX - offsetX;
-    let y = e.clientY - offsetY;
-    whatsappChat.style.left = `${x}px`;
-    whatsappChat.style.top = `${y}px`;
-  }
-});
-document.addEventListener('mouseup', () => { isDragging = false; });
-
-// Touch support
-whatsappHeader.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  const rect = whatsappChat.getBoundingClientRect();
-  offsetX = e.touches[0].clientX - rect.left;
-  offsetY = e.touches[0].clientY - rect.top;
-  whatsappChat.style.position = 'fixed';
-  whatsappChat.style.margin = '0';
-  whatsappChat.style.zIndex = '1000';
-});
-document.addEventListener('touchmove', (e) => {
-  if (isDragging) {
-    let x = e.touches[0].clientX - offsetX;
-    let y = e.touches[0].clientY - offsetY;
-    whatsappChat.style.left = `${x}px`;
-    whatsappChat.style.top = `${y}px`;
-  }
-});
-document.addEventListener('touchend', () => { isDragging = false; });
 </script>

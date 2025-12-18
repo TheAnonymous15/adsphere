@@ -52,6 +52,9 @@ $routes['403'] = INCLUDE_PATH . '403.php';
 $routes['500'] = INCLUDE_PATH . '500.php';
 $routes['home'] = INCLUDE_PATH . 'home.php';
 $routes['login'] = INCLUDE_PATH . 'login.php';
+$routes['header'] = INCLUDE_PATH . 'header.php';
+$routes['footer'] = INCLUDE_PATH . 'futa.php';
+
 
 
 // ------------------------------
@@ -84,8 +87,6 @@ if (!file_exists($pageFile)) {
 $pageTitle = ucfirst(str_replace('-', ' ', $slug));
 
 
-
-
 // ------------------------------
 // Blade-lite template engine
 // ------------------------------
@@ -98,7 +99,6 @@ function render(string $view, array $data = []): void {
         include $view;
     }
 }
-
 
 
 // ------------------------------
@@ -133,7 +133,6 @@ if ($cacheEnabled && file_exists($cacheFile)) {
 // ------------------------------
 $whatsappFile = INCLUDE_PATH . 'whatsapp.php';
 if (file_exists($whatsappFile)) require_once $whatsappFile;
-
 
 
 // Serve cached page if valid

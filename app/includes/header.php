@@ -1,12 +1,14 @@
+  <script src="/app/assets/css/tailwind.js"></script>
+
+
 <header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
 <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
 
     <!-- Branding -->
     <div class="flex items-center space-x-4 group cursor-pointer">
         <div class="p-1 rounded-xl bg-white/20 backdrop-blur-lg shadow-md transition-transform group-hover:scale-105">
-            <img src="icc.png" alt="AdSphere Logo" class="h-12 w-auto object-contain">
+            <img src="/app/assets/images/icc.png" alt="AdSphere Logo" class="h-12 w-auto object-contain">
         </div>
-        <h1 class="text-3xl font-extrabold text-white tracking-wide drop-shadow-md">AdSphere</h1>
     </div>
 
     <!-- Desktop Menu -->

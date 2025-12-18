@@ -4,8 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maintenance | AdSphere</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-papcTL2qU7su3yJr0xdvEbsP2ELGH/sPfH3pJZlXLh6jwXCM6wFM6cVqHkXlY7yY2yAx3Er1Rhw58Vbxdl0M5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+  <script src="/app/assets/css/tailwind.js"></script>
+
+
+<link rel="stylesheet" href="/app/assets/css/all.min.css">
+
 
   <style>
     /* Floating background orbs */
