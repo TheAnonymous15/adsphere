@@ -234,7 +234,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen flex items-center justify-center p-6"
   style="background-image: url('/app/assets/images/ad.jpg');">
->
 
 <div class="max-w-md w-full">
 
