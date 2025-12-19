@@ -25,17 +25,10 @@
 
 <?php
 
+// $pages = ["ad_page"];
 $pages = ["header", "hero", "ad_page", "footer"];
-// $pages = ["ad_page"]
 
-
-foreach ($pages as $page) {
-    include $page . ".php";
-}
-
-?>
-
-
+foreach ($pages as $page) {include $page . ".php";}?>
 
 <style>
 body {
@@ -57,9 +50,4 @@ body {
 }
 </style>
 </body>
-
-
-
-
-
 </html>

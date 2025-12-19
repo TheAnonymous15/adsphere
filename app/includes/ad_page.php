@@ -124,6 +124,39 @@
 */
 
 // ==============================
+// DEBUGGING SYSTEM
+// ==============================
+const DEBUG = true; // Set to false to disable all debug logs
+
+function debugLog(category, message, data = null) {
+  if (!DEBUG) return;
+
+  const emoji = {
+    'init': '🚀',
+    'element': '🔍',
+    'api': '📡',
+    'response': '📥',
+    'render': '🎨',
+    'success': '✅',
+    'error': '❌',
+    'warning': '⚠️',
+    'info': 'ℹ️',
+    'data': '📊'
+  };
+
+  const icon = emoji[category] || '📝';
+  const timestamp = new Date().toLocaleTimeString();
+
+  console.log(`[${timestamp}] ${icon} ${category.toUpperCase()}: ${message}`);
+  if (data !== null) {
+    console.log('  └─ Data:', data);
+  }
+}
+
+// Log script start
+debugLog('init', 'Ad page script loading...');
+
+// ==============================
 // GLOBAL STATE
 // ==============================
 
@@ -134,8 +167,11 @@ let q = "";
 let category = "";
 let sort = "date";
 
+debugLog('init', 'Global state initialized', { page, loading, finished, q, category, sort });
+
 let favs = [];
 try {
+  debugLog('init', 'Loading favorites from localStorage...');
   const stored = localStorage.getItem("ads_favorites");
   if (stored) {
     const parsed = JSON.parse(stored);
@@ -143,16 +179,28 @@ try {
     if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) {
       // Limit array size to prevent DoS
       favs = parsed.slice(0, 1000);
+      debugLog('success', `Loaded ${favs.length} favorites`);
     }
+  } else {
+    debugLog('info', 'No favorites found in localStorage');
   }
 } catch (e) {
+  debugLog('error', 'Failed to load favorites', e.message);
   console.warn("Failed to load favorites:", e);
   favs = [];
   localStorage.removeItem("ads_favorites"); // Clear corrupted data
 }
+
+debugLog('element', 'Getting DOM elements...');
 const grid = document.getElementById("ads-grid");
 const loadingEl = document.getElementById("loading");
 const noResultsEl = document.getElementById("no-results");
+
+debugLog('element', 'DOM elements status', {
+  grid: grid ? '✅ Found' : '❌ Missing',
+  loadingEl: loadingEl ? '✅ Found' : '❌ Missing',
+  noResultsEl: noResultsEl ? '✅ Found' : '❌ Missing'
+});
 
 // Store active contact info
 let activeContact = {};
@@ -351,20 +399,48 @@ function resetFeed() {
 // LOAD CATEGORIES
 // ==============================
 async function loadCategories() {
+  debugLog('api', 'Loading categories from API...');
+
   try {
     const res = await fetch("/app/api/get_categories.php");
+    debugLog('response', `Categories API responded: ${res.status}`);
+
     const data = await res.json();
+    debugLog('response', 'Categories data received', {
+      hasCategories: !!data.categories,
+      count: data.categories?.length || 0
+    });
 
     const select = document.getElementById("categoryFilter");
-    select.innerHTML = '<option value="">All</option>';
+    if (!select) {
+      debugLog('error', 'Category filter element not found!');
+      return;
+    }
 
-    (data.categories || []).forEach(cat => {
-      const opt = document.createElement("option");
-      opt.value = cat;
-      opt.textContent = cat;
-      select.appendChild(opt);
-    });
+    select.innerHTML = '<option value="">All Categories</option>';
+
+    // Handle new database format (objects with slug and name)
+    if (data.categories && Array.isArray(data.categories)) {
+      debugLog('info', `Adding ${data.categories.length} categories to dropdown`);
+
+      data.categories.forEach(cat => {
+        const opt = document.createElement("option");
+        // Check if it's an object (new format) or string (old format)
+        if (typeof cat === 'object' && cat.slug) {
+          opt.value = cat.slug;
+          opt.textContent = `${cat.name} (${cat.ad_count || 0})`;
+        } else {
+          // Fallback for old format
+          opt.value = cat;
+          opt.textContent = cat;
+        }
+        select.appendChild(opt);
+      });
+
+      debugLog('success', 'Categories loaded successfully');
+    }
   } catch (e) {
+    debugLog('error', 'Failed to load categories', e.message);
     console.warn("loadCategories error", e);
   }
 }
@@ -404,33 +480,66 @@ async function initializeDeviceIntelligence() {
 // LOAD ADS (INTELLIGENT)
 // ==============================
 async function loadAds(reset = false) {
-  if (reset) resetFeed();
-  if (loading || finished) return;
+  debugLog('api', `loadAds() called`, { reset, page, loading, finished });
+
+  if (reset) {
+    debugLog('info', 'Resetting feed...');
+    resetFeed();
+  }
+
+  if (loading || finished) {
+    debugLog('warning', 'Skipping load', { loading, finished });
+    return;
+  }
 
   loading = true;
   loadingEl.classList.remove("hidden");
+  debugLog('info', 'Loading state activated');
 
   try {
     // Initialize device intelligence on first load
     if (!deviceReady) {
+      debugLog('info', 'Initializing device intelligence...');
       await initializeDeviceIntelligence();
     }
 
     // Get ads from API
-    const res = await fetch(
-      `/app/api/get_ads.php?page=${page}&q=${encodeURIComponent(q)}&category=${encodeURIComponent(category)}&sort=${encodeURIComponent(sort)}`
-    );
+    const apiUrl = `/app/api/get_ads.php?page=${page}&q=${encodeURIComponent(q)}&category=${encodeURIComponent(category)}&sort=${encodeURIComponent(sort)}`;
+    debugLog('api', 'Fetching ads from API', { url: apiUrl });
+
+    const res = await fetch(apiUrl);
+
+    debugLog('response', `API responded with status: ${res.status} ${res.statusText}`);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
 
     const data = await res.json();
+    debugLog('response', 'API response received', {
+      success: data.success,
+      adsCount: data.ads?.length || 0,
+      page: data.page,
+      total: data.total
+    });
+
+    console.log('📦 Full API Response:', data);
 
     if (!data.ads || !data.ads.length) {
       finished = true;
-      if (page === 1) noResultsEl.classList.remove("hidden");
+      debugLog('warning', 'No ads found in API response');
+
+      if (page === 1) {
+        debugLog('info', 'Showing "no results" message');
+        noResultsEl.classList.remove("hidden");
+      }
     } else {
       let adsToRender = data.ads;
+      debugLog('data', `Processing ${adsToRender.length} ads`);
 
       // INTELLIGENT SORTING: Use personalized recommendations if available
       if (personalizedAds.length > 0 && !q && !category && sort === 'date') {
+        debugLog('info', 'Applying AI personalization...');
         adsToRender = sortAdsByPersonalization(data.ads);
 
         // Show intelligence indicator
@@ -439,16 +548,29 @@ async function loadAds(reset = false) {
         }
       }
 
+      debugLog('render', `Calling renderAds() with ${adsToRender.length} ads`);
       renderAds(adsToRender);
       page++;
+      debugLog('success', `Successfully loaded page ${page - 1}`);
     }
   } catch (e) {
     finished = true;
-    console.warn("loadAds error", e);
+    debugLog('error', 'Failed to load ads', e.message);
+    console.error("❌ loadAds error:", e);
+    console.error("Error details:", e.message);
+    console.error("Stack:", e.stack);
+
+    // Show error to user
+    if (page === 1) {
+      noResultsEl.textContent = 'Failed to load ads. Please refresh the page.';
+      noResultsEl.classList.remove("hidden");
+      debugLog('error', 'Showing error message to user');
+    }
   }
 
   loading = false;
   loadingEl.classList.add("hidden");
+  debugLog('info', 'Loading state deactivated');
 }
 
 // ==============================
@@ -506,11 +628,30 @@ function escapeHtml(text) {
 // RENDER ADS
 // ==============================
 function renderAds(ads) {
-  ads.forEach(ad => {
-    const id = String(ad.ad_id || ad.id || Math.random());
+  debugLog('render', `renderAds() called with ${ads.length} ads`);
 
-    // Track view (only once per ad per session)
-    trackAdView(id);
+  if (!grid) {
+    debugLog('error', 'Grid element is NULL! Cannot render ads.');
+    console.error('❌ Grid element not found!');
+    return;
+  }
+
+  debugLog('info', `Grid element found, current children: ${grid.children.length}`);
+
+  let renderedCount = 0;
+  let errorCount = 0;
+
+  ads.forEach((ad, index) => {
+    try {
+      const id = String(ad.ad_id || ad.id || Math.random());
+      debugLog('render', `[${index + 1}/${ads.length}] Rendering ad: ${id}`, {
+        title: ad.title,
+        category: ad.category,
+        hasMedia: !!ad.media
+      });
+
+      // Track view (only once per ad per session)
+      trackAdView(id);
 
     // Create card container
     const card = document.createElement("div");
@@ -635,9 +776,31 @@ function renderAds(ads) {
     card.appendChild(contentDiv);
     grid.appendChild(card);
 
+    renderedCount++;
+    debugLog('success', `Ad ${id} successfully added to grid`);
+
     // Start tracking time for this ad
     startTrackingTime(id);
+
+    } catch (error) {
+      errorCount++;
+      debugLog('error', `Failed to render ad at index ${index}`, error.message);
+      console.error('Render error for ad:', ad, error);
+    }
   });
+
+  debugLog('render', `Rendering complete!`, {
+    total: ads.length,
+    rendered: renderedCount,
+    errors: errorCount,
+    gridChildCount: grid.children.length
+  });
+
+  if (renderedCount > 0) {
+    debugLog('success', `✨ ${renderedCount} ads are now visible in the grid!`);
+  } else {
+    debugLog('error', 'No ads were rendered! Check errors above.');
+  }
 }
 
 // ==============================
@@ -1347,7 +1510,71 @@ async function trackContact(adId, method) {
 // ==============================
 // INIT
 // ==============================
-loadCategories();
-loadAds();
+function initializeAdPage() {
+  debugLog('init', '========================================');
+  debugLog('init', 'INITIALIZING AD PAGE');
+  debugLog('init', '========================================');
+
+  // Verify required elements exist
+  const requiredElements = {
+    'ads-grid': grid,
+    'loading': loadingEl,
+    'no-results': noResultsEl,
+    'search': document.getElementById('search'),
+    'categoryFilter': document.getElementById('categoryFilter'),
+    'sortFilter': document.getElementById('sortFilter'),
+    'btnSearch': document.getElementById('btnSearch'),
+    'voiceSearchBtn': document.getElementById('voiceSearchBtn'),
+    'contactDealerModal': document.getElementById('contactDealerModal')
+  };
+
+  let missingElements = [];
+  let foundElements = [];
+
+  for (const [name, element] of Object.entries(requiredElements)) {
+    if (!element) {
+      missingElements.push(name);
+      debugLog('error', `Missing element: ${name}`);
+    } else {
+      foundElements.push(name);
+      debugLog('element', `Found element: ${name}`);
+    }
+  }
+
+  debugLog('element', `Element check summary`, {
+    total: Object.keys(requiredElements).length,
+    found: foundElements.length,
+    missing: missingElements.length
+  });
+
+  if (missingElements.length > 0) {
+    debugLog('error', '❌ INITIALIZATION FAILED', { missingElements });
+    console.error('❌ Cannot initialize - missing elements:', missingElements);
+    alert('Page loading error. Please refresh the page.\n\nMissing elements: ' + missingElements.join(', '));
+  } else {
+    debugLog('success', '✅ ALL REQUIRED ELEMENTS FOUND');
+    debugLog('init', 'Loading categories...');
+    loadCategories();
+
+    debugLog('init', 'Starting initial ad load...');
+    loadAds();
+
+    debugLog('init', '========================================');
+    debugLog('init', 'INITIALIZATION COMPLETE - Watch for API calls');
+    debugLog('init', '========================================');
+  }
+}
+
+// Run initialization when DOM is ready
+if (document.readyState === 'loading') {
+  debugLog('init', 'DOM is still loading, waiting for DOMContentLoaded...');
+  document.addEventListener('DOMContentLoaded', () => {
+    debugLog('init', 'DOMContentLoaded event fired');
+    initializeAdPage();
+  });
+} else {
+  debugLog('init', 'DOM is already ready, initializing immediately');
+  initializeAdPage();
+}
 
     </script>
