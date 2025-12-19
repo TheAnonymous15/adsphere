@@ -1,0 +1,126 @@
+{
+    "ad_id": "AD-202512-2038154411-C6X5I",
+    "total_views": 8,
+    "total_clicks": 0,
+    "total_contacts": 0,
+    "events": [
+        {
+            "type": "view",
+            "timestamp": 1766186081,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/ad_page.php"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766186176,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/ad_page.php"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766186782,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 605
+        },
+        {
+            "type": "view",
+            "timestamp": 1766186783,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/home_unified.php"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766186812,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 29
+        },
+        {
+            "type": "view",
+            "timestamp": 1766186836,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/home_new.php"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766186842,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 5
+        },
+        {
+            "type": "view",
+            "timestamp": 1766186842,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/home_unified.php"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766186849,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 6
+        },
+        {
+            "type": "view",
+            "timestamp": 1766186928,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/home_unified.php"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766187105,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 176
+        },
+        {
+            "type": "view",
+            "timestamp": 1766187106,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/app\/includes\/home_unified.php"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766187246,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
+        }
+    ],
+    "updated_at": 1766187246,
+    "total_time_spent": 821,
+    "avg_time_spent": 164.2
+}

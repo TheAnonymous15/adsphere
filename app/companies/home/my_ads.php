@@ -694,18 +694,20 @@ function timeAgo(timestamp) {
 // ============================================
 // LOAD ADS
 // ============================================
+// LOAD ADS WITH COMPANY FILTER
+// ============================================
 async function loadAds() {
     try {
         const [adsRes, analyticsRes] = await Promise.all([
-            fetch("/app/api/get_ads.php"),
+            fetch(`/app/api/get_ads.php?company=${encodeURIComponent(companySlug)}`),
             fetch("/app/api/get_analytics.php")
         ]);
 
         const adsData = await adsRes.json();
         const analyticsData = await analyticsRes.json();
 
-        // Filter ads for this company
-        allAds = adsData.ads.filter(ad => ad.company === companySlug);
+        // Ads are already filtered by company from API
+        allAds = adsData.ads || [];
 
         // Merge analytics data with ads
         if (analyticsData.success && analyticsData.analytics) {

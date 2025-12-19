@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard Diagnostic</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+        }
+        .test { margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Admin Dashboard Diagnostic</h1>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test ${type}`;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        async function runDiagnostics() {
+            log('=== STARTING DIAGNOSTICS ===', 'warning');
+
+            // Test 1: Check get_ads API
+            log('Test 1: Checking get_ads API...');
+            try {
+                const res = await fetch('/app/api/get_ads.php');
+                const data = await res.json();
+                if (data.success && data.ads) {
+                    log(`✅ get_ads API working - ${data.ads.length} ads returned`, 'success');
+                    log(`Sample ad: ${JSON.stringify(data.ads[0])}`, 'info');
+                } else {
+                    log('❌ get_ads API returned no data', 'error');
+                }
+            } catch (e) {
+                log(`❌ get_ads API error: ${e.message}`, 'error');
+            }
+
+            // Test 2: Check get_analytics API
+            log('Test 2: Checking get_analytics API...');
+            try {
+                const res = await fetch('/app/api/get_analytics.php');
+                const data = await res.json();
+                if (data.success && data.analytics) {
+                    log(`✅ get_analytics API working - ${Object.keys(data.analytics).length} ads have analytics`, 'success');
+                } else {
+                    log('❌ get_analytics API returned no data', 'error');
+                }
+            } catch (e) {
+                log(`❌ get_analytics API error: ${e.message}`, 'error');
+            }
+
+            // Test 3: Check ad_status_stats API
+            log('Test 3: Checking ad_status_stats API...');
+            try {
+                const res = await fetch('/app/api/ad_status_stats.php');
+                const data = await res.json();
+                if (data.success && data.stats) {
+                    log(`✅ ad_status_stats API working - ${JSON.stringify(data.stats)}`, 'success');
+                } else {
+                    log('❌ ad_status_stats API returned no data', 'error');
+                }
+            } catch (e) {
+                log(`❌ ad_status_stats API error: ${e.message}`, 'error');
+            }
+
+            // Test 4: Check moderation_violations API
+            log('Test 4: Checking moderation_violations API...');
+            try {
+                const res = await fetch('/app/api/moderation_violations.php?action=list');
+                const data = await res.json();
+                if (data.success) {
+                    log(`✅ moderation_violations API working - ${data.count || 0} violations`, 'success');
+                } else {
+                    log('❌ moderation_violations API failed', 'error');
+                }
+            } catch (e) {
+                log(`❌ moderation_violations API error: ${e.message}`, 'error');
+            }
+
+            // Test 5: Check companies API
+            log('Test 5: Checking get_companies API...');
+            try {
+                const res = await fetch('/app/api/get_companies.php');
+                const data = await res.json();
+                if (data.success && data.companies) {
+                    log(`✅ get_companies API working - ${data.companies.length} companies`, 'success');
+                } else {
+                    log('❌ get_companies API returned no data', 'error');
+                }
+            } catch (e) {
+                log(`❌ get_companies API error: ${e.message}`, 'error');
+            }
+
+            log('=== DIAGNOSTICS COMPLETE ===', 'warning');
+            log('If all tests pass, the issue is in the admin_dashboard.php JavaScript', 'info');
+        }
+
+        runDiagnostics();
+    </script>
+</body>
+</html>
+

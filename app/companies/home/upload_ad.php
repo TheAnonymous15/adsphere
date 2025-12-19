@@ -20,6 +20,10 @@ $metaBase = __DIR__ . "/../metadata/";
 require_once __DIR__ . '/../../database/AdModel.php';
 $adModel = new AdModel();
 
+// Load AI Content Moderator
+require_once __DIR__ . '/../../includes/AIContentModerator.php';
+$aiModerator = new AIContentModerator();
+
 // Get company metadata with contact info (from database)
 $companyData = Database::getInstance()->queryOne(
     "SELECT * FROM companies WHERE company_slug = ?",
@@ -39,8 +43,22 @@ $categories = $adModel->getCompanyCategories($loggedCompany);
 /******************************
  * IMAGE COMPRESSION FUNCTION
  * Compress images to <1MB while maintaining quality
+ * Skip compression if already under 1MB
  ******************************/
 function compressImage($sourcePath, $destPath, $maxSizeKB = 1024, $quality = 90) {
+    // Check if source file exists
+    if (!file_exists($sourcePath)) {
+        return false;
+    }
+
+    // Get file size
+    $sourceSize = filesize($sourcePath);
+
+    // If already under max size, just copy it
+    if ($sourceSize <= ($maxSizeKB * 1024)) {
+        return copy($sourcePath, $destPath);
+    }
+
     $imageInfo = getimagesize($sourcePath);
     if (!$imageInfo) return false;
 
@@ -49,16 +67,16 @@ function compressImage($sourcePath, $destPath, $maxSizeKB = 1024, $quality = 90)
     // Create image resource based on type
     switch ($mimeType) {
         case 'image/jpeg':
-            $image = imagecreatefromjpeg($sourcePath);
+            $image = @imagecreatefromjpeg($sourcePath);
             break;
         case 'image/png':
-            $image = imagecreatefrompng($sourcePath);
+            $image = @imagecreatefrompng($sourcePath);
             break;
         case 'image/gif':
-            $image = imagecreatefromgif($sourcePath);
+            $image = @imagecreatefromgif($sourcePath);
             break;
         case 'image/webp':
-            $image = imagecreatefromwebp($sourcePath);
+            $image = @imagecreatefromwebp($sourcePath);
             break;
         default:
             return copy($sourcePath, $destPath);
@@ -113,9 +131,12 @@ function compressImage($sourcePath, $destPath, $maxSizeKB = 1024, $quality = 90)
     imagedestroy($image);
 
     // Move temp to final destination
-    rename($tempPath, $destPath);
+    if (file_exists($tempPath)) {
+        rename($tempPath, $destPath);
+        return filesize($destPath) <= ($maxSizeKB * 1024);
+    }
 
-    return filesize($destPath) <= ($maxSizeKB * 1024);
+    return false;
 }
 
 // generate UUID
@@ -194,6 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 // Handle multiple images upload (up to 4)
                 $imageCount = 0;
+                $compressionInfo = [];
                 $allowedImageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
                 for ($i = 0; $i < 4; $i++) {
@@ -204,21 +226,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             throw new Exception("❌ Unsupported image format for image " . ($i + 1));
                         }
 
+                        // Get original size
+                        $originalSize = $_FILES["images"]["size"][$i];
+                        $originalSizeKB = round($originalSize / 1024, 2);
+
                         $imageName = $adId . "_" . ($i + 1) . ".jpg"; // Always save as JPG after compression
                         $tempPath = $_FILES["images"]["tmp_name"][$i];
                         $destPath = "$adDir/$imageName";
 
-                        // Compress image to <1MB
+                        // Compress image (will skip if already under 1MB)
                         if (!compressImage($tempPath, $destPath, 1024, 90)) {
-                            throw new Exception("❌ Failed to compress image " . ($i + 1));
+                            throw new Exception("❌ Failed to process image " . ($i + 1));
                         }
 
-                        $finalSize = filesize($destPath) / 1024; // KB
+                        $finalSize = filesize($destPath);
+                        $finalSizeKB = round($finalSize / 1024, 2);
 
-                        if ($finalSize > 1024) {
-                            // Try harder compression
-                            compressImage($tempPath, $destPath, 1024, 75);
-                        }
+                        $wasCompressed = $originalSize > (1024 * 1024);
+
+                        $compressionInfo[] = [
+                            'name' => $_FILES["images"]["name"][$i],
+                            'original' => $originalSizeKB,
+                            'final' => $finalSizeKB,
+                            'compressed' => $wasCompressed
+                        ];
 
                         $uploadedFiles[] = $imageName;
                         $imageCount++;
@@ -236,8 +267,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'count' => $imageCount
                 ];
 
-                $msg = "✅ {$imageCount} image(s) uploaded and compressed successfully!";
+                // Build message with compression info
+                $compressedCount = count(array_filter($compressionInfo, fn($info) => $info['compressed']));
+                $msg = "✅ {$imageCount} image(s) uploaded successfully!";
+                if ($compressedCount > 0) {
+                    $msg .= " ({$compressedCount} compressed to <1MB)";
+                }
             }
+
+            // ===== AI CONTENT MODERATION =====
+            // Scan text content
+            $imagePaths = array_map(function($file) use ($adDir) {
+                return "$adDir/$file";
+            }, $uploadedFiles);
+
+            $moderationResult = $aiModerator->moderateAd($title, $description, $imagePaths);
+            $copyrightResult = $aiModerator->checkCopyrightRisk($title, $description);
+
+            // Check if content is safe
+            if (!$moderationResult['safe']) {
+                throw new Exception(
+                    "❌ Content Rejected by AI: Your ad contains policy violations. " .
+                    implode(", ", $moderationResult['issues'])
+                );
+            }
+
+            // If score is between 70-85, approve with warnings
+            if ($moderationResult['score'] < 85 && $moderationResult['score'] >= 70) {
+                $msg .= " ⚠️ Warnings: " . implode(", ", array_merge(
+                    $moderationResult['warnings'],
+                    $copyrightResult['concerns']
+                ));
+                $msgType = "warning";
+            }
+
+            // Generate AI report
+            $aiReport = $aiModerator->generateReport($moderationResult, $copyrightResult);
+            // ===== END AI MODERATION =====
 
             // Prepare data for database
             $adData = [
@@ -276,7 +342,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         "sms" => $contactInfo["sms"] ?? null,
                         "email" => $contactInfo["email"] ?? null,
                         "whatsapp" => $contactInfo["whatsapp"] ?? null
-                    ]
+                    ],
+                    "ai_moderation" => $aiReport
                 ];
 
                 file_put_contents("$adDir/meta.json", json_encode($jsonData, JSON_PRETTY_PRINT));
@@ -558,16 +625,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Submit Button -->
-            <div class="flex items-center justify-between glass-effect rounded-2xl p-6">
-                <div class="text-gray-400 text-sm">
-                    <i class="fas fa-shield-alt text-green-400 mr-2"></i>
-                    Your data is secure and encrypted
+            <div class="glass-effect rounded-2xl p-6">
+                <!-- Terms of Service Agreement -->
+                <div class="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox"
+                               id="termsCheckbox"
+                               required
+                               class="mt-1 w-5 h-5 text-purple-600 bg-white/10 border-white/30 rounded focus:ring-purple-500 focus:ring-2">
+                        <div class="flex-1">
+                            <p class="text-white font-semibold mb-1">
+                                <i class="fas fa-file-contract text-yellow-400 mr-2"></i>
+                                Terms Agreement
+                            </p>
+                            <p class="text-gray-300 text-sm">
+                                By uploading, you agree to our
+                                <a href="/app/includes/terms_of_service.php"
+                                   target="_blank"
+                                   class="text-yellow-400 hover:text-yellow-300 underline font-semibold">
+                                    Terms of Service and Advertising Policy
+                                </a>.
+                                Your ad will be automatically screened by our AI system for content safety and compliance.
+                            </p>
+                        </div>
+                    </label>
                 </div>
-                <button type="submit" id="submitBtn"
-                        class="btn-primary px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-2xl transition flex items-center gap-3">
-                    <i class="fas fa-upload"></i>
-                    <span>Upload Advertisement</span>
-                </button>
+
+                <!-- Submit Section -->
+                <div class="flex items-center justify-between">
+                    <div class="text-gray-400 text-sm">
+                        <i class="fas fa-shield-alt text-green-400 mr-2"></i>
+                        Your data is secure and encrypted
+                        <br>
+                        <i class="fas fa-robot text-purple-400 mr-2"></i>
+                        AI content moderation active
+                    </div>
+                    <button type="submit"
+                            id="submitBtn"
+                            class="btn-primary px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-2xl transition flex items-center gap-3">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload Advertisement</span>
+                    </button>
+                </div>
             </div>
 
         </form>
@@ -602,20 +701,43 @@ document.querySelectorAll('.image-input').forEach(input => {
         const previewContainer = document.querySelector(`.preview-container-${index}`);
 
         if (file && file.type.startsWith('image/')) {
+            const fileSizeKB = (file.size / 1024).toFixed(0);
+            const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
+            const needsCompression = file.size > (1024 * 1024);
+
             const reader = new FileReader();
             reader.onload = function(e) {
+                const compressionNote = needsCompression
+                    ? `${fileSizeKB} KB → Will compress to <1MB`
+                    : `${fileSizeKB} KB (No compression needed)`;
+
                 previewContainer.innerHTML = `
                     <div class="relative">
                         <img src="${e.target.result}" class="preview-image w-full h-48 object-cover mb-2">
                         <div class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs">
-                            <i class="fas fa-check mr-1"></i>Uploaded
+                            <i class="fas fa-check mr-1"></i>Ready
                         </div>
-                        <p class="text-white text-sm font-semibold truncate">${file.name}</p>
-                        <p class="text-xs text-gray-400">${(file.size / 1024).toFixed(0)} KB → Will compress to <1MB</p>
+                        <p class="text-white text-sm font-semibold truncate" title="${file.name}">${file.name}</p>
+                        <p class="text-xs ${needsCompression ? 'text-yellow-400' : 'text-green-400'}">${compressionNote}</p>
+                    </div>
+                `;
+            };
+            reader.onerror = function() {
+                previewContainer.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-2"></i>
+                        <p class="text-red-400 text-sm">Failed to load preview</p>
                     </div>
                 `;
             };
             reader.readAsDataURL(file);
+        } else if (file) {
+            previewContainer.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-2"></i>
+                    <p class="text-yellow-400 text-sm">Please select an image file</p>
+                </div>
+            `;
         }
     });
 });
@@ -641,12 +763,20 @@ document.getElementById('videoInput').addEventListener('change', function(e) {
 });
 
 // Form submission loading state
-document.getElementById('uploadForm').addEventListener('submit', function() {
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    // Check terms agreement
+    const termsCheckbox = document.getElementById('termsCheckbox');
+    if (!termsCheckbox.checked) {
+        e.preventDefault();
+        alert('⚠️ Please agree to the Terms of Service and Advertising Policy before uploading.');
+        return;
+    }
+
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
     btn.innerHTML = `
         <i class="fas fa-spinner fa-spin"></i>
-        <span>Uploading & Compressing...</span>
+        <span>Uploading & AI Scanning...</span>
     `;
 });
 

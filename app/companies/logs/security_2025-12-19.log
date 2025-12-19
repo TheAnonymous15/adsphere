@@ -21,3 +21,12 @@
 [2025-12-19 18:39:44] 2FA_FAILED | User: admin | IP: ::1 | Code: 158166 | Expected: 587185
 [2025-12-19 18:41:33] 2FA_FAILED | User: admin | IP: ::1
 [2025-12-19 18:42:02] 2FA_FAILED | User: admin | IP: ::1
+[2025-12-19 21:39:32] LOGIN_2FA_PENDING | User: admin | IP: ::1 | Status: PENDING | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 058bcf885909477a70d2b1ddbf4a4a97e18f15b85acbfd477210c43486747b0b
+[2025-12-19 21:40:15] 2FA_FAILED | User: admin | IP: ::1
+[2025-12-19 21:40:26] 2FA_FAILED | User: admin | IP: ::1
+[2025-12-19 21:40:39] 2FA_FAILED | User: admin | IP: ::1
+[2025-12-19 21:40:51] 2FA_FAILED | User: admin | IP: ::1
+[2025-12-19 21:41:20] LOGIN_ATTEMPT | User: Unknown | IP: ::1 | Status: CSRF_FAIL | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 43d99cf3d575523a855b838a5c080f7b27341e3f9249db821eff163ff2d343f5
+[2025-12-19 21:41:22] LOGIN_ATTEMPT | User: Unknown | IP: ::1 | Status: CSRF_FAIL | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 7a2ad0e43053d35b6b6147a187caae666c46a07c2b0f96acb43e13e5b31e87d2
+[2025-12-19 21:41:24] LOGIN_ATTEMPT | User: Unknown | IP: ::1 | Status: CSRF_FAIL | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 027f57000a26e4e27174c695bc83243e8bf1608338a12e3872b3ee54fa208d5b
+[2025-12-19 21:41:26] LOGIN_SUCCESS | User:  | IP: ::1 | Status: SUCCESS | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: dc32a0bf4675787c5986f1f393ef235972e867b296f8a80e34e95bf06a6beffd

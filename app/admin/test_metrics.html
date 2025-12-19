@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Metrics Diagnostic</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-card h2 {
+            margin-top: 0;
+            color: #6366f1;
+        }
+        .metric {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 8px;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: #999;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+        .log {
+            background: #000;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+        .info { color: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Admin Dashboard - Metrics Diagnostic Tool</h1>
+
+        <div class="test-card">
+            <h2>🧪 API Test</h2>
+            <button onclick="testAPI()">Test API</button>
+            <div id="apiStatus" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>📈 Calculated Metrics</h2>
+            <div id="metrics">
+                <div class="metric">
+                    <div class="metric-value" id="viewsMetric">-</div>
+                    <div class="metric-label">Total Views</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="likesMetric">-</div>
+                    <div class="metric-label">Total Likes</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="favoritesMetric">-</div>
+                    <div class="metric-label">Total Favorites</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="contactsMetric">-</div>
+                    <div class="metric-label">Total Contacts</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="companiesMetric">-</div>
+                    <div class="metric-label">Companies</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="categoriesMetric">-</div>
+                    <div class="metric-label">Categories</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>📋 Console Log</h2>
+            <div class="log" id="consoleLog"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>🔍 Element Check</h2>
+            <button onclick="checkElements()">Check Dashboard Elements</button>
+            <div id="elementCheck" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <script>
+        const log = [];
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            log.push({ timestamp, message, type });
+            updateLogDisplay();
+        }
+
+        function updateLogDisplay() {
+            const logDiv = document.getElementById('consoleLog');
+            logDiv.innerHTML = log.map(entry =>
+                `<div class="${entry.type}">[${entry.timestamp}] ${entry.message}</div>`
+            ).join('');
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function testAPI() {
+            addLog('🔄 Testing API...', 'info');
+            document.getElementById('apiStatus').innerHTML = '<span class="info">Loading...</span>';
+
+            try {
+                const response = await fetch('/app/api/get_ads.php');
+                addLog(`📡 Response status: ${response.status}`, 'info');
+
+                const data = await response.json();
+                addLog(`📦 Received data with ${data.ads?.length || 0} ads`, 'success');
+
+                if (data && data.ads && data.ads.length > 0) {
+                    // Calculate metrics
+                    const totals = {
+                        views: data.ads.reduce((sum, ad) => sum + (ad.views || 0), 0),
+                        likes: data.ads.reduce((sum, ad) => sum + (ad.likes || 0), 0),
+                        favorites: data.ads.reduce((sum, ad) => sum + (ad.favorites || 0), 0),
+                        contacts: data.ads.reduce((sum, ad) => sum + (ad.contacts || 0), 0)
+                    };
+
+                    const companies = new Set(data.ads.map(ad => ad.company).filter(Boolean));
+                    const categories = new Set(data.ads.map(ad => ad.category).filter(Boolean));
+
+                    // Update display
+                    document.getElementById('viewsMetric').textContent = totals.views.toLocaleString();
+                    document.getElementById('likesMetric').textContent = totals.likes.toLocaleString();
+                    document.getElementById('favoritesMetric').textContent = totals.favorites.toLocaleString();
+                    document.getElementById('contactsMetric').textContent = totals.contacts.toLocaleString();
+                    document.getElementById('companiesMetric').textContent = companies.size;
+                    document.getElementById('categoriesMetric').textContent = categories.size;
+
+                    addLog(`📊 Views: ${totals.views}`, 'success');
+                    addLog(`👍 Likes: ${totals.likes}`, 'success');
+                    addLog(`❤️ Favorites: ${totals.favorites}`, 'success');
+                    addLog(`📞 Contacts: ${totals.contacts}`, 'success');
+                    addLog(`🏢 Companies: ${companies.size}`, 'success');
+                    addLog(`🏷️ Categories: ${categories.size}`, 'success');
+
+                    // Sample ad
+                    addLog(`📄 Sample ad: ${JSON.stringify(data.ads[0], null, 2)}`, 'info');
+
+                    document.getElementById('apiStatus').innerHTML = '<span class="success">✅ API Working! Metrics calculated.</span>';
+                } else {
+                    addLog('⚠️ No ads in response', 'warning');
+                    document.getElementById('apiStatus').innerHTML = '<span class="warning">⚠️ No ads data</span>';
+                }
+            } catch (error) {
+                addLog(`❌ Error: ${error.message}`, 'error');
+                document.getElementById('apiStatus').innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+
+        function checkElements() {
+            const elementIds = [
+                'totalAdsCounter',
+                'totalViewsCounter',
+                'activeUsersCounter',
+                'engagementCounter',
+                'totalFavoritesCounter',
+                'totalLikesCounter',
+                'totalContactsCounter',
+                'totalCompaniesCounter',
+                'totalCategoriesCounter'
+            ];
+
+            let html = '<div style="font-family: monospace; font-size: 12px;">';
+            elementIds.forEach(id => {
+                const element = document.getElementById(id);
+                const status = element ? '✅ Found' : '❌ Missing';
+                const color = element ? 'success' : 'error';
+                html += `<div class="${color}">${id}: ${status}</div>`;
+                addLog(`Element ${id}: ${status}`, element ? 'success' : 'error');
+            });
+            html += '</div>';
+
+            document.getElementById('elementCheck').innerHTML = html;
+        }
+
+        // Auto-test on load
+        window.addEventListener('DOMContentLoaded', () => {
+            addLog('🚀 Diagnostic tool loaded', 'info');
+            testAPI();
+        });
+    </script>
+</body>
+</html>
+

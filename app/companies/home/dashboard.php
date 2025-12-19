@@ -762,9 +762,9 @@ let chartsInstances = {};
 
 async function loadDashboardData() {
     try {
-        // Fetch both basic ads and advanced stats
+        // Fetch both basic ads and advanced stats with company filter
         const [adsRes, statsRes] = await Promise.all([
-            fetch("/app/api/get_ads.php"),
+            fetch(`/app/api/get_ads.php?company=${encodeURIComponent(companySlug)}`),
             fetch("/app/api/dashboard_stats.php")
         ]);
 
@@ -781,7 +781,8 @@ async function loadDashboardData() {
             updateAIInsights();
             loadContactAnalytics();
             renderCharts();
-            renderAds(adsData.ads.filter(ad => ad.company === companySlug));
+            // Ads are already filtered by company from API
+            renderAds(adsData.ads || []);
             updateTopPerformers();
             updateRevenue();
 

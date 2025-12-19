@@ -409,10 +409,10 @@ if (!$isSuperAdmin) {
                 <div class="text-xs text-gray-500 mt-2">All time</div>
             </div>
             <div class="glass-card rounded-2xl p-6 stat-card text-center" style="animation-delay: 0.4s;">
-                <i class="fas fa-users text-5xl text-pink-400 mb-4"></i>
+                <i class="fas fa-building text-5xl text-pink-400 mb-4"></i>
                 <div class="text-5xl font-bold mb-2" id="activeUsersCounter">0</div>
-                <div class="text-sm text-gray-300">Active Users</div>
-                <div class="text-xs text-gray-500 mt-2">Estimated</div>
+                <div class="text-sm text-gray-300">Active Companies</div>
+                <div class="text-xs text-gray-500 mt-2">With ads</div>
             </div>
             <div class="glass-card rounded-2xl p-6 stat-card text-center" style="animation-delay: 0.6s;">
                 <i class="fas fa-fire text-5xl text-orange-400 mb-4"></i>
@@ -423,26 +423,211 @@ if (!$isSuperAdmin) {
         </div>
 
         <!-- Additional Stats Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
             <div class="glass-card rounded-2xl p-6 text-center">
                 <i class="fas fa-heart text-3xl text-red-400 mb-3"></i>
                 <div class="text-3xl font-bold mb-2" id="totalFavoritesCounter">0</div>
                 <div class="text-sm text-gray-300">Total Favorites</div>
+                <div class="text-xs text-gray-500 mt-1">All ads</div>
             </div>
             <div class="glass-card rounded-2xl p-6 text-center">
                 <i class="fas fa-thumbs-up text-3xl text-yellow-400 mb-3"></i>
                 <div class="text-3xl font-bold mb-2" id="totalLikesCounter">0</div>
                 <div class="text-sm text-gray-300">Total Likes</div>
+                <div class="text-xs text-gray-500 mt-1">User engagement</div>
+            </div>
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <i class="fas fa-phone text-3xl text-blue-400 mb-3"></i>
+                <div class="text-3xl font-bold mb-2" id="totalContactsCounter">0</div>
+                <div class="text-sm text-gray-300">Total Contacts</div>
+                <div class="text-xs text-gray-500 mt-1">Dealer interactions</div>
             </div>
             <div class="glass-card rounded-2xl p-6 text-center">
                 <i class="fas fa-building text-3xl text-cyan-400 mb-3"></i>
                 <div class="text-3xl font-bold mb-2" id="totalCompaniesCounter">0</div>
                 <div class="text-sm text-gray-300">Companies</div>
+                <div class="text-xs text-gray-500 mt-1">Active advertisers</div>
             </div>
             <div class="glass-card rounded-2xl p-6 text-center">
                 <i class="fas fa-tags text-3xl text-green-400 mb-3"></i>
                 <div class="text-3xl font-bold mb-2" id="totalCategoriesCounter">0</div>
                 <div class="text-sm text-gray-300">Categories</div>
+                <div class="text-xs text-gray-500 mt-1">Ad types</div>
+            </div>
+        </div>
+
+        <!-- AD STATUS STATISTICS SECTION -->
+        <div class="glass-card rounded-2xl p-6 mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fas fa-chart-pie text-blue-400"></i>
+                    Advertisement Status Overview
+                </h2>
+                <button onclick="refreshAdStats()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-sm">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh Stats
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Active Ads -->
+                <div class="bg-green-600/20 border border-green-600/50 rounded-xl p-6 hover:bg-green-600/30 transition cursor-pointer" onclick="filterAdsByStatus('active')">
+                    <div class="flex items-center justify-between mb-3">
+                        <i class="fas fa-check-circle text-green-500 text-3xl"></i>
+                        <span class="px-2 py-1 bg-green-600 rounded-full text-xs font-bold">LIVE</span>
+                    </div>
+                    <p class="text-4xl font-bold text-green-500 mb-1" id="activeAdsCount">-</p>
+                    <p class="text-sm text-gray-300">Active Ads</p>
+                    <p class="text-xs text-gray-500 mt-1">Currently running</p>
+                </div>
+
+                <!-- Inactive Ads -->
+                <div class="bg-gray-600/20 border border-gray-600/50 rounded-xl p-6 hover:bg-gray-600/30 transition cursor-pointer" onclick="filterAdsByStatus('inactive')">
+                    <div class="flex items-center justify-between mb-3">
+                        <i class="fas fa-times-circle text-gray-400 text-3xl"></i>
+                        <span class="px-2 py-1 bg-gray-600 rounded-full text-xs font-bold">OFF</span>
+                    </div>
+                    <p class="text-4xl font-bold text-gray-400 mb-1" id="inactiveAdsCount">-</p>
+                    <p class="text-sm text-gray-300">Inactive Ads</p>
+                    <p class="text-xs text-gray-500 mt-1">Deactivated/Removed</p>
+                </div>
+
+                <!-- Scheduled Ads -->
+                <div class="bg-purple-600/20 border border-purple-600/50 rounded-xl p-6 hover:bg-purple-600/30 transition cursor-pointer" onclick="filterAdsByStatus('scheduled')">
+                    <div class="flex items-center justify-center gap-2 mb-3">
+                        <i class="fas fa-clock text-purple-400 text-3xl"></i>
+                        <span class="px-2 py-1 bg-purple-600 rounded-full text-xs font-bold">PENDING</span>
+                    </div>
+                    <p class="text-4xl font-bold text-purple-400 mb-1" id="scheduledAdsCount">-</p>
+                    <p class="text-sm text-gray-300">Scheduled Ads</p>
+                    <p class="text-xs text-gray-500 mt-1">Future activation</p>
+                </div>
+
+                <!-- Expired Ads -->
+                <div class="bg-orange-600/20 border border-orange-600/50 rounded-xl p-6 hover:bg-orange-600/30 transition cursor-pointer" onclick="filterAdsByStatus('expired')">
+                    <div class="flex items-center justify-center gap-2 mb-3">
+                        <i class="fas fa-hourglass-end text-orange-400 text-3xl"></i>
+                        <span class="px-2 py-1 bg-orange-600 rounded-full text-xs font-bold">ENDED</span>
+                    </div>
+                    <p class="text-4xl font-bold text-orange-400 mb-1" id="expiredAdsCount">-</p>
+                    <p class="text-sm text-gray-300">Expired Ads</p>
+                    <p class="text-xs text-gray-500 mt-1">Past end date</p>
+                </div>
+
+                <!-- Total Ads -->
+                <div class="bg-indigo-600/20 border border-indigo-600/50 rounded-xl p-6 hover:bg-indigo-600/30 transition">
+                    <div class="flex items-center justify-center gap-2 mb-3">
+                        <i class="fas fa-database text-indigo-400 text-3xl"></i>
+                    </div>
+                    <p class="text-4xl font-bold text-indigo-400 mb-1" id="totalAdsCount">-</p>
+                    <p class="text-sm text-gray-300">Total Ads</p>
+                    <p class="text-xs text-gray-500 mt-1">All time</p>
+                </div>
+            </div>
+
+            <!-- Status Breakdown Chart -->
+            <div class="mt-6 bg-black/30 rounded-xl p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white">Status Distribution</h3>
+                    <div class="text-sm text-gray-400">
+                        <span id="adStatsPercentage">-</span>% Active Rate
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-2">
+                    <!-- Active Bar -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-400 w-20">Active</span>
+                        <div class="flex-1 bg-gray-700 rounded-full h-6 overflow-hidden">
+                            <div id="activeBar" class="bg-green-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 w-12 text-right" id="activeBarText">0</span>
+                    </div>
+                    <!-- Inactive Bar -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-400 w-20">Inactive</span>
+                        <div class="flex-1 bg-gray-700 rounded-full h-6 overflow-hidden">
+                            <div id="inactiveBar" class="bg-gray-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 w-12 text-right" id="inactiveBarText">0</span>
+                    </div>
+                    <!-- Scheduled Bar -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-400 w-20">Scheduled</span>
+                        <div class="flex-1 bg-gray-700 rounded-full h-6 overflow-hidden">
+                            <div id="scheduledBar" class="bg-purple-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 w-12 text-right" id="scheduledBarText">0</span>
+                    </div>
+                    <!-- Expired Bar -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-400 w-20">Expired</span>
+                        <div class="flex-1 bg-gray-700 rounded-full h-6 overflow-hidden">
+                            <div id="expiredBar" class="bg-orange-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 w-12 text-right" id="expiredBarText">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT MODERATION ALERTS SECTION -->
+        <div class="glass-card rounded-2xl p-6 mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fas fa-shield-alt text-red-500"></i>
+                    Content Moderation Alerts
+                    <span id="pendingCount" class="px-3 py-1 bg-red-600 rounded-full text-sm">0</span>
+                </h2>
+                <div class="flex gap-2">
+                    <button onclick="refreshViolations()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition text-sm">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                    <button onclick="runNewScan()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-sm">
+                        <i class="fas fa-radar mr-2"></i>Run Scan
+                    </button>
+                    <a href="/app/admin/moderation_dashboard.php" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition text-sm">
+                        <i class="fas fa-external-link-alt mr-2"></i>Full Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Violation Stats -->
+            <div class="grid grid-cols-4 gap-4 mb-6">
+                <div class="bg-red-600/20 border border-red-600/50 rounded-lg p-4 text-center">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <i class="fas fa-skull-crossbones text-red-500 text-2xl"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-red-500" id="criticalViolations">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Critical</p>
+                </div>
+                <div class="bg-orange-600/20 border border-orange-600/50 rounded-lg p-4 text-center">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <i class="fas fa-exclamation-triangle text-orange-500 text-2xl"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-orange-500" id="highViolations">-</p>
+                    <p class="text-xs text-gray-400 mt-1">High Risk</p>
+                </div>
+                <div class="bg-yellow-600/20 border border-yellow-600/50 rounded-lg p-4 text-center">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <i class="fas fa-exclamation-circle text-yellow-500 text-2xl"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-yellow-500" id="mediumViolations">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Medium</p>
+                </div>
+                <div class="bg-green-600/20 border border-green-600/50 rounded-lg p-4 text-center">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-green-500" id="resolvedViolations">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Resolved</p>
+                </div>
+            </div>
+
+            <!-- Violations List -->
+            <div id="violationsList" class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="text-center py-8 text-gray-400">
+                    <i class="fas fa-spinner fa-spin text-4xl mb-3"></i>
+                    <p>Loading violations...</p>
+                </div>
             </div>
         </div>
 
@@ -614,34 +799,57 @@ if (!$isSuperAdmin) {
                             Companies Management
                         </h2>
                         <div class="flex items-center gap-2">
-                            <select class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500">
+                            <select id="companyStatusFilter" onchange="filterCompaniesByStatus()" class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500 cursor-pointer">
                                 <option value="">All Status</option>
                                 <option value="active">Active</option>
+                                <option value="verified">Verified</option>
+                                <option value="inactive">Inactive</option>
                                 <option value="suspended">Suspended</option>
-                                <option value="pending">Pending</option>
+                                <option value="blocked">Blocked</option>
                             </select>
-                            <button onclick="approveCompany()" class="control-btn px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold">
+                            <button onclick="approveCompany()" class="control-btn px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition">
                                 <i class="fas fa-check-circle mr-2"></i>Approve Selected
                             </button>
                         </div>
                     </div>
 
                     <!-- Company Stats -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="bg-gradient-to-br from-purple-600/20 to-purple-800/20 p-4 rounded-xl border border-purple-500/30">
-                            <i class="fas fa-building text-purple-400 text-2xl mb-2"></i>
-                            <div class="text-2xl font-bold" id="totalCompaniesStats">0</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
+                        <div class="bg-gradient-to-br from-purple-600/20 to-purple-800/20 p-4 rounded-xl border border-purple-500/30 hover:border-purple-400/50 transition cursor-pointer" onclick="filterCompaniesByStatus('all')">
+                            <i class="fas fa-building text-purple-400 text-3xl mb-2"></i>
+                            <div class="text-3xl font-bold" id="totalCompaniesStats">0</div>
                             <div class="text-sm text-gray-400">Total Companies</div>
+                            <div class="text-xs text-gray-500 mt-1">All registered</div>
                         </div>
-                        <div class="bg-gradient-to-br from-green-600/20 to-green-800/20 p-4 rounded-xl border border-green-500/30">
-                            <i class="fas fa-check-circle text-green-400 text-2xl mb-2"></i>
-                            <div class="text-2xl font-bold" id="verifiedCompaniesCount">0</div>
+                        <div class="bg-gradient-to-br from-blue-600/20 to-blue-800/20 p-4 rounded-xl border border-blue-500/30 hover:border-blue-400/50 transition cursor-pointer" onclick="filterCompaniesByStatus('active')">
+                            <i class="fas fa-circle text-blue-400 text-3xl mb-2"></i>
+                            <div class="text-3xl font-bold" id="activeCompaniesCount">0</div>
+                            <div class="text-sm text-gray-400">Active</div>
+                            <div class="text-xs text-gray-500 mt-1">Currently active</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-600/20 to-green-800/20 p-4 rounded-xl border border-green-500/30 hover:border-green-400/50 transition cursor-pointer" onclick="filterCompaniesByStatus('verified')">
+                            <i class="fas fa-check-circle text-green-400 text-3xl mb-2"></i>
+                            <div class="text-3xl font-bold" id="verifiedCompaniesCount">0</div>
                             <div class="text-sm text-gray-400">Verified</div>
+                            <div class="text-xs text-gray-500 mt-1">Approved</div>
                         </div>
-                        <div class="bg-gradient-to-br from-red-600/20 to-red-800/20 p-4 rounded-xl border border-red-500/30">
-                            <i class="fas fa-ban text-red-400 text-2xl mb-2"></i>
-                            <div class="text-2xl font-bold" id="suspendedCompaniesCount">0</div>
+                        <div class="bg-gradient-to-br from-gray-600/20 to-gray-800/20 p-4 rounded-xl border border-gray-500/30 hover:border-gray-400/50 transition cursor-pointer" onclick="filterCompaniesByStatus('inactive')">
+                            <i class="fas fa-pause-circle text-gray-400 text-3xl mb-2"></i>
+                            <div class="text-3xl font-bold" id="inactiveCompaniesCount">0</div>
+                            <div class="text-sm text-gray-400">Inactive</div>
+                            <div class="text-xs text-gray-500 mt-1">Not active</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 p-4 rounded-xl border border-yellow-500/30 hover:border-yellow-400/50 transition cursor-pointer" onclick="filterCompaniesByStatus('suspended')">
+                            <i class="fas fa-ban text-yellow-400 text-3xl mb-2"></i>
+                            <div class="text-3xl font-bold" id="suspendedCompaniesCount">0</div>
                             <div class="text-sm text-gray-400">Suspended</div>
+                            <div class="text-xs text-gray-500 mt-1">Temp. inactive</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-red-600/20 to-red-800/20 p-4 rounded-xl border border-red-500/30 hover:border-red-400/50 transition cursor-pointer" onclick="filterCompaniesByStatus('blocked')">
+                            <i class="fas fa-lock text-red-400 text-3xl mb-2"></i>
+                            <div class="text-3xl font-bold" id="blockedCompaniesCount">0</div>
+                            <div class="text-sm text-gray-400">Blocked</div>
+                            <div class="text-xs text-gray-500 mt-1">Banned</div>
                         </div>
                     </div>
 
@@ -1027,44 +1235,134 @@ function animateCounter(element, target, duration = 2000, suffix = '') {
 
 // Load Live Statistics
 async function loadLiveStats() {
+    console.log('📊 Loading live stats...');
     try {
-        const response = await fetch('/app/api/get_ads.php');
-        const data = await response.json();
+        // Parallel API calls like my_ads.php does
+        const [adsRes, analyticsRes] = await Promise.all([
+            fetch('/app/api/get_ads.php'),
+            fetch('/app/api/get_analytics.php')
+        ]);
 
-        if (data && data.ads) {
-            const totalAds = data.ads.length;
-            const totalViews = data.ads.reduce((sum, ad) => sum + (ad.views || 0), 0);
-            const totalFavorites = data.ads.reduce((sum, ad) => sum + (ad.favorites || 0), 0);
-            const totalLikes = data.ads.reduce((sum, ad) => sum + (ad.likes || 0), 0);
+        const adsData = await adsRes.json();
+        const analyticsData = await analyticsRes.json();
+
+        console.log('📥 Ads API Response:', adsData);
+        console.log('📥 Analytics API Response:', analyticsData);
+        console.log('📈 Total ads in response:', adsData?.ads?.length);
+
+        if (adsData && adsData.ads) {
+            let allAds = adsData.ads || [];
+
+            console.log('📦 Raw ads data sample:', allAds[0]);
+
+            // Merge analytics data with ads (like my_ads.php does)
+            if (analyticsData && analyticsData.success && analyticsData.analytics) {
+                console.log('🔗 Merging analytics data with ads...');
+                allAds = allAds.map(ad => ({
+                    ...ad,
+                    analytics: analyticsData.analytics[ad.ad_id] || {
+                        total_views: ad.views || 0,
+                        total_clicks: 0,
+                        total_contacts: ad.contacts || 0,
+                        current_favorites: ad.favorites || 0,
+                        total_likes: ad.likes || 0
+                    }
+                }));
+                console.log('✅ Analytics merged. Sample ad:', allAds[0]);
+            } else {
+                console.warn('⚠️ Analytics API failed or returned no data, using ad properties directly');
+                // If analytics fails, ensure we still have the analytics structure
+                allAds = allAds.map(ad => ({
+                    ...ad,
+                    analytics: {
+                        total_views: ad.views || 0,
+                        total_clicks: 0,
+                        total_contacts: ad.contacts || 0,
+                        current_favorites: ad.favorites || 0,
+                        total_likes: ad.likes || 0
+                    }
+                }));
+            }
+
+            const totalAds = allAds.length;
+
+            // Use analytics data if available, otherwise fall back to ad properties
+            const totalViews = allAds.reduce((sum, ad) =>
+                sum + (ad.analytics?.total_views || ad.views || 0), 0);
+            const totalFavorites = allAds.reduce((sum, ad) =>
+                sum + (ad.analytics?.current_favorites || ad.favorites || 0), 0);
+            const totalLikes = allAds.reduce((sum, ad) =>
+                sum + (ad.analytics?.total_likes || ad.likes || 0), 0);
+            const totalContacts = allAds.reduce((sum, ad) =>
+                sum + (ad.analytics?.total_contacts || ad.contacts || 0), 0);
+
+            console.log('📊 Calculated Totals:');
+            console.log('  - Views:', totalViews);
+            console.log('  - Likes:', totalLikes);
+            console.log('  - Favorites:', totalFavorites);
+            console.log('  - Contacts:', totalContacts);
 
             // Get unique companies and categories
-            const companies = new Set(data.ads.map(ad => ad.company).filter(Boolean));
-            const categories = new Set(data.ads.map(ad => ad.category).filter(Boolean));
+            const companies = new Set(allAds.map(ad => ad.company).filter(Boolean));
+            const categories = new Set(allAds.map(ad => ad.category).filter(Boolean));
+
+            console.log('  - Companies:', companies.size);
+            console.log('  - Categories:', categories.size);
+
+            // Check if elements exist
+            const elements = {
+                totalAdsCounter: document.getElementById('totalAdsCounter'),
+                totalViewsCounter: document.getElementById('totalViewsCounter'),
+                activeUsersCounter: document.getElementById('activeUsersCounter'),
+                engagementCounter: document.getElementById('engagementCounter'),
+                totalFavoritesCounter: document.getElementById('totalFavoritesCounter'),
+                totalLikesCounter: document.getElementById('totalLikesCounter'),
+                totalContactsCounter: document.getElementById('totalContactsCounter'),
+                totalCompaniesCounter: document.getElementById('totalCompaniesCounter'),
+                totalCategoriesCounter: document.getElementById('totalCategoriesCounter')
+            };
+
+            console.log('🎯 Element Check:');
+            Object.keys(elements).forEach(key => {
+                console.log(`  - ${key}:`, elements[key] ? '✅ Found' : '❌ Missing');
+            });
 
             // Animate main counters
+            console.log('🎨 Animating counters...');
             animateCounter(document.getElementById('totalAdsCounter'), totalAds);
             animateCounter(document.getElementById('totalViewsCounter'), totalViews);
-            animateCounter(document.getElementById('activeUsersCounter'), Math.floor(totalViews / 10));
+
+            // Use actual unique companies count instead of estimated users
+            animateCounter(document.getElementById('activeUsersCounter'), companies.size);
+
             const engagementRate = totalAds > 0 ? Math.min(99, Math.floor((totalFavorites + totalLikes) / totalAds * 10)) : 0;
             animateCounter(document.getElementById('engagementCounter'), engagementRate, 2000, '%');
 
             // Animate additional counters
             animateCounter(document.getElementById('totalFavoritesCounter'), totalFavorites);
             animateCounter(document.getElementById('totalLikesCounter'), totalLikes);
+            animateCounter(document.getElementById('totalContactsCounter'), totalContacts);
             animateCounter(document.getElementById('totalCompaniesCounter'), companies.size);
             animateCounter(document.getElementById('totalCategoriesCounter'), categories.size);
 
+            console.log('✅ All counters animated successfully!');
+
             // Update trending stats
-            if (data.ads.length > 0) {
-                const topAd = data.ads.reduce((max, ad) =>
-                    (ad.views || 0) > (max.views || 0) ? ad : max
-                );
-                document.getElementById('topAdViews').textContent = (topAd.views || 0).toLocaleString();
+            if (allAds.length > 0) {
+                // Find top ad using analytics data
+                const topAd = allAds.reduce((max, ad) => {
+                    const maxViews = max.analytics?.total_views || max.views || 0;
+                    const adViews = ad.analytics?.total_views || ad.views || 0;
+                    return adViews > maxViews ? ad : max;
+                });
+
+                const topAdViews = topAd.analytics?.total_views || topAd.views || 0;
+                document.getElementById('topAdViews').textContent = topAdViews.toLocaleString();
                 document.getElementById('topAdTitle').textContent = (topAd.title || 'No title').substring(0, 50) + '...';
 
                 // Category analysis
                 const categoryCount = {};
-                data.ads.forEach(ad => {
+                allAds.forEach(ad => {
                     categoryCount[ad.category] = (categoryCount[ad.category] || 0) + 1;
                 });
                 const topCategory = Object.entries(categoryCount).sort((a, b) => b[1] - a[1])[0];
@@ -1080,21 +1378,27 @@ async function loadLiveStats() {
                 const avgViewsPerAd = totalAds > 0 ? Math.round(totalViews / totalAds) : 0;
                 document.getElementById('avgViews').textContent = avgViewsPerAd.toLocaleString();
 
-                // Update charts
-                updateCharts(data.ads);
+                // Update charts with allAds
+                updateCharts(allAds);
             }
+
+            console.log('✅ Live stats loaded successfully!');
+        } else {
+            console.warn('⚠️ No ads data in response:', data);
         }
     } catch (error) {
-        console.error('Failed to load live stats:', error);
+        console.error('❌ Failed to load live stats:', error);
+        console.error('Error details:', error.message);
+        console.error('Stack trace:', error.stack);
     }
 }
 
 // Update Charts
 function updateCharts(ads) {
-    // Views Distribution Chart
+    // Views Distribution Chart - use analytics data
     const viewsData = ads.slice(0, 10).map(ad => ({
         title: (ad.title || 'Untitled').substring(0, 20) + '...',
-        views: ad.views || 0
+        views: ad.analytics?.total_views || ad.views || 0
     }));
 
     if (viewsChart) viewsChart.destroy();
@@ -1446,6 +1750,9 @@ function deleteUser(email) {
 // ============================================
 // COMPANY MANAGEMENT FUNCTIONS
 // ============================================
+let allCompanies = [];
+let currentCompanyFilter = '';
+
 async function loadCompaniesData() {
     const companiesTableBody = document.getElementById('companiesTableBody');
     if (!companiesTableBody) return;
@@ -1453,75 +1760,34 @@ async function loadCompaniesData() {
     companiesTableBody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-500"><i class="fas fa-spinner fa-spin mr-2"></i>Loading companies...</td></tr>';
 
     try {
-        // Fetch real companies from existing ads data
-        const response = await fetch('/app/api/get_ads.php');
+        // Fetch companies from API
+        const response = await fetch('/app/api/get_companies.php');
         const data = await response.json();
 
-        if (!data || !data.ads) {
+        if (!data || !data.success || !data.companies) {
             companiesTableBody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-400">No companies found</td></tr>';
             return;
         }
 
-        // Aggregate company data from ads
-        const companyStats = {};
-        data.ads.forEach(ad => {
-            const company = ad.company || 'Unknown';
-            if (!companyStats[company]) {
-                companyStats[company] = {
-                    name: company,
-                    ads: 0,
-                    views: 0,
-                    status: 'active', // Can be enhanced with real status
-                    joined: new Date(ad.timestamp * 1000).toISOString().split('T')[0]
-                };
-            }
-            companyStats[company].ads++;
-            companyStats[company].views += (ad.views || 0);
-        });
+        allCompanies = data.companies;
+        const stats = data.stats;
 
-        const companies = Object.values(companyStats);
-
-        if (companies.length === 0) {
+        if (allCompanies.length === 0) {
             companiesTableBody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-400">No companies found</td></tr>';
             return;
         }
 
-        companiesTableBody.innerHTML = companies.map(company => `
-        <tr class="border-b border-white/5 hover:bg-white/5">
-            <td class="py-3 px-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-building text-white"></i>
-                    </div>
-                    <span class="font-semibold">${company.name}</span>
-                </div>
-            </td>
-            <td class="py-3 px-4 text-gray-400">${company.ads}</td>
-            <td class="py-3 px-4 text-gray-400">${company.views.toLocaleString()}</td>
-            <td class="py-3 px-4">
-                <span class="px-2 py-1 ${
-                    company.status === 'verified' ? 'bg-green-600/20 text-green-400' :
-                    company.status === 'suspended' ? 'bg-red-600/20 text-red-400' :
-                    'bg-blue-600/20 text-blue-400'
-                } rounded text-xs font-semibold">${company.status}</span>
-            </td>
-            <td class="py-3 px-4 text-gray-400 text-sm">${company.joined}</td>
-            <td class="py-3 px-4">
-                <div class="flex items-center gap-2">
-                    <button onclick="viewCompany('${company.name}')" class="text-indigo-400 hover:text-indigo-300">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button onclick="suspendCompany('${company.name}')" class="text-yellow-400 hover:text-yellow-300">
-                        <i class="fas fa-ban"></i>
-                    </button>
-                </div>
-            </td>
-        </tr>
-    `).join('');
+        // Update stats cards
+        document.getElementById('totalCompaniesStats').textContent = stats.total;
+        document.getElementById('activeCompaniesCount').textContent = stats.active || 0;
+        document.getElementById('verifiedCompaniesCount').textContent = stats.verified;
+        document.getElementById('inactiveCompaniesCount').textContent = stats.inactive || 0;
+        document.getElementById('suspendedCompaniesCount').textContent = stats.suspended;
+        document.getElementById('blockedCompaniesCount').textContent = stats.blocked;
 
-        document.getElementById('totalCompaniesStats').textContent = companies.length;
-        document.getElementById('verifiedCompaniesCount').textContent = companies.filter(c => c.status === 'verified').length;
-        document.getElementById('suspendedCompaniesCount').textContent = companies.filter(c => c.status === 'suspended').length;
+        // Render table
+        renderCompaniesTable(allCompanies);
+
 
     } catch (error) {
         console.error('Failed to load companies:', error);
@@ -1529,18 +1795,245 @@ async function loadCompaniesData() {
     }
 }
 
+function renderCompaniesTable(companies) {
+    const companiesTableBody = document.getElementById('companiesTableBody');
+    if (!companiesTableBody) return;
+
+    if (companies.length === 0) {
+        companiesTableBody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-400">No companies found</td></tr>';
+        return;
+    }
+
+    const statusColors = {
+        'verified': 'bg-green-600/20 text-green-400 border-green-500/30',
+        'active': 'bg-blue-600/20 text-blue-400 border-blue-500/30',
+        'inactive': 'bg-gray-600/20 text-gray-400 border-gray-500/30',
+        'suspended': 'bg-yellow-600/20 text-yellow-400 border-yellow-500/30',
+        'blocked': 'bg-red-600/20 text-red-400 border-red-500/30',
+        'banned': 'bg-red-600/20 text-red-400 border-red-500/30'
+    };
+
+    const statusIcons = {
+        'verified': 'fa-check-circle',
+        'active': 'fa-circle',
+        'inactive': 'fa-pause-circle',
+        'suspended': 'fa-pause-circle',
+        'blocked': 'fa-lock',
+        'banned': 'fa-ban'
+    };
+
+    companiesTableBody.innerHTML = companies.map(company => {
+        const status = company.status || 'active';
+        const statusClass = statusColors[status] || 'bg-gray-600/20 text-gray-400';
+        const statusIcon = statusIcons[status] || 'fa-circle';
+
+        return `
+        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+            <td class="py-3 px-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-building text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">${escapeHtml(company.company_name)}</div>
+                        <div class="text-xs text-gray-500">${escapeHtml(company.email)}</div>
+                    </div>
+                </div>
+            </td>
+            <td class="py-3 px-4 text-gray-400">${company.total_ads}</td>
+            <td class="py-3 px-4 text-gray-400">${company.total_views.toLocaleString()}</td>
+            <td class="py-3 px-4">
+                <span class="px-2 py-1 ${statusClass} rounded text-xs font-semibold border flex items-center gap-1 w-fit">
+                    <i class="fas ${statusIcon}"></i>
+                    ${status.charAt(0).toUpperCase() + status.slice(1)}
+                </span>
+            </td>
+            <td class="py-3 px-4 text-gray-400 text-sm">${formatDate(company.created_at)}</td>
+            <td class="py-3 px-4">
+                <div class="flex items-center gap-2">
+                    <button onclick="viewCompany('${escapeHtml(company.company_slug)}')" class="text-indigo-400 hover:text-indigo-300 transition" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    ${status !== 'suspended' && status !== 'inactive' ? `
+                    <button onclick="suspendCompany('${escapeHtml(company.company_slug)}')" class="text-yellow-400 hover:text-yellow-300 transition" title="Suspend">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    ` : `
+                    <button onclick="activateCompany('${escapeHtml(company.company_slug)}')" class="text-green-400 hover:text-green-300 transition" title="Activate">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    `}
+                    ${status !== 'blocked' && status !== 'banned' ? `
+                    <button onclick="blockCompany('${escapeHtml(company.company_slug)}')" class="text-red-400 hover:text-red-300 transition" title="Block">
+                        <i class="fas fa-ban"></i>
+                    </button>
+                    ` : `
+                    <button onclick="unblockCompany('${escapeHtml(company.company_slug)}')" class="text-blue-400 hover:text-blue-300 transition" title="Unblock">
+                        <i class="fas fa-unlock"></i>
+                    </button>
+                    `}
+                </div>
+            </td>
+        </tr>
+    `;
+    }).join('');
+}
+
+function filterCompaniesByStatus(statusFilter = null) {
+    // Update from dropdown if no parameter passed
+    if (statusFilter === null) {
+        const dropdown = document.getElementById('companyStatusFilter');
+        statusFilter = dropdown ? dropdown.value : '';
+    } else {
+        // Update dropdown to match
+        const dropdown = document.getElementById('companyStatusFilter');
+        if (dropdown) {
+            dropdown.value = statusFilter === 'all' ? '' : statusFilter;
+        }
+    }
+
+    currentCompanyFilter = statusFilter;
+
+    // Filter companies
+    let filtered = allCompanies;
+    if (statusFilter && statusFilter !== '' && statusFilter !== 'all') {
+        filtered = allCompanies.filter(company => {
+            const status = company.status || 'active';
+            return status === statusFilter;
+        });
+    }
+
+    // Render filtered list
+    renderCompaniesTable(filtered);
+}
+
+function formatDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
 function approveCompany() {
     alert('Approve selected companies');
 }
 
-function viewCompany(name) {
-    alert('View company: ' + name);
+function viewCompany(companySlug) {
+    // TODO: Redirect to company details page or show modal
+    alert('View company: ' + companySlug);
 }
 
-function suspendCompany(name) {
-    if (confirm('Suspend company: ' + name + '?')) {
-        alert('Company suspended');
-        loadCompaniesData();
+async function suspendCompany(companySlug) {
+    if (!confirm('Are you sure you want to suspend this company? All their ads will be hidden.')) {
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('company_slug', companySlug);
+        formData.append('action', 'suspend');
+
+        const response = await fetch('/app/api/update_company_status.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showNotification('Company suspended successfully', 'success');
+            loadCompaniesData();
+        } else {
+            showNotification('Failed to suspend company: ' + data.error, 'error');
+        }
+    } catch (error) {
+        showNotification('Error suspending company', 'error');
+        console.error('Suspend error:', error);
+    }
+}
+
+async function activateCompany(companySlug) {
+    if (!confirm('Activate this company? Their ads will become visible again.')) {
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('company_slug', companySlug);
+        formData.append('action', 'activate');
+
+        const response = await fetch('/app/api/update_company_status.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showNotification('Company activated successfully', 'success');
+            loadCompaniesData();
+        } else {
+            showNotification('Failed to activate company: ' + data.error, 'error');
+        }
+    } catch (error) {
+        showNotification('Error activating company', 'error');
+        console.error('Activate error:', error);
+    }
+}
+
+async function blockCompany(companySlug) {
+    if (!confirm('BLOCK this company permanently? This action will ban them from the platform and remove all their ads. This cannot be easily undone.')) {
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('company_slug', companySlug);
+        formData.append('action', 'block');
+
+        const response = await fetch('/app/api/update_company_status.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showNotification('Company blocked successfully', 'success');
+            loadCompaniesData();
+        } else {
+            showNotification('Failed to block company: ' + data.error, 'error');
+        }
+    } catch (error) {
+        showNotification('Error blocking company', 'error');
+        console.error('Block error:', error);
+    }
+}
+
+async function unblockCompany(companySlug) {
+    if (!confirm('Unblock this company? They will be able to access the platform again.')) {
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('company_slug', companySlug);
+        formData.append('action', 'unblock');
+
+        const response = await fetch('/app/api/update_company_status.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showNotification('Company unblocked successfully', 'success');
+            loadCompaniesData();
+        } else {
+            showNotification('Failed to unblock company: ' + data.error, 'error');
+        }
+    } catch (error) {
+        showNotification('Error unblocking company', 'error');
+        console.error('Unblock error:', error);
     }
 }
 
@@ -1851,6 +2344,339 @@ function viewActivityLog(e) {
 }
 
 // ============================================
+// AD STATUS STATISTICS FUNCTIONS
+// ============================================
+async function loadAdStatusStats() {
+    try {
+        const res = await fetch('/app/api/ad_status_stats.php');
+        const data = await res.json();
+
+        if (data.success) {
+            const stats = data.stats;
+
+            // Update counters
+            document.getElementById('activeAdsCount').textContent = stats.active || 0;
+            document.getElementById('inactiveAdsCount').textContent = stats.inactive || 0;
+            document.getElementById('scheduledAdsCount').textContent = stats.scheduled || 0;
+            document.getElementById('expiredAdsCount').textContent = stats.expired || 0;
+            document.getElementById('totalAdsCount').textContent = stats.total || 0;
+
+            // Calculate percentages
+            const total = stats.total || 1; // Avoid division by zero
+            const activePercent = Math.round((stats.active / total) * 100);
+            const inactivePercent = Math.round((stats.inactive / total) * 100);
+            const scheduledPercent = Math.round((stats.scheduled / total) * 100);
+            const expiredPercent = Math.round((stats.expired / total) * 100);
+
+            // Update percentage display
+            document.getElementById('adStatsPercentage').textContent = activePercent;
+
+            // Update progress bars
+            setTimeout(() => {
+                document.getElementById('activeBar').style.width = activePercent + '%';
+                document.getElementById('inactiveBar').style.width = inactivePercent + '%';
+                document.getElementById('scheduledBar').style.width = scheduledPercent + '%';
+                document.getElementById('expiredBar').style.width = expiredPercent + '%';
+
+                document.getElementById('activeBarText').textContent = stats.active;
+                document.getElementById('inactiveBarText').textContent = stats.inactive;
+                document.getElementById('scheduledBarText').textContent = stats.scheduled;
+                document.getElementById('expiredBarText').textContent = stats.expired;
+            }, 100);
+
+            // Animate counters
+            animateCounter(document.getElementById('activeAdsCount'), stats.active);
+            animateCounter(document.getElementById('inactiveAdsCount'), stats.inactive);
+            animateCounter(document.getElementById('scheduledAdsCount'), stats.scheduled);
+            animateCounter(document.getElementById('expiredAdsCount'), stats.expired);
+            animateCounter(document.getElementById('totalAdsCount'), stats.total);
+        }
+    } catch (error) {
+        console.error('Failed to load ad status stats:', error);
+    }
+}
+
+
+function refreshAdStats() {
+    // Show loading state
+    ['activeAdsCount', 'inactiveAdsCount', 'scheduledAdsCount', 'expiredAdsCount', 'totalAdsCount'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = '-';
+    });
+
+    // Reload stats
+    loadAdStatusStats();
+}
+
+function filterAdsByStatus(status) {
+    // This will open a filtered view - implement based on your needs
+    console.log('Filter ads by status:', status);
+    // You can redirect to a page with filtered ads or show a modal
+    // Example: window.location.href = `/app/admin/ads.php?status=${status}`;
+}
+
+// ============================================
+// CONTENT MODERATION FUNCTIONS
+// ============================================
+async function loadViolations() {
+    try {
+        const [violationsRes, statsRes] = await Promise.all([
+            fetch('/app/api/moderation_violations.php?action=list&status=pending'),
+            fetch('/app/api/moderation_violations.php?action=stats')
+        ]);
+
+        const violationsData = await violationsRes.json();
+        const statsData = await statsRes.json();
+
+        if (statsData.success) {
+            document.getElementById('pendingCount').textContent = statsData.stats.pending || 0;
+            document.getElementById('criticalViolations').textContent = statsData.stats.critical || 0;
+            document.getElementById('highViolations').textContent = statsData.stats.high || 0;
+            document.getElementById('mediumViolations').textContent = statsData.stats.medium || 0;
+            document.getElementById('resolvedViolations').textContent = statsData.stats.resolved || 0;
+        }
+
+        if (violationsData.success) {
+            displayViolations(violationsData.violations);
+        }
+    } catch (error) {
+        console.error('Failed to load violations:', error);
+        document.getElementById('violationsList').innerHTML = `
+            <div class="text-center py-8 text-red-400">
+                <i class="fas fa-exclamation-triangle text-4xl mb-3"></i>
+                <p>Failed to load violations</p>
+            </div>
+        `;
+    }
+}
+
+function displayViolations(violations) {
+    const container = document.getElementById('violationsList');
+
+    if (!violations || violations.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-8 text-green-400">
+                <i class="fas fa-check-circle text-4xl mb-3"></i>
+                <p>No pending violations. All ads are compliant!</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = violations.map(v => {
+        const severityColors = {
+            4: 'red',
+            3: 'orange',
+            2: 'yellow',
+            1: 'yellow'
+        };
+        const severityText = {
+            4: 'CRITICAL',
+            3: 'HIGH',
+            2: 'MEDIUM',
+            1: 'LOW'
+        };
+        const color = severityColors[v.severity] || 'gray';
+        const severity = severityText[v.severity] || 'UNKNOWN';
+
+        const violations = v.violations_data || {};
+        const issues = violations.content_issues || [];
+        const flags = violations.pattern_flags || [];
+
+        return `
+            <div class="bg-${color}-600/10 border-l-4 border-${color}-600 rounded-lg p-4 hover:bg-white/5 transition">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-3 py-1 bg-${color}-600 rounded-full text-xs font-bold">${severity}</span>
+                            <span class="text-sm text-gray-400">Score: ${v.ai_score}/100</span>
+                            <span class="text-sm text-gray-400">ID: ${escapeHtml(v.ad_id).substring(0, 15)}...</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">${escapeHtml(v.ad_title || 'Untitled')}</h3>
+                        <p class="text-sm text-gray-400 mb-2">${escapeHtml((v.ad_description || '').substring(0, 100))}...</p>
+                        <div class="flex gap-4 text-xs text-gray-500">
+                            <span><i class="fas fa-building mr-1"></i>${escapeHtml(v.company_name || 'Unknown')}</span>
+                            <span><i class="fas fa-tag mr-1"></i>${escapeHtml(v.category_name || 'Unknown')}</span>
+                            <span><i class="fas fa-clock mr-1"></i>${formatTimestamp(v.created_at)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Violations -->
+                ${issues.length > 0 ? `
+                    <div class="bg-black/30 rounded-lg p-3 mb-3">
+                        <div class="text-xs text-${color}-400 font-bold mb-2">POLICY VIOLATIONS:</div>
+                        <div class="space-y-1">
+                            ${issues.map(issue => `
+                                <div class="flex items-start gap-2 text-xs">
+                                    <i class="fas fa-times-circle text-${color}-500 mt-0.5"></i>
+                                    <span class="text-gray-300">${escapeHtml(issue)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${flags.length > 0 ? `
+                    <div class="bg-black/30 rounded-lg p-3 mb-3">
+                        <div class="text-xs text-orange-400 font-bold mb-2">PATTERN FLAGS:</div>
+                        <div class="space-y-1">
+                            ${flags.map(flag => `
+                                <div class="flex items-start gap-2 text-xs">
+                                    <i class="fas fa-flag text-orange-500 mt-0.5"></i>
+                                    <span class="text-gray-300">${escapeHtml(flag)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <!-- Actions -->
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="takeViolationAction(${v.id}, 'delete', '${escapeHtml(v.ad_id)}')"
+                            class="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg transition text-xs font-semibold">
+                        <i class="fas fa-trash mr-1"></i>Delete Ad
+                    </button>
+                    <button onclick="takeViolationAction(${v.id}, 'ban', '${escapeHtml(v.ad_id)}')"
+                            class="px-3 py-1.5 bg-gray-700 hover:bg-gray-800 rounded-lg transition text-xs font-semibold">
+                        <i class="fas fa-ban mr-1"></i>Ban Company
+                    </button>
+                    <button onclick="takeViolationAction(${v.id}, 'pause', '${escapeHtml(v.ad_id)}')"
+                            class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition text-xs font-semibold">
+                        <i class="fas fa-pause mr-1"></i>Pause
+                    </button>
+                    <button onclick="takeViolationAction(${v.id}, 'approve', '${escapeHtml(v.ad_id)}')"
+                            class="px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded-lg transition text-xs font-semibold">
+                        <i class="fas fa-check mr-1"></i>Approve
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+async function takeViolationAction(violationId, actionType, adId) {
+    const actionNames = {
+        delete: 'Delete this ad',
+        ban: 'Ban this company',
+        pause: 'Pause this ad',
+        approve: 'Approve (no action)'
+    };
+
+    if (!confirm(`Are you sure you want to: ${actionNames[actionType]}?`)) {
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('action', 'take_action');
+        formData.append('violation_id', violationId);
+        formData.append('action_type', actionType);
+        formData.append('admin_user', '<?= $adminUsername ?>');
+        formData.append('reason', 'Admin dashboard action');
+
+        const res = await fetch('/app/api/moderation_violations.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            let message = `Action completed: ${actionType}`;
+            if (data.notification) {
+                if (data.notification === 'sent') {
+                    message += ' ✉️ Owner notified';
+                } else if (data.notification === 'failed') {
+                    message += ' ⚠️ Notification failed';
+                }
+            }
+            showNotification(message, 'success');
+            refreshViolations();
+        } else {
+            showNotification(`Failed: ${data.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Action failed:', error);
+        showNotification('Action failed: Network error', 'error');
+    }
+}
+
+function refreshViolations() {
+    document.getElementById('violationsList').innerHTML = `
+        <div class="text-center py-8 text-gray-400">
+            <i class="fas fa-spinner fa-spin text-4xl mb-3"></i>
+            <p>Refreshing violations...</p>
+        </div>
+    `;
+    loadViolations();
+}
+
+async function runNewScan() {
+    const btn = event.target;
+    const originalHTML = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Scanning...';
+
+    try {
+        const res = await fetch('/app/api/scanner.php?action=scan');
+        const data = await res.json();
+
+        if (data.success) {
+            showNotification(`Scan complete! Found ${data.data.flagged_ads.length} violations`, 'success');
+            setTimeout(refreshViolations, 1000);
+        } else {
+            showNotification('Scan failed', 'error');
+        }
+    } catch (error) {
+        console.error('Scan failed:', error);
+        showNotification('Scan failed: Network error', 'error');
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+}
+
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diff = Math.floor((now - date) / 1000);
+
+    if (diff < 60) return 'Just now';
+    if (diff < 3600) return Math.floor(diff / 60) + ' mins ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + ' hours ago';
+    return Math.floor(diff / 86400) + ' days ago';
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showNotification(message, type) {
+    const color = type === 'success' ? 'green' : type === 'error' ? 'red' : 'blue';
+    const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle';
+
+    const div = document.createElement('div');
+    div.className = `fixed top-20 right-4 px-6 py-4 bg-${color}-600 text-white rounded-lg shadow-2xl z-50 flex items-center gap-3 animate-slide-in`;
+    div.innerHTML = `
+        <i class="fas fa-${icon}"></i>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+        div.style.opacity = '0';
+        div.style.transform = 'translateX(100%)';
+        div.style.transition = 'all 0.3s ease';
+        setTimeout(() => div.remove(), 300);
+    }, 3000);
+}
+
+// ============================================
 // NEURAL NETWORK BACKGROUND
 // ============================================
 function initNeuralNetwork() {
@@ -1915,11 +2741,15 @@ function initNeuralNetwork() {
 function initDashboard() {
     loadLiveStats();
     loadActivityFeed();
+    loadAdStatusStats(); // Load ad status statistics
+    loadViolations(); // Load moderation violations
     initNeuralNetwork();
 
     updateInterval = setInterval(() => {
         loadLiveStats();
         loadActivityFeed();
+        loadAdStatusStats(); // Refresh ad stats
+        loadViolations(); // Refresh violations
     }, 30000);
 
     setInterval(updateTimestamp, 1000);

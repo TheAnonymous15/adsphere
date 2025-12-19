@@ -1,0 +1,176 @@
+{
+    "scan_time": "2025-12-19 23:36:40",
+    "total_scanned": 4,
+    "flagged_ads": [
+        {
+            "ad_id": "AD-202512-2039462492-W4DZG",
+            "title": "Guns for sale",
+            "description": "Weapons for sale...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Food",
+            "created_at": 1766176786,
+            "is_clean": false,
+            "ai_score": 50,
+            "risk_level": "critical",
+            "severity": 4,
+            "severity_level": "critical",
+            "violations": {
+                "content_issues": [
+                    "Violent language: 'weapon' in context: '...guns for sale weapons for sale...'",
+                    "Violent language: 'gun' in context: '...guns for sale weapons for sale...'"
+                ],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "ban",
+                "all_actions": [
+                    "ban"
+                ],
+                "urgency": "immediate",
+                "reasoning": [
+                    "Permanent ban: Critical violation by repeat offender (6 violations)",
+                    "Send warning email to company"
+                ],
+                "violation_details": [
+                    "Content violations: Violent language: 'weapon' in context: '...guns for sale weapons for sale...', Violent language: 'gun' in context: '...guns for sale weapons for sale...'",
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nURGENT: Your advertisement \"Guns for sale\" has been flagged for CRITICAL policy violations and has been removed immediately.\n\nViolations detected:\n- Violent language: 'weapon' in context: '...guns for sale weapons for sale...'\n- Violent language: 'gun' in context: '...guns for sale weapons for sale...'\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766187400
+        },
+        {
+            "ad_id": "AD-202512-2038154411-C6X5I",
+            "title": "Weapons for sale",
+            "description": "Guns for sale...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Food",
+            "created_at": 1766176695,
+            "is_clean": false,
+            "ai_score": 50,
+            "risk_level": "critical",
+            "severity": 4,
+            "severity_level": "critical",
+            "violations": {
+                "content_issues": [
+                    "Violent language: 'weapon' in context: '...weapons for sale guns for sale...'",
+                    "Violent language: 'gun' in context: '...weapons for sale guns for sale...'"
+                ],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "ban",
+                "all_actions": [
+                    "ban"
+                ],
+                "urgency": "immediate",
+                "reasoning": [
+                    "Permanent ban: Critical violation by repeat offender (6 violations)",
+                    "Send warning email to company"
+                ],
+                "violation_details": [
+                    "Content violations: Violent language: 'weapon' in context: '...weapons for sale guns for sale...', Violent language: 'gun' in context: '...weapons for sale guns for sale...'",
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nURGENT: Your advertisement \"Weapons for sale\" has been flagged for CRITICAL policy violations and has been removed immediately.\n\nViolations detected:\n- Violent language: 'weapon' in context: '...weapons for sale guns for sale...'\n- Violent language: 'gun' in context: '...weapons for sale guns for sale...'\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766187400
+        },
+        {
+            "ad_id": "AD-202512-113047.114-94U75",
+            "title": "Vacant House",
+            "description": "2 bedroom Ruiru Wataalam...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Housing",
+            "created_at": 1766057447.1149,
+            "is_clean": false,
+            "ai_score": 100,
+            "risk_level": "low",
+            "severity": 2,
+            "severity_level": "medium",
+            "violations": {
+                "content_issues": [],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "delete",
+                "all_actions": [
+                    "delete"
+                ],
+                "urgency": "medium",
+                "reasoning": [
+                    "Delete ad: Repeat violation detected"
+                ],
+                "violation_details": [
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nWe've noticed some concerns with your advertisement \"Vacant House\".\n\nPlease review:\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766187400
+        },
+        {
+            "ad_id": "food-mart",
+            "title": "Food mart",
+            "description": "Food for thought...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Electronics",
+            "created_at": 1766054751,
+            "is_clean": false,
+            "ai_score": 100,
+            "risk_level": "low",
+            "severity": 2,
+            "severity_level": "medium",
+            "violations": {
+                "content_issues": [],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "delete",
+                "all_actions": [
+                    "delete"
+                ],
+                "urgency": "medium",
+                "reasoning": [
+                    "Delete ad: Repeat violation detected"
+                ],
+                "violation_details": [
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nWe've noticed some concerns with your advertisement \"Food mart\".\n\nPlease review:\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766187400
+        }
+    ],
+    "clean_ads": 0,
+    "statistics": {
+        "critical": 2,
+        "high": 0,
+        "medium": 2,
+        "low": 0
+    },
+    "processing_time": "4.28ms"
+}
