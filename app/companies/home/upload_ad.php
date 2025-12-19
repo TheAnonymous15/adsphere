@@ -148,11 +148,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endforeach; ?>
         </select>
 
-        <label>Ad Title</label>
-        <input name="title" class="text-black p-2 rounded" required>
+        <label class="flex items-center justify-between">
+            <span>Ad Title</span>
+            <button type="button" onclick="generateAIContent('title')" class="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded-full transition flex items-center gap-1">
+                <i class="fas fa-magic"></i>
+                AI Generate
+            </button>
+        </label>
+        <input id="titleInput" name="title" class="text-black p-2 rounded" required>
 
-        <label>Description</label>
-        <textarea name="description" class="text-black p-2 rounded" rows="3" required></textarea>
+        <label class="flex items-center justify-between">
+            <span>Description</span>
+            <button type="button" onclick="generateAIContent('description')" class="text-xs px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded-full transition flex items-center gap-1">
+                <i class="fas fa-magic"></i>
+                AI Generate
+            </button>
+        </label>
+        <textarea id="descriptionInput" name="description" class="text-black p-2 rounded" rows="3" required></textarea>
+
+        <!-- AI Generation Status -->
+        <div id="aiStatus" class="hidden p-3 rounded-lg bg-purple-600/20 border border-purple-600 text-sm flex items-center gap-2">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span id="aiStatusText">Generating with AI...</span>
+        </div>
 
         <label>Select Media</label>
         <input type="file" name="media" accept="image/*,video/*,audio/*" required>
@@ -166,6 +184,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 </div>
+
+<script>
+// AI Content Generator
+async function generateAIContent(type) {
+    const category = document.querySelector('select[name="category"]').value;
+    const titleInput = document.getElementById('titleInput');
+    const descriptionInput = document.getElementById('descriptionInput');
+    const aiStatus = document.getElementById('aiStatus');
+    const aiStatusText = document.getElementById('aiStatusText');
+
+    if (!category) {
+        alert('Please select a category first');
+        return;
+    }
+
+    // Show loading status
+    aiStatus.classList.remove('hidden');
+    aiStatusText.textContent = 'AI is generating content...';
+
+    try {
+        // For demo purposes, generate content locally
+        // In production, call OpenAI API or your AI service
+
+        const templates = {
+            title: {
+                food: [
+                    'Fresh {item} - Best Quality Available!',
+                    'Delicious {item} Delivered Fresh Daily',
+                    'Premium {item} at Unbeatable Prices',
+                    'Authentic {item} - Order Now!'
+                ],
+                electronics: [
+                    'Latest {item} - Brand New in Box',
+                    '{item} - Warranty Included, Free Delivery',
+                    'High-Quality {item} - Limited Stock',
+                    'Premium {item} at Best Price'
+                ],
+                housing: [
+                    'Beautiful {item} - Prime Location',
+                    'Spacious {item} - Move-In Ready',
+                    'Luxury {item} - Excellent Amenities',
+                    'Affordable {item} - Don\'t Miss Out!'
+                ]
+            },
+            description: {
+                food: [
+                    'Experience the finest quality {category} products. Sourced fresh daily from trusted suppliers. Perfect for your family meals. Order now and enjoy fast delivery to your doorstep. Limited stock available!',
+                    'Premium {category} at affordable prices. We guarantee freshness and quality. Same-day delivery available in selected areas. Contact us now to place your order!',
+                    'Fresh, organic {category} delivered straight to your home. Supporting local farmers. Eco-friendly packaging. Order today and taste the difference!'
+                ],
+                electronics: [
+                    'Brand new {category} with full warranty and accessories. Genuine products only. Fast shipping available. Contact us for more details and special offers. Limited stock!',
+                    'Latest {category} at competitive prices. Warranty included. Free technical support. Nationwide delivery available. Order now while stocks last!',
+                    'High-quality {category} from trusted brands. Excellent condition. All accessories included. Flexible payment options available. Contact us today!'
+                ],
+                housing: [
+                    'Prime {category} in excellent location. Close to amenities, schools, and transport. Modern facilities. Well-maintained. Schedule viewing today!',
+                    'Beautiful {category} ready for immediate occupancy. Spacious rooms, ample parking. Secure neighborhood. Don\'t miss this opportunity!',
+                    'Luxurious {category} with stunning features. Recently renovated. Prime location. Excellent value. Contact us for viewing!'
+                ]
+            }
+        };
+
+        // Get random template
+        const categoryTemplates = templates[type][category] || templates[type]['food'];
+        const template = categoryTemplates[Math.floor(Math.random() * categoryTemplates.length)];
+
+        // Replace placeholders
+        const content = template
+            .replace('{item}', category.charAt(0).toUpperCase() + category.slice(1))
+            .replace('{category}', category);
+
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Set content
+        if (type === 'title') {
+            titleInput.value = content;
+            aiStatusText.textContent = '✨ Title generated successfully!';
+        } else {
+            descriptionInput.value = content;
+            aiStatusText.textContent = '✨ Description generated successfully!';
+        }
+
+        // Hide status after 3 seconds
+        setTimeout(() => {
+            aiStatus.classList.add('hidden');
+        }, 3000);
+
+    } catch (error) {
+        console.error('AI generation error:', error);
+        aiStatusText.textContent = '❌ Failed to generate content. Try again.';
+        setTimeout(() => {
+            aiStatus.classList.add('hidden');
+        }, 3000);
+    }
+}
+
+// Add shimmer animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shimmer {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+    .fa-spinner {
+        animation: shimmer 1.5s infinite;
+    }
+`;
+document.head.appendChild(style);
+</script>
 
 </body>
 </html>

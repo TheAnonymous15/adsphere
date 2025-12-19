@@ -80,14 +80,22 @@ foreach (scandir($adsBase) as $cat) {
             /****************************************
              * push to output ads list
              ****************************************/
+
+            // Use folder name as ad_id if not present in meta
+            $adId = $meta["ad_id"] ?? $adFolder;
+
+            // Use company from meta if present, otherwise use folder name
+            $companyName = $meta["company"] ?? $company;
+
             $ads[] = [
-                "ad_id"       => $meta["ad_id"] ?? "",
+                "ad_id"       => $adId,
                 "title"       => $meta["title"] ?? "",
                 "description" => $meta["description"] ?? "",
                 "category"    => $cat,
-                "company"     => $company,
+                "company"     => $companyName,
                 "media"       => $mediaUrl,
-                "timestamp"   => $meta["timestamp"] ?? "",
+                "timestamp"   => $meta["timestamp"] ?? time(),
+                "status"      => $meta["status"] ?? "active",
                 "contact"     => [
                     "email"    => $finalContact["email"] ?? "",
                     "phone"    => $finalContact["phone"] ?? "",

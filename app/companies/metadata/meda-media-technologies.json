@@ -23,5 +23,6 @@
         "client_ip": "127.0.0.1",
         "user_agent": "Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/143.0.0.0 Safari\/537.36",
         "timestamp_micro": 1766052910.867597
-    }
+    },
+    "remember_token": "$2y$12$LIgWrRGoSm.glGXS8MWK1eVEAE..nj69vOqfd29lodFeaFaLc.Q5e"
 }

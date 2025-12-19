@@ -1,0 +1,23 @@
+[2025-12-19 14:08:03] LOGIN_ATTEMPT | User: admin | IP: ::1 | Status: INVALID_CREDENTIALS | User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+[2025-12-19 14:10:20] LOGIN_SUCCESS | User: admin | IP: ::1 | Status: SUCCESS | User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+[2025-12-19 14:28:52] LOGOUT | User: admin | IP: ::1 | Status: SUCCESS
+[2025-12-19 14:29:11] LOGIN_SUCCESS | User: admin | IP: ::1 | Status: SUCCESS | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: bfa4f0273de344cf44be817a57e61e5cfdada5662efb567bdc438235994379bb
+[2025-12-19 14:31:21] LOGOUT | User: admin | IP: ::1 | Status: SUCCESS
+[2025-12-19 14:32:42] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 6e03db472860a4fd20c57c8f1cc36ea7112cb26693bb3ef3b8b3324feb57cdca
+[2025-12-19 14:44:48] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: dd1516481b52ccdc2e8af6e409783782f550b67a0bf879f9aa3eb0b24b1abff1
+[2025-12-19 15:04:42] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 066dc6c41db9e950d11f07fd0c75450c185d9024185d72b99810c46b62b5d008
+[2025-12-19 15:23:42] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 5240ef4b1c303a3e093a8a429825c27ead4b8bb9e182e152839937dbcca72500
+[2025-12-19 18:00:22] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: d26728f24e9aff36a6a92e7f67371941ced514df23584500067cc6b06f8f7a07
+[2025-12-19 18:30:42] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: f37689ba3c07d60b9d287fec60d8611c98e74a89d7a78083a95a8c6a60588290
+[2025-12-19 18:34:35] LOGIN_2FA_SETUP_REQUIRED | User: admin | IP: ::1 | Status: SETUP_REQUIRED | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: ba058c7a1920e73889914ff5ab68a6510334fe2598e685021df2d4147ed7dbf3
+[2025-12-19 18:36:29] 2FA_ENABLED | User: admin | IP: ::1
+[2025-12-19 18:37:19] LOGOUT | User: admin | IP: ::1 | Status: SUCCESS
+[2025-12-19 18:37:27] LOGIN_2FA_PENDING | User: admin | IP: ::1 | Status: PENDING | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: cee8cf83e72fcbe08e160dcb843ad01a774ba76cd7589feb1aa50a68b00ef1e0
+[2025-12-19 18:38:26] 2FA_FAILED | User: admin | IP: ::1 | Code: 222222 | Expected: 531077
+[2025-12-19 18:38:56] LOGIN_ATTEMPT | User: Unknown | IP: ::1 | Status: CSRF_FAIL | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 25e71d352d127165769b563d8969600c889fcb962cbbfbb8a6eb6601078126fe
+[2025-12-19 18:38:58] LOGIN_SUCCESS | User:  | IP: ::1 | Status: SUCCESS | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 9f49a03189d0d9f2fa3d5974d9d6a57914e302437e1b7634179b931bc3ebc407
+[2025-12-19 18:39:17] LOGOUT | User:  | IP: ::1 | Status: SUCCESS
+[2025-12-19 18:39:29] LOGIN_2FA_PENDING | User: admin | IP: ::1 | Status: PENDING | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 56be8d0b6297192ab62a969bff3b4d2f1022f3bc70387ad899cf7406a6075490
+[2025-12-19 18:39:44] 2FA_FAILED | User: admin | IP: ::1 | Code: 158166 | Expected: 587185
+[2025-12-19 18:41:33] 2FA_FAILED | User: admin | IP: ::1
+[2025-12-19 18:42:02] 2FA_FAILED | User: admin | IP: ::1

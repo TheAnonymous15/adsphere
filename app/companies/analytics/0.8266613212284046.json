@@ -1,0 +1,28 @@
+{
+    "ad_id": "0.8266613212284046",
+    "total_views": 1,
+    "total_clicks": 0,
+    "total_contacts": 0,
+    "events": [
+        {
+            "type": "view",
+            "timestamp": 1766098089,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766125247,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 27157
+        }
+    ],
+    "updated_at": 1766125247,
+    "total_time_spent": 27157,
+    "avg_time_spent": 27157
+}

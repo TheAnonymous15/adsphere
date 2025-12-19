@@ -1,0 +1,24 @@
+{
+    "admin": {
+        "username": "admin",
+        "password": "$2y$12$yNKyEMlEZ9Cq.2vKX89b3OUuHAd3Ie3NZkJSugLWHQo6Y1CmRTqLW",
+        "email": "admin@adsphere.com",
+        "role": "super_admin",
+        "created_at": 1766153283,
+        "2fa_enabled": true,
+        "2fa_secret": "HLVPV7EQHZZUXBGCFL3TDPHRDENMEHZH",
+        "backup_codes": [
+            "B15816C6",
+            "756F2CCB",
+            "3A1C9278",
+            "F5D136D1",
+            "089A2670",
+            "11B3C848",
+            "435B05F1",
+            "FEFCF755",
+            "5BDC667D",
+            "743D1ACD"
+        ],
+        "2fa_enabled_at": 1766169389
+    }
+}

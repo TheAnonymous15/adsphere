@@ -13,7 +13,16 @@
                 "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
                 "page": "\/"
             }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766098088,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 3253
         }
     ],
-    "updated_at": 1766094834
+    "updated_at": 1766098088,
+    "total_time_spent": 3253,
+    "avg_time_spent": 3253
 }

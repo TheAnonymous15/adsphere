@@ -21,12 +21,12 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans leading-relaxed scroll-smooth">
-   
 
-<?php  
 
-// $pages = ["header", "hero", "ad_page", "footer"];
-$pages = ["ad_page"];
+<?php
+
+$pages = ["header", "hero", "ad_page", "footer"];
+// $pages = ["ad_page"]
 
 
 foreach ($pages as $page) {

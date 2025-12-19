@@ -240,6 +240,9 @@ if (file_exists($metaFile)) {
         </div>
     </div>
 
+    <!-- SMART NOTIFICATIONS -->
+    <div id="smartNotifications" class="mb-8"></div>
+
     <!-- STATISTICS CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
 
@@ -358,6 +361,28 @@ if (file_exists($metaFile)) {
         </div>
     </div>
 
+    <!-- LIVE ACTIVITY FEED -->
+    <div class="mb-8 fade-in-up">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold flex items-center gap-2">
+                <i class="fas fa-rss text-green-400 animate-pulse"></i>
+                Live Activity
+            </h2>
+            <button onclick="refreshActivityFeed()" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                <i class="fas fa-sync-alt"></i>
+                Refresh
+            </button>
+        </div>
+        <div class="glass-effect rounded-xl p-6 border border-white/10">
+            <div id="liveActivityFeed" class="space-y-3 max-h-96 overflow-y-auto scroll-container">
+                <!-- Will be populated by JavaScript -->
+                <div class="shimmer-loading h-16 rounded-lg"></div>
+                <div class="shimmer-loading h-16 rounded-lg"></div>
+                <div class="shimmer-loading h-16 rounded-lg"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- PERFORMANCE CHARTS -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Views Trend Chart -->
@@ -380,6 +405,142 @@ if (file_exists($metaFile)) {
             <div class="chart-container">
                 <canvas id="contactsTrendChart"></canvas>
             </div>
+        </div>
+    </div>
+
+    <!-- CONTACT METHODS ANALYTICS -->
+    <div class="mb-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+            <h2 class="text-2xl font-bold flex items-center gap-2">
+                <i class="fas fa-phone-volume text-indigo-400"></i>
+                Contact Methods Analytics
+            </h2>
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-400">Date Range:</span>
+                <select id="contactDateRange" onchange="updateContactAnalytics()" class="text-xs bg-slate-800 border border-gray-600 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30" selected>Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="365">Last Year</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Total Engagement Stats -->
+        <div class="glass-effect rounded-xl p-5 border border-white/10 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold flex items-center gap-2">
+                    <i class="fas fa-chart-bar text-yellow-400"></i>
+                    Total Engagements
+                </h3>
+                <span class="text-2xl font-bold text-indigo-400" id="totalEngagements">0</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-slate-900/50 rounded-lg p-3 text-center">
+                    <p class="text-xs text-gray-400 mb-1">WhatsApp</p>
+                    <p class="text-xl font-bold text-green-400" id="whatsappTotal">0</p>
+                </div>
+                <div class="bg-slate-900/50 rounded-lg p-3 text-center">
+                    <p class="text-xs text-gray-400 mb-1">Phone Calls</p>
+                    <p class="text-xl font-bold text-blue-400" id="callTotal">0</p>
+                </div>
+                <div class="bg-slate-900/50 rounded-lg p-3 text-center">
+                    <p class="text-xs text-gray-400 mb-1">SMS</p>
+                    <p class="text-xl font-bold text-purple-400" id="smsTotal">0</p>
+                </div>
+                <div class="bg-slate-900/50 rounded-lg p-3 text-center">
+                    <p class="text-xs text-gray-400 mb-1">Email</p>
+                    <p class="text-xl font-bold text-red-400" id="emailTotal">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Method Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="glass-effect rounded-xl p-4 border border-white/10 hover:border-green-500/50 transition cursor-pointer" onclick="toggleContactMethod('whatsapp')">
+                <div class="flex items-center justify-between mb-2">
+                    <i class="fab fa-whatsapp text-green-400 text-2xl"></i>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="showWhatsapp" checked class="w-4 h-4 rounded bg-slate-900 border-gray-600 text-green-600 focus:ring-2 focus:ring-green-500">
+                        <span class="text-xs text-gray-400">Show</span>
+                    </div>
+                </div>
+                <p class="text-2xl font-bold" id="whatsappCount">0</p>
+                <p class="text-xs text-gray-400 mt-1">WhatsApp Contacts</p>
+            </div>
+
+            <div class="glass-effect rounded-xl p-4 border border-white/10 hover:border-blue-500/50 transition cursor-pointer" onclick="toggleContactMethod('call')">
+                <div class="flex items-center justify-between mb-2">
+                    <i class="fas fa-phone text-blue-400 text-2xl"></i>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="showCall" checked class="w-4 h-4 rounded bg-slate-900 border-gray-600 text-blue-600 focus:ring-2 focus:ring-blue-500">
+                        <span class="text-xs text-gray-400">Show</span>
+                    </div>
+                </div>
+                <p class="text-2xl font-bold" id="callCount">0</p>
+                <p class="text-xs text-gray-400 mt-1">Phone Calls</p>
+            </div>
+
+            <div class="glass-effect rounded-xl p-4 border border-white/10 hover:border-purple-500/50 transition cursor-pointer" onclick="toggleContactMethod('sms')">
+                <div class="flex items-center justify-between mb-2">
+                    <i class="fas fa-sms text-purple-400 text-2xl"></i>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="showSms" checked class="w-4 h-4 rounded bg-slate-900 border-gray-600 text-purple-600 focus:ring-2 focus:ring-purple-500">
+                        <span class="text-xs text-gray-400">Show</span>
+                    </div>
+                </div>
+                <p class="text-2xl font-bold" id="smsCount">0</p>
+                <p class="text-xs text-gray-400 mt-1">Text Messages</p>
+            </div>
+
+            <div class="glass-effect rounded-xl p-4 border border-white/10 hover:border-red-500/50 transition cursor-pointer" onclick="toggleContactMethod('email')">
+                <div class="flex items-center justify-between mb-2">
+                    <i class="fas fa-envelope text-red-400 text-2xl"></i>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="showEmail" checked class="w-4 h-4 rounded bg-slate-900 border-gray-600 text-red-600 focus:ring-2 focus:ring-red-500">
+                        <span class="text-xs text-gray-400">Show</span>
+                    </div>
+                </div>
+                <p class="text-2xl font-bold" id="emailCount">0</p>
+                <p class="text-xs text-gray-400 mt-1">Email Contacts</p>
+            </div>
+        </div>
+
+        <!-- Contact Methods Trend Chart -->
+        <div class="glass-effect rounded-xl p-6 border border-white/10">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fas fa-chart-line text-indigo-400"></i>
+                    Contact Methods Performance
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="selectAllMethods()" class="text-xs bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg transition">
+                        <i class="fas fa-check-square mr-1"></i>Select All
+                    </button>
+                    <button onclick="deselectAllMethods()" class="text-xs bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded-lg transition">
+                        <i class="fas fa-square mr-1"></i>Deselect All
+                    </button>
+                </div>
+            </div>
+            <div class="chart-container" style="position: relative; height: 350px;">
+                <canvas id="contactMethodsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI-POWERED INSIGHTS -->
+    <div class="mb-8 fade-in-up">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold flex items-center gap-2">
+                <i class="fas fa-robot text-purple-400"></i>
+                AI-Powered Insights
+            </h2>
+            <span class="text-xs text-gray-400">Intelligent recommendations</span>
+        </div>
+        <div id="contactInsights" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Will be populated by JavaScript -->
+            <div class="glass-effect rounded-xl p-4 shimmer-loading h-32"></div>
+            <div class="glass-effect rounded-xl p-4 shimmer-loading h-32"></div>
         </div>
     </div>
 
@@ -615,17 +776,497 @@ async function loadDashboardData() {
 
             // Update all dashboard sections
             updateStatistics();
+            updateSmartNotifications();
+            updateLiveActivity();
             updateAIInsights();
+            loadContactAnalytics();
             renderCharts();
             renderAds(adsData.ads.filter(ad => ad.company === companySlug));
             updateTopPerformers();
             updateRevenue();
+
+            // Update advanced analytics if functions exist
+            if (typeof updateMostLiked === 'function') updateMostLiked();
+            if (typeof updateMostFavorited === 'function') updateMostFavorited();
+            if (typeof updateMostDisliked === 'function') updateMostDisliked();
+            if (typeof updateEngagementLeaders === 'function') updateEngagementLeaders();
         }
 
     } catch (error) {
         console.error("Failed to load dashboard data:", error);
         showError();
     }
+}
+
+// ============================================
+// SMART NOTIFICATIONS
+// ============================================
+function updateSmartNotifications() {
+    if (!dashboardData) return;
+
+    const container = document.getElementById('smartNotifications');
+    if (!container) return;
+
+    const { performance, overview, ai_insights } = dashboardData;
+    const notifications = [];
+
+    // Check for boost opportunities
+    if (performance.total_views > 100 && performance.conversion_rate < 2) {
+        notifications.push({
+            type: 'opportunity',
+            icon: 'fa-rocket',
+            title: 'Boost Opportunity!',
+            message: `Your ads have ${performance.total_views} views but low conversion. Boost your best ad now for 2x results!`,
+            action: 'Boost Now',
+            actionUrl: 'my_ads.php',
+            priority: 'high'
+        });
+    }
+
+    // Performance warnings
+    if (performance.total_contacts < 5 && overview.total_ads > 10) {
+        notifications.push({
+            type: 'warning',
+            icon: 'fa-exclamation-triangle',
+            title: 'Low Engagement Alert',
+            message: `You have ${overview.total_ads} ads but only ${performance.total_contacts} contacts. Improve descriptions and images.`,
+            action: 'Get Tips',
+            actionUrl: '#',
+            priority: 'high'
+        });
+    }
+
+    // Favorites milestone
+    if (performance.current_favorites && performance.current_favorites >= 50) {
+        notifications.push({
+            type: 'success',
+            icon: 'fa-heart',
+            title: 'Users Love Your Ads!',
+            message: `${performance.current_favorites} users have favorited your ads! Keep it up!`,
+            action: 'View Stats',
+            actionUrl: 'my_ads.php',
+            priority: 'medium'
+        });
+    }
+
+    // Render notifications
+    if (notifications.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const notificationStyles = {
+        opportunity: 'from-green-500/20 to-blue-500/20 border-green-500/50',
+        warning: 'from-red-500/20 to-orange-500/20 border-red-500/50',
+        success: 'from-green-500/20 to-emerald-500/20 border-green-500/50',
+        info: 'from-blue-500/20 to-indigo-500/20 border-blue-500/50'
+    };
+
+    container.innerHTML = `
+        <div class="space-y-3">
+            ${notifications.map(notif => `
+                <div class="notification-card bg-gradient-to-r ${notificationStyles[notif.type]} border rounded-xl p-4 flex items-start gap-4 slide-in">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fas ${notif.icon} text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold mb-1">${escapeHtml(notif.title)}</h4>
+                        <p class="text-sm text-gray-200 mb-3">${escapeHtml(notif.message)}</p>
+                        <div class="flex gap-2">
+                            <a href="${notif.actionUrl}" class="text-sm px-4 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg transition inline-block">
+                                ${escapeHtml(notif.action)} <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                            <button onclick="dismissNotification(this)" class="text-sm px-3 py-1.5 hover:bg-white/10 rounded-lg transition">
+                                Dismiss
+                            </button>
+                        </div>
+                    </div>
+                    <button onclick="dismissNotification(this)" class="text-gray-400 hover:text-white transition">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function dismissNotification(btn) {
+    const card = btn.closest('.notification-card');
+    card.style.opacity = '0';
+    card.style.transform = 'translateX(100%)';
+    card.style.transition = 'all 0.3s';
+    setTimeout(() => card.remove(), 300);
+}
+
+// ============================================
+// LIVE ACTIVITY FEED
+// ============================================
+async function updateLiveActivity() {
+    try {
+        const response = await fetch('/app/api/live_activity.php');
+        const data = await response.json();
+
+        if (!data.success || !data.activities) return;
+
+        const container = document.getElementById('liveActivityFeed');
+        if (!container) return;
+
+        if (data.activities.length === 0) {
+            container.innerHTML = '<p class="text-gray-400 text-center py-4">No recent activity</p>';
+            return;
+        }
+
+        const activityIcons = {
+            'view': 'fa-eye text-blue-400',
+            'click': 'fa-mouse-pointer text-purple-400',
+            'contact': 'fa-phone text-green-400',
+            'like': 'fa-thumbs-up text-yellow-400',
+            'favorite': 'fa-heart text-red-400',
+            'dislike': 'fa-thumbs-down text-orange-400',
+            'favorited': 'fa-heart text-red-400',
+            'liked': 'fa-thumbs-up text-yellow-400'
+        };
+
+        container.innerHTML = data.activities.map(activity => `
+            <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fas ${activityIcons[activity.type] || 'fa-circle'} text-sm"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm">
+                        <span class="text-gray-400">${activity.location}</span>
+                        <span class="font-medium">${activity.action}</span>
+                        <span class="text-gray-400">on</span>
+                        <span class="truncate text-indigo-400">${escapeHtml(activity.ad_title)}</span>
+                    </p>
+                    <p class="text-xs text-gray-500">${activity.time_ago}</p>
+                </div>
+                <i class="fas fa-circle text-green-400 text-xs animate-pulse"></i>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error('Failed to load activity feed:', error);
+    }
+}
+
+// Refresh activity feed
+async function refreshActivityFeed() {
+    await updateLiveActivity();
+}
+
+// Auto-refresh every 30 seconds
+setInterval(updateLiveActivity, 30000);
+
+// ============================================
+// CONTACT METHODS ANALYTICS
+// ============================================
+let contactMethodsChart = null;
+let contactAnalyticsData = null;
+let visibleMethods = {
+    whatsapp: true,
+    call: true,
+    sms: true,
+    email: true
+};
+
+async function loadContactAnalytics() {
+    const dateRange = document.getElementById('contactDateRange')?.value || '30';
+
+    try {
+        const response = await fetch(`/app/api/contact_analytics.php?days=${dateRange}`);
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        contactAnalyticsData = data;
+
+        // Calculate total engagements
+        const total = data.contact_methods.whatsapp.count +
+                     data.contact_methods.call.count +
+                     data.contact_methods.sms.count +
+                     data.contact_methods.email.count;
+
+        // Update total engagement
+        document.getElementById('totalEngagements').textContent = total.toLocaleString();
+        document.getElementById('whatsappTotal').textContent = data.contact_methods.whatsapp.count.toLocaleString();
+        document.getElementById('callTotal').textContent = data.contact_methods.call.count.toLocaleString();
+        document.getElementById('smsTotal').textContent = data.contact_methods.sms.count.toLocaleString();
+        document.getElementById('emailTotal').textContent = data.contact_methods.email.count.toLocaleString();
+
+        // Update contact method counts
+        document.getElementById('whatsappCount').textContent = data.contact_methods.whatsapp.count.toLocaleString();
+        document.getElementById('callCount').textContent = data.contact_methods.call.count.toLocaleString();
+        document.getElementById('smsCount').textContent = data.contact_methods.sms.count.toLocaleString();
+        document.getElementById('emailCount').textContent = data.contact_methods.email.count.toLocaleString();
+
+        // Render contact methods line chart
+        renderContactMethodsChart(data.contact_methods);
+
+        // Display AI insights
+        displayContactInsights(data);
+
+    } catch (error) {
+        console.error('Failed to load contact analytics:', error);
+    }
+}
+
+async function updateContactAnalytics() {
+    await loadContactAnalytics();
+}
+
+function toggleContactMethod(method) {
+    const checkbox = document.getElementById(`show${method.charAt(0).toUpperCase() + method.slice(1)}`);
+    if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+        visibleMethods[method] = checkbox.checked;
+
+        if (contactAnalyticsData) {
+            renderContactMethodsChart(contactAnalyticsData.contact_methods);
+        }
+    }
+}
+
+function selectAllMethods() {
+    ['whatsapp', 'call', 'sms', 'email'].forEach(method => {
+        const checkbox = document.getElementById(`show${method.charAt(0).toUpperCase() + method.slice(1)}`);
+        if (checkbox) {
+            checkbox.checked = true;
+            visibleMethods[method] = true;
+        }
+    });
+
+    if (contactAnalyticsData) {
+        renderContactMethodsChart(contactAnalyticsData.contact_methods);
+    }
+}
+
+function deselectAllMethods() {
+    ['whatsapp', 'call', 'sms', 'email'].forEach(method => {
+        const checkbox = document.getElementById(`show${method.charAt(0).toUpperCase() + method.slice(1)}`);
+        if (checkbox) {
+            checkbox.checked = false;
+            visibleMethods[method] = false;
+        }
+    });
+
+    if (contactAnalyticsData) {
+        renderContactMethodsChart(contactAnalyticsData.contact_methods);
+    }
+}
+
+function renderContactMethodsChart(contactMethods) {
+    const ctx = document.getElementById('contactMethodsChart');
+    if (!ctx) return;
+
+    // Destroy existing chart if it exists
+    if (contactMethodsChart) {
+        contactMethodsChart.destroy();
+    }
+
+    const dates = contactMethods.whatsapp.trend.map(t => t.date);
+
+    // Build datasets based on visible methods
+    const datasets = [];
+
+    if (visibleMethods.whatsapp) {
+        datasets.push({
+            label: 'WhatsApp',
+            data: contactMethods.whatsapp.trend.map(t => t.count),
+            borderColor: '#25d366',
+            backgroundColor: 'rgba(37, 211, 102, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#25d366',
+            borderWidth: 2
+        });
+    }
+
+    if (visibleMethods.call) {
+        datasets.push({
+            label: 'Phone Call',
+            data: contactMethods.call.trend.map(t => t.count),
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#3b82f6',
+            borderWidth: 2
+        });
+    }
+
+    if (visibleMethods.sms) {
+        datasets.push({
+            label: 'SMS',
+            data: contactMethods.sms.trend.map(t => t.count),
+            borderColor: '#a855f7',
+            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#a855f7',
+            borderWidth: 2
+        });
+    }
+
+    if (visibleMethods.email) {
+        datasets.push({
+            label: 'Email',
+            data: contactMethods.email.trend.map(t => t.count),
+            borderColor: '#ef4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#ef4444',
+            borderWidth: 2
+        });
+    }
+
+    // Show message if no methods selected
+    if (datasets.length === 0) {
+        ctx.getContext('2d').clearRect(0, 0, ctx.width, ctx.height);
+        return;
+    }
+
+    contactMethodsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#fff',
+                        usePointStyle: true,
+                        padding: 15,
+                        font: {
+                            size: 12,
+                            weight: '600'
+                        }
+                    }
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#6366f1',
+                    borderWidth: 2,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y + ' contacts';
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#9ca3af',
+                        font: {
+                            size: 11
+                        },
+                        padding: 8
+                    },
+                    title: {
+                        display: true,
+                        text: 'Number of Contacts',
+                        color: '#9ca3af',
+                        font: {
+                            size: 12,
+                            weight: '600'
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#9ca3af',
+                        maxRotation: 45,
+                        minRotation: 45,
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            }
+        }
+    });
+}
+
+function displayContactInsights(data) {
+    const container = document.getElementById('contactInsights');
+    if (!container || !data.ai_insights) return;
+
+    const insights = data.ai_insights;
+
+    if (insights.length === 0) {
+        container.innerHTML = `
+            <div class="col-span-full glass-effect rounded-xl p-6 text-center">
+                <i class="fas fa-chart-line text-gray-600 text-4xl mb-3"></i>
+                <p class="text-gray-400">Not enough data yet. Insights will appear as users interact with your ads.</p>
+            </div>
+        `;
+        return;
+    }
+
+    const insightColors = {
+        'demographics': 'from-blue-500/20 to-purple-500/20 border-blue-500/50',
+        'contact_preference': 'from-green-500/20 to-emerald-500/20 border-green-500/50',
+        'timing': 'from-yellow-500/20 to-orange-500/20 border-yellow-500/50',
+        'content': 'from-pink-500/20 to-red-500/20 border-pink-500/50'
+    };
+
+    container.innerHTML = insights.map(insight => `
+        <div class="glass-effect bg-gradient-to-br ${insightColors[insight.type] || 'from-indigo-500/20 to-purple-500/20 border-indigo-500/50'} border rounded-xl p-5 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <i class="fas ${insight.icon} text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-lg mb-1">${escapeHtml(insight.title)}</h4>
+                    <p class="text-sm text-gray-200 mb-2">${escapeHtml(insight.message)}</p>
+                </div>
+            </div>
+            <div class="bg-black/30 rounded-lg p-3 mt-3">
+                <p class="text-xs text-gray-300 flex items-start gap-2">
+                    <i class="fas fa-lightbulb text-yellow-400 mt-0.5"></i>
+                    <span><strong>Recommendation:</strong> ${escapeHtml(insight.recommendation)}</span>
+                </p>
+            </div>
+        </div>
+    `).join('');
 }
 
 // ============================================

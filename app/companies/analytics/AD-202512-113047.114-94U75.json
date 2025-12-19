@@ -1,8 +1,8 @@
 {
     "ad_id": "AD-202512-113047.114-94U75",
-    "total_views": 5,
+    "total_views": 21,
     "total_clicks": 0,
-    "total_contacts": 0,
+    "total_contacts": 7,
     "events": [
         {
             "type": "view",
@@ -60,9 +60,349 @@
                 "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
                 "page": "\/"
             }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766098088,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 3253
+        },
+        {
+            "type": "view",
+            "timestamp": 1766098089,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766125247,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 27157
+        },
+        {
+            "type": "view",
+            "timestamp": 1766125251,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766125941,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766126090,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766126168,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 77
+        },
+        {
+            "type": "view",
+            "timestamp": 1766128169,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766128180,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "call",
+                "timestamp": 1766128180389
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766128180,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 10
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766128194,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "call",
+                "timestamp": 1766128194622
+            }
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766129826,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "whatsapp",
+                "timestamp": 1766129826284
+            }
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766129830,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "whatsapp",
+                "timestamp": 1766129830366
+            }
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766129835,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "whatsapp",
+                "timestamp": 1766129834983
+            }
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766129839,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "sms",
+                "timestamp": 1766129839265
+            }
+        },
+        {
+            "type": "contact",
+            "timestamp": 1766129843,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "method": "sms",
+                "timestamp": 1766129843114
+            }
+        },
+        {
+            "type": "unfavorite",
+            "timestamp": 1766130125,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "action": "unfavorited"
+        },
+        {
+            "type": "favorite",
+            "timestamp": 1766130127,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "action": "favorited"
+        },
+        {
+            "type": "like",
+            "timestamp": 1766130165,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "action": "liked"
+        },
+        {
+            "type": "view",
+            "timestamp": 1766131171,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766131174,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 3
+        },
+        {
+            "type": "view",
+            "timestamp": 1766149166,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766149611,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766149616,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 5
+        },
+        {
+            "type": "view",
+            "timestamp": 1766149705,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766149742,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 36
+        },
+        {
+            "type": "view",
+            "timestamp": 1766149744,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766149749,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 4
+        },
+        {
+            "type": "view",
+            "timestamp": 1766149829,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766149848,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766150026,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 177
+        },
+        {
+            "type": "view",
+            "timestamp": 1766150027,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766150030,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 3
+        },
+        {
+            "type": "view",
+            "timestamp": 1766150551,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766150563,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 12
+        },
+        {
+            "type": "view",
+            "timestamp": 1766150563,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "http:\/\/localhost:8001\/app\/companies\/home\/my_ads.php",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766151861,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766151881,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 20
         }
     ],
-    "updated_at": 1766094834,
-    "total_time_spent": 658,
-    "avg_time_spent": 658
+    "updated_at": 1766151881,
+    "total_time_spent": 31415,
+    "avg_time_spent": 2416.54,
+    "last_contact": 1766129843,
+    "total_unfavorites": 1,
+    "current_favorites": 1,
+    "total_favorites": 1,
+    "total_likes": 1
 }

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test - AdSphere</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #1a1a1a; color: white; }
+        .test-section { background: #2a2a2a; padding: 20px; margin: 10px 0; border-radius: 8px; }
+        .success { color: #4ade80; }
+        .error { color: #ef4444; }
+        pre { background: #000; padding: 15px; border-radius: 4px; overflow-x: auto; }
+        button { background: #6366f1; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #4f46e5; }
+    </style>
+</head>
+<body>
+    <h1>🔍 API Diagnostics</h1>
+
+    <div class="test-section">
+        <h2>Test 1: Get Ads API</h2>
+        <button onclick="testGetAds()">Run Test</button>
+        <div id="getAdsResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Dashboard Stats API</h2>
+        <button onclick="testDashboardStats()">Run Test</button>
+        <div id="dashboardStatsResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Get Analytics API</h2>
+        <button onclick="testAnalytics()">Run Test</button>
+        <div id="analyticsResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Live Activity API</h2>
+        <button onclick="testLiveActivity()">Run Test</button>
+        <div id="liveActivityResult"></div>
+    </div>
+
+    <script>
+        async function testGetAds() {
+            const result = document.getElementById('getAdsResult');
+            result.innerHTML = '<p>Testing...</p>';
+
+            try {
+                const response = await fetch('/app/api/get_ads.php');
+                const data = await response.json();
+
+                result.innerHTML = `
+                    <p class="success">✅ Success!</p>
+                    <p>Total Ads: ${data.total}</p>
+                    <p>Returned: ${data.ads.length} ads</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testDashboardStats() {
+            const result = document.getElementById('dashboardStatsResult');
+            result.innerHTML = '<p>Testing...</p>';
+
+            try {
+                const response = await fetch('/app/api/dashboard_stats.php');
+                const text = await response.text();
+
+                // Try to parse as JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    result.innerHTML = `
+                        <p class="error">❌ Error: API returned HTML instead of JSON</p>
+                        <p class="error">This usually means:</p>
+                        <ul style="text-align: left; margin-left: 20px;">
+                            <li>You're not logged in (Session expired)</li>
+                            <li>PHP error in the API</li>
+                        </ul>
+                        <p><strong>Solution:</strong> <a href="/app/companies/handlers/login.php" style="color: #6366f1;">Login here</a> then refresh this page</p>
+                        <details>
+                            <summary>Raw Response (click to expand)</summary>
+                            <pre>${text.substring(0, 500)}</pre>
+                        </details>
+                    `;
+                    return;
+                }
+
+                if (data.success) {
+                    result.innerHTML = `
+                        <p class="success">✅ Success!</p>
+                        <p>Total Ads: ${data.data.overview.total_ads}</p>
+                        <p>Total Views: ${data.data.performance.total_views}</p>
+                        <pre>${JSON.stringify(data, null, 2).substring(0, 1000)}...</pre>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <p class="error">❌ Error: ${data.message}</p>
+                        <p>You need to be logged in to access this API.</p>
+                        <p><a href="/app/companies/handlers/login.php" style="color: #6366f1;">Login here</a></p>
+                    `;
+                }
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testAnalytics() {
+            const result = document.getElementById('analyticsResult');
+            result.innerHTML = '<p>Testing...</p>';
+
+            try {
+                const response = await fetch('/app/api/get_analytics.php');
+                const data = await response.json();
+
+                result.innerHTML = `
+                    <p class="${data.success ? 'success' : 'error'}">${data.success ? '✅' : '❌'} ${data.message || 'Response received'}</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testLiveActivity() {
+            const result = document.getElementById('liveActivityResult');
+            result.innerHTML = '<p>Testing...</p>';
+
+            try {
+                const response = await fetch('/app/api/live_activity.php');
+                const text = await response.text();
+
+                // Try to parse as JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    result.innerHTML = `
+                        <p class="error">❌ Error: API returned HTML instead of JSON</p>
+                        <p class="error">This usually means:</p>
+                        <ul style="text-align: left; margin-left: 20px;">
+                            <li>You're not logged in (Session expired)</li>
+                            <li>PHP error in the API</li>
+                        </ul>
+                        <p><strong>Solution:</strong> <a href="/app/companies/handlers/login.php" style="color: #6366f1;">Login here</a> then refresh this page</p>
+                        <details>
+                            <summary>Raw Response (click to expand)</summary>
+                            <pre>${text.substring(0, 500)}</pre>
+                        </details>
+                    `;
+                    return;
+                }
+
+                if (data.success) {
+                    result.innerHTML = `
+                        <p class="success">✅ Success!</p>
+                        <p>Total Activities: ${data.total}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <p class="error">❌ Error: ${data.message}</p>
+                        <p>You need to be logged in to access this API.</p>
+                        <p><a href="/app/companies/handlers/login.php" style="color: #6366f1;">Login here</a></p>
+                    `;
+                }
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            console.log('🔍 API Test Page Loaded');
+            console.log('Click buttons to test each API endpoint');
+        });
+    </script>
+</body>
+</html>
+

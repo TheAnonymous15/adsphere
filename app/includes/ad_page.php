@@ -2,11 +2,18 @@
 
         <!-- FILTERS -->
         <div class="sticky top-0 bg-black/30 backdrop-blur-xl shadow py-4 z-50">
-            <div class="max-w-7xl mx-auto flex justify-between items-center px-3 gap-3">
+            <div class="max-w-7xl mx-auto flex justify-between items-center px-3 gap-3 flex-wrap">
 
-                <input id="search"
-                    class="text-black px-3 py-2 rounded w-44 sm:w-56 md:w-80"
-                    placeholder="Search ads">
+                <div class="relative flex-1 min-w-[200px]">
+                    <input id="search"
+                        class="text-black px-3 py-2 rounded w-full pr-12"
+                        placeholder="Search ads or speak...">
+                    <button id="voiceSearchBtn"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center transition-all"
+                        title="Voice Search">
+                        <i class="fas fa-microphone text-white text-sm"></i>
+                    </button>
+                </div>
 
                 <select id="categoryFilter"
                     class="text-black rounded px-3 py-2">
@@ -18,6 +25,7 @@
                     <option value="date">Latest</option>
                     <option value="views">Most Viewed</option>
                     <option value="favs">Favorites</option>
+                    <option value="ai">AI Recommended</option>
                 </select>
 
                 <button id="btnSearch"
@@ -25,6 +33,14 @@
                     Go
                 </button>
 
+            </div>
+
+            <!-- Voice Search Status -->
+            <div id="voiceStatus" class="hidden max-w-7xl mx-auto px-3 mt-2">
+                <div class="bg-indigo-600/20 border border-indigo-600 rounded-lg px-4 py-2 text-sm flex items-center gap-2">
+                    <i class="fas fa-microphone-alt animate-pulse"></i>
+                    <span id="voiceStatusText">Listening...</span>
+                </div>
             </div>
         </div>
 
@@ -147,6 +163,102 @@ let activeContact = {};
 let userProfile = null;
 let deviceReady = false;
 let personalizedAds = [];
+
+// ==============================
+// VOICE SEARCH
+// ==============================
+let recognition = null;
+let isVoiceSearching = false;
+
+function initVoiceSearch() {
+  // Check if browser supports speech recognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.warn('Voice search not supported in this browser');
+    document.getElementById('voiceSearchBtn')?.classList.add('hidden');
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  recognition.onstart = () => {
+    isVoiceSearching = true;
+    const btn = document.getElementById('voiceSearchBtn');
+    const status = document.getElementById('voiceStatus');
+    const statusText = document.getElementById('voiceStatusText');
+
+    btn.classList.add('animate-pulse', 'bg-red-600');
+    btn.classList.remove('bg-indigo-600');
+    status.classList.remove('hidden');
+    statusText.textContent = 'Listening... Speak now';
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const searchInput = document.getElementById('search');
+
+    // Set the transcribed text to search box
+    searchInput.value = transcript;
+
+    // Show feedback
+    const statusText = document.getElementById('voiceStatusText');
+    statusText.textContent = `Heard: "${transcript}"`;
+
+    // Auto-trigger search after 1 second
+    setTimeout(() => {
+      document.getElementById('btnSearch').click();
+    }, 1000);
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Voice search error:', event.error);
+    const statusText = document.getElementById('voiceStatusText');
+
+    if (event.error === 'no-speech') {
+      statusText.textContent = 'No speech detected. Try again.';
+    } else if (event.error === 'not-allowed') {
+      statusText.textContent = 'Microphone access denied.';
+    } else {
+      statusText.textContent = 'Error: ' + event.error;
+    }
+
+    setTimeout(() => {
+      document.getElementById('voiceStatus').classList.add('hidden');
+    }, 3000);
+  };
+
+  recognition.onend = () => {
+    isVoiceSearching = false;
+    const btn = document.getElementById('voiceSearchBtn');
+    btn.classList.remove('animate-pulse', 'bg-red-600');
+    btn.classList.add('bg-indigo-600');
+
+    setTimeout(() => {
+      document.getElementById('voiceStatus').classList.add('hidden');
+    }, 2000);
+  };
+}
+
+// Initialize voice search on page load
+initVoiceSearch();
+
+// Voice search button click handler
+document.getElementById('voiceSearchBtn')?.addEventListener('click', () => {
+  if (!recognition) {
+    alert('Voice search is not supported in your browser. Please use Chrome, Edge, or Safari.');
+    return;
+  }
+
+  if (isVoiceSearching) {
+    recognition.stop();
+  } else {
+    recognition.start();
+  }
+});
 
 // Rate limiting for contact actions
 const contactAttempts = new Map();

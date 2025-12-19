@@ -82,8 +82,12 @@ foreach (scandir($dataBase) as $category) {
         $meta = json_decode(file_get_contents($metaFile), true);
         if (!$meta) continue;
 
+        // Use folder name as ad_id if not present
+        $adId = $meta['ad_id'] ?? $adFolder;
+        $meta['ad_id'] = $adId;
+
         // Get analytics
-        $analyticsFile = "$analyticsBase/{$meta['ad_id']}.json";
+        $analyticsFile = "$analyticsBase/$adId.json";
         $analytics = ['total_views' => 0, 'total_contacts' => 0, 'total_clicks' => 0, 'events' => []];
         if (file_exists($analyticsFile)) {
             $analytics = json_decode(file_get_contents($analyticsFile), true);
