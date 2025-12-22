@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/app/assets/css/all.min.css">
-<script src="/app/assets/css/tailwind.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
 <!-- ===================== CONTACT MODAL ===================== -->
 <div id="contactModals" class="fixed bottom-6 right-6 z-50 hidden">

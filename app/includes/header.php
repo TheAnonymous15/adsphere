@@ -1,4 +1,4 @@
-  <script src="/app/assets/css/tailwind.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
 
 <header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">

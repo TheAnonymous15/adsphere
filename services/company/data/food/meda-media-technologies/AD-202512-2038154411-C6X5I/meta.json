@@ -1,0 +1,42 @@
+{
+    "ad_id": "AD-202512-2038154411-C6X5I",
+    "title": "Weapons for sale",
+    "description": "Guns for sale",
+    "category": "food",
+    "company": "meda-media-technologies",
+    "media": [
+        "AD-202512-2038154411-C6X5I_1.jpg",
+        "AD-202512-2038154411-C6X5I_2.jpg",
+        "AD-202512-2038154411-C6X5I_3.jpg",
+        "AD-202512-2038154411-C6X5I_4.jpg"
+    ],
+    "media_type": "image",
+    "primary_media": "AD-202512-2038154411-C6X5I_1.jpg",
+    "timestamp": 1766176695,
+    "contact": {
+        "phone": "0726781724",
+        "sms": "0726781724",
+        "email": "ld@mega.com",
+        "whatsapp": "0726781724"
+    },
+    "ai_moderation": {
+        "timestamp": "2025-12-19 20:38:15",
+        "overall_status": "APPROVED",
+        "safety_score": 100,
+        "processing_time": "2.2ms",
+        "issues_found": 0,
+        "warnings_found": 4,
+        "flags": [],
+        "copyright_risk": "low",
+        "details": {
+            "content_issues": [],
+            "warnings": [
+                "Could not read image: AD-202512-2038154411-C6X5I_1.jpg",
+                "Could not read image: AD-202512-2038154411-C6X5I_2.jpg",
+                "Could not read image: AD-202512-2038154411-C6X5I_3.jpg",
+                "Could not read image: AD-202512-2038154411-C6X5I_4.jpg"
+            ],
+            "copyright_concerns": []
+        }
+    }
+}

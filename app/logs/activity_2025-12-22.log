@@ -1,0 +1,2 @@
+{"timestamp":"2025-12-22T15:42:13+03:00","action":"admin_login_failed","user_type":null,"user":"anonymous","ip":"::1","details":{"username":"admin"}}
+{"timestamp":"2025-12-22T15:42:22+03:00","action":"admin_login_failed","user_type":null,"user":"anonymous","ip":"::1","details":{"username":"admin"}}

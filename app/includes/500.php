@@ -7,7 +7,7 @@ $currentPage = '500';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/app/assets/css/tailwind.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>500 - System Failure | AdSphere</title>
 
   <style>

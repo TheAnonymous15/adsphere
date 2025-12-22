@@ -1,0 +1,413 @@
+# =============================================================================
+# AdSphere Moderation Service - Production Docker Compose
+# =============================================================================
+#
+# SCALABLE ARCHITECTURE:
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │                         EXTERNAL CLIENTS                                 │
+# │                    (PHP App, Admin Dashboard)                            │
+# └─────────────────────────────┬───────────────────────────────────────────┘
+#                               │
+#                               ▼ Port 8002
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │                      NGINX LOAD BALANCER                                 │
+# │  - HTTP/WebSocket routing                                                │
+# │  - Rate limiting                                                         │
+# │  - SSL termination                                                       │
+# └─────────────────────────────┬───────────────────────────────────────────┘
+#                               │
+#         ┌─────────────────────┼─────────────────────┐
+#         ▼                     ▼                     ▼
+# ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+# │ moderation-api│     │ moderation-api│     │ moderation-api│
+# │   Instance 1  │     │   Instance 2  │     │   Instance N  │
+# └───────┬───────┘     └───────┬───────┘     └───────┬───────┘
+#         │                     │                     │
+#         └─────────────────────┼─────────────────────┘
+#                               │
+#         ┌─────────────────────┼─────────────────────┐
+#         ▼                     ▼                     ▼
+# ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+# │    REDIS      │     │ scanner-worker│     │ video-worker  │
+# │ (Cache+Queue) │     │   (2 replicas)│     │   (2 replicas)│
+# └───────────────┘     └───────────────┘     └───────────────┘
+#
+# Usage:
+#   # Start all services
+#   docker-compose -f docker-compose.prod.yml up -d
+#
+#   # Scale API instances
+#   docker-compose -f docker-compose.prod.yml up -d --scale moderation-api=8
+#
+#   # Scale workers
+#   docker-compose -f docker-compose.prod.yml up -d --scale scanner-worker=4 --scale video-worker=4
+#
+#   # View logs
+#   docker-compose -f docker-compose.prod.yml logs -f moderation-api
+#
+#   # Check status
+#   docker-compose -f docker-compose.prod.yml ps
+#
+# =============================================================================
+
+version: '3.8'
+
+x-common-env: &common-env
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  LOG_LEVEL: INFO
+  CACHE_BACKEND: redis
+  DB_PATH: /app/data/adsphere.db
+  PYTHONUNBUFFERED: 1
+
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+
+services:
+  # ===========================================================================
+  # NGINX LOAD BALANCER - Entry point for ALL traffic (HTTP + WebSocket)
+  # ===========================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: moderation-nginx
+    ports:
+      - "8002:80"      # Main API + WebSocket
+      - "8443:443"     # HTTPS (optional, needs certs)
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro  # SSL certificates (optional)
+    depends_on:
+      moderation-api:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - moderation-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===========================================================================
+  # MODERATION API - Main FastAPI service (horizontally scalable)
+  # Handles: REST + WebSocket + All moderation endpoints
+  # ===========================================================================
+  moderation-api:
+    build:
+      context: ./moderation_service
+      dockerfile: Dockerfile
+    # Scale: docker-compose up -d --scale moderation-api=N
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    environment:
+      <<: *common-env
+      WORKERS: 4
+      WS_ENABLED: "true"
+      MAX_WS_CONNECTIONS: 1000
+      INSTANCE_ID: "api-{{.Task.Slot}}"
+    volumes:
+      - ./models_weights:/app/models_weights:ro
+      - ads_data:/app/data
+      - ./moderation_service/app:/app/app:ro  # Hot reload in dev
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      <<: *healthcheck-defaults
+    networks:
+      - moderation-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ===========================================================================
+  # REALTIME SCANNER WORKER - Background ad scanning
+  # ===========================================================================
+  scanner-worker:
+    build:
+      context: ./moderation_service
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.workers.scanner_worker"]
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    environment:
+      <<: *common-env
+      MODE: worker
+      WORKER_TYPE: scanner
+      SCAN_INTERVAL: 30
+      SCAN_BATCH_SIZE: 100
+    volumes:
+      - ./models_weights:/app/models_weights:ro
+      - ads_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+      moderation-api:
+        condition: service_healthy
+    restart: always
+    networks:
+      - moderation-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  # ===========================================================================
+  # VIDEO PROCESSING WORKER - Heavy video moderation tasks
+  # ===========================================================================
+  video-worker:
+    build:
+      context: ./moderation_service
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.workers.video_worker"]
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    environment:
+      <<: *common-env
+      MODE: worker
+      WORKER_TYPE: video
+      QUEUE_NAME: video_jobs
+      MAX_VIDEO_DURATION: 300
+      FPS_EXTRACTION: 2
+    volumes:
+      - ./models_weights:/app/models_weights:ro
+      - video_temp:/tmp/videos
+      - ads_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+    networks:
+      - moderation-net
+    # Uncomment for GPU support:
+    # runtime: nvidia
+    # environment:
+    #   - NVIDIA_VISIBLE_DEVICES=all
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ===========================================================================
+  # IMAGE PROCESSING WORKER - Image security & compression
+  # ===========================================================================
+  image-worker:
+    build:
+      context: ./moderation_service
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.workers.image_worker"]
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+    environment:
+      <<: *common-env
+      MODE: worker
+      WORKER_TYPE: image
+      QUEUE_NAME: image_jobs
+      MAX_IMAGE_SIZE: 52428800  # 50MB
+      TARGET_SIZE: 1048576      # 1MB compression target
+    volumes:
+      - ./models_weights:/app/models_weights:ro
+      - image_temp:/tmp/images
+      - ads_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+    networks:
+      - moderation-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  # ===========================================================================
+  # TEXT PROCESSING WORKER - Text moderation (NLP heavy)
+  # ===========================================================================
+  text-worker:
+    build:
+      context: ./moderation_service
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.workers.text_worker"]
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+    environment:
+      <<: *common-env
+      MODE: worker
+      WORKER_TYPE: text
+      QUEUE_NAME: text_jobs
+    volumes:
+      - ./models_weights:/app/models_weights:ro
+      - ads_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+    networks:
+      - moderation-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  # ===========================================================================
+  # REDIS - Distributed cache, job queue, pub/sub for WebSocket
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: moderation-redis
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --tcp-keepalive 300
+      --timeout 0
+      --tcp-backlog 511
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - moderation-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===========================================================================
+  # PROMETHEUS - Metrics collection
+  # ===========================================================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: moderation-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    restart: always
+    networks:
+      - moderation-net
+    profiles:
+      - monitoring
+
+  # ===========================================================================
+  # GRAFANA - Metrics visualization
+  # ===========================================================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: moderation-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+    restart: always
+    networks:
+      - moderation-net
+    profiles:
+      - monitoring
+
+  # ===========================================================================
+  # REDIS COMMANDER - Redis GUI (development only)
+  # ===========================================================================
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: moderation-redis-gui
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    depends_on:
+      - redis
+    restart: always
+    networks:
+      - moderation-net
+    profiles:
+      - dev
+
+volumes:
+  redis_data:
+    driver: local
+  ads_data:
+    driver: local
+  video_temp:
+    driver: local
+  image_temp:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  moderation-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+

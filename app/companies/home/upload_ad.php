@@ -139,6 +139,89 @@ function compressImage($sourcePath, $destPath, $maxSizeKB = 1024, $quality = 90)
     return false;
 }
 
+/******************************
+ * PROCESS IMAGE THROUGH SECURITY PIPELINE
+ * Pipeline: Scan → Sanitize → Compress → OCR
+ * Returns processed (safe) image data
+ ******************************/
+function processImageThroughPipeline($inputPath, $outputPath, $moderationClient = null) {
+    $result = [
+        'success' => false,
+        'sanitized' => false,
+        'compressed' => false,
+        'threats_found' => [],
+        'warnings' => [],
+        'ocr_text' => null
+    ];
+
+    // Method 1: Try the moderation service API
+    if ($moderationClient !== null) {
+        try {
+            $apiResult = $moderationClient->processImage($inputPath, [
+                'output_format' => 'webp',
+                'target_size' => 1024 * 1024
+            ]);
+
+            if ($apiResult && isset($apiResult['success']) && $apiResult['success']) {
+                // API returned processed image as base64
+                if (isset($apiResult['processed_image'])) {
+                    $imageData = base64_decode($apiResult['processed_image']);
+                    if ($imageData && file_put_contents($outputPath, $imageData)) {
+                        $result['success'] = true;
+                        $result['sanitized'] = $apiResult['sanitized'] ?? true;
+                        $result['compressed'] = $apiResult['compressed'] ?? true;
+                        $result['threats_found'] = $apiResult['threats_found'] ?? [];
+                        $result['warnings'] = $apiResult['warnings'] ?? [];
+                        $result['ocr_text'] = $apiResult['ocr_text'] ?? null;
+                        return $result;
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            error_log("[PIPELINE] API method failed: " . $e->getMessage());
+        }
+    }
+
+    // Method 2: Try local Python CLI processing
+    $pythonScript = __DIR__ . '/../../moderator_services/process_image_cli.py';
+
+    if (file_exists($pythonScript)) {
+        $cmd = sprintf(
+            'python3 %s %s %s --json 2>&1',
+            escapeshellarg($pythonScript),
+            escapeshellarg($inputPath),
+            escapeshellarg($outputPath)
+        );
+
+        $output = shell_exec($cmd);
+
+        if ($output) {
+            $jsonResult = json_decode($output, true);
+            if ($jsonResult && isset($jsonResult['success']) && $jsonResult['success']) {
+                if (file_exists($outputPath)) {
+                    $result['success'] = true;
+                    $result['sanitized'] = $jsonResult['sanitized'] ?? false;
+                    $result['compressed'] = $jsonResult['compressed'] ?? false;
+                    $result['threats_found'] = $jsonResult['threats_found'] ?? [];
+                    $result['warnings'] = $jsonResult['warnings'] ?? [];
+                    return $result;
+                }
+            }
+        }
+
+        error_log("[PIPELINE] Python CLI output: " . ($output ?? 'null'));
+    }
+
+    // Method 3: Fallback - just copy the file (no processing)
+    if (copy($inputPath, $outputPath)) {
+        $result['success'] = true;
+        $result['warnings'][] = 'Pipeline unavailable, using original image';
+        error_log("[PIPELINE] Using fallback copy for: " . $inputPath);
+    }
+
+    return $result;
+}
+
 // generate UUID
 function generate_ad_id(){
     $micro = microtime(true);
@@ -214,6 +297,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             } else {
                 // Handle multiple images upload (up to 4)
+                // NEW: Uses security pipeline: Scan → Sanitize → Compress → OCR
                 $imageCount = 0;
                 $compressionInfo = [];
                 $allowedImageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -230,25 +314,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $originalSize = $_FILES["images"]["size"][$i];
                         $originalSizeKB = round($originalSize / 1024, 2);
 
-                        $imageName = $adId . "_" . ($i + 1) . ".jpg"; // Always save as JPG after compression
+                        // Save as WebP after pipeline processing
+                        $imageName = $adId . "_" . ($i + 1) . ".webp";
                         $tempPath = $_FILES["images"]["tmp_name"][$i];
                         $destPath = "$adDir/$imageName";
 
-                        // Compress image (will skip if already under 1MB)
-                        if (!compressImage($tempPath, $destPath, 1024, 90)) {
-                            throw new Exception("❌ Failed to process image " . ($i + 1));
+                        // ===== NEW: Process through security pipeline =====
+                        // Pipeline: Scan → Sanitize → Compress to WebP ≤ 1MB
+                        $pipelineResult = processImageThroughPipeline($tempPath, $destPath, $moderationClient);
+
+                        if (!$pipelineResult['success']) {
+                            // Fallback to old compression method
+                            error_log("[UPLOAD] Pipeline failed for image " . ($i + 1) . ", using fallback");
+                            $imageName = $adId . "_" . ($i + 1) . ".jpg";
+                            $destPath = "$adDir/$imageName";
+                            if (!compressImage($tempPath, $destPath, 1024, 90)) {
+                                throw new Exception("❌ Failed to process image " . ($i + 1));
+                            }
+                            $pipelineResult = [
+                                'success' => true,
+                                'sanitized' => false,
+                                'compressed' => true,
+                                'threats_found' => [],
+                                'warnings' => ['Used fallback compression']
+                            ];
                         }
 
                         $finalSize = filesize($destPath);
                         $finalSizeKB = round($finalSize / 1024, 2);
 
                         $wasCompressed = $originalSize > (1024 * 1024);
+                        $wasSanitized = $pipelineResult['sanitized'] ?? false;
+                        $threatsRemoved = $pipelineResult['threats_found'] ?? [];
 
                         $compressionInfo[] = [
                             'name' => $_FILES["images"]["name"][$i],
                             'original' => $originalSizeKB,
                             'final' => $finalSizeKB,
-                            'compressed' => $wasCompressed
+                            'compressed' => $wasCompressed,
+                            'sanitized' => $wasSanitized,
+                            'threats_removed' => $threatsRemoved,
+                            'pipeline_warnings' => $pipelineResult['warnings'] ?? []
                         ];
 
                         $uploadedFiles[] = $imageName;
@@ -267,11 +373,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'count' => $imageCount
                 ];
 
-                // Build message with compression info
+                // Build message with compression and security info
                 $compressedCount = count(array_filter($compressionInfo, fn($info) => $info['compressed']));
+                $sanitizedCount = count(array_filter($compressionInfo, fn($info) => $info['sanitized']));
+                $threatsRemovedTotal = array_sum(array_map(fn($info) => count($info['threats_removed'] ?? []), $compressionInfo));
+
                 $msg = "✅ {$imageCount} image(s) uploaded successfully!";
+
+                $extras = [];
                 if ($compressedCount > 0) {
-                    $msg .= " ({$compressedCount} compressed to <1MB)";
+                    $extras[] = "{$compressedCount} compressed to <1MB";
+                }
+                if ($sanitizedCount > 0) {
+                    $extras[] = "{$sanitizedCount} security-sanitized";
+                }
+                if ($threatsRemovedTotal > 0) {
+                    $extras[] = "{$threatsRemovedTotal} threat(s) removed";
+                }
+                if (!empty($extras)) {
+                    $msg .= " (" . implode(", ", $extras) . ")";
                 }
             }
 
@@ -467,7 +587,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Ad - Professional</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-20px); }

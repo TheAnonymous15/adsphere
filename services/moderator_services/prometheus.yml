@@ -1,0 +1,102 @@
+# =============================================================================
+# Prometheus Configuration for AdSphere Moderation Service
+# =============================================================================
+#
+# REPLICAS = MORE POWER
+#
+# Each replica is an independent container that can handle requests.
+# More replicas = more concurrent processing capacity.
+#
+# Example with 4 API replicas:
+#   - 4 containers × 4 workers each = 16 concurrent handlers
+#   - ~400 requests/second capacity
+#   - If 1 container fails, 3 others continue serving
+#
+# =============================================================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'adsphere-moderation'
+
+# Alerting (optional - configure alertmanager)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Rule files (optional)
+rule_files: []
+
+scrape_configs:
+  # =========================================================================
+  # Prometheus self-monitoring
+  # =========================================================================
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # =========================================================================
+  # Moderation API instances
+  # With replicas, Prometheus scrapes each instance automatically
+  # =========================================================================
+  - job_name: 'moderation-api'
+    static_configs:
+      - targets: ['moderation-api:8000']
+    metrics_path: /metrics
+    scrape_interval: 10s
+
+  # =========================================================================
+  # Nginx Load Balancer (distributes traffic across replicas)
+  # =========================================================================
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx:80']
+    metrics_path: /health
+    scrape_interval: 10s
+
+  # =========================================================================
+  # Redis (shared cache/queue for all replicas)
+  # =========================================================================
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 30s
+
+  # =========================================================================
+  # Scanner workers (2 replicas = 2x scanning speed)
+  # =========================================================================
+  - job_name: 'scanner-worker'
+    static_configs:
+      - targets: ['scanner-worker:8000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # =========================================================================
+  # Video workers (2 replicas = process 2 videos simultaneously)
+  # =========================================================================
+  - job_name: 'video-worker'
+    static_configs:
+      - targets: ['video-worker:8000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # =========================================================================
+  # Image workers (2 replicas = process 2 images simultaneously)
+  # =========================================================================
+  - job_name: 'image-worker'
+    static_configs:
+      - targets: ['image-worker:8000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # =========================================================================
+  # Text workers (2 replicas = 2x text moderation capacity)
+  # =========================================================================
+  - job_name: 'text-worker'
+    static_configs:
+      - targets: ['text-worker:8000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+

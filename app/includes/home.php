@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdSphere | The Future of Digital Advertising</title>
     <link rel="icon" type="image/png" href="/app/assets/images/adsphere.ico">
-    <script src="/app/assets/css/tailwind.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/app/assets/css/all.min.css">
     <style>
         /* Shared Classes */

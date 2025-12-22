@@ -1,0 +1,177 @@
+# =============================================================================
+# AdSphere Microservices - Docker Compose
+# =============================================================================
+#
+# Runs all services in containers:
+#   - Public:     localhost:8001
+#   - Admin:      localhost:8002
+#   - Company:    localhost:8003
+#   - Moderation: localhost:8004 (AI/ML service)
+#
+# Usage:
+#   docker-compose -f docker-compose.services.yml up -d
+#
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # ===========================================================================
+  # PUBLIC FRONTEND - Port 8001
+  # Browse ads, no authentication required
+  # ===========================================================================
+  public:
+    image: php:8.2-apache
+    container_name: adsphere-public
+    ports:
+      - "8001:80"
+    volumes:
+      - ./services/public:/var/www/html/services/public:ro
+      - ./services/shared:/var/www/html/services/shared:ro
+      - ./app:/var/www/html/app:ro
+    environment:
+      - SERVICE_NAME=public
+      - SERVICE_PORT=8001
+    working_dir: /var/www/html
+    command: >
+      bash -c "
+        echo 'DirectoryIndex services/public/index.php' > /var/www/html/.htaccess &&
+        a]penny mod_rewrite &&
+        apache2-foreground
+      "
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - adsphere-net
+
+  # ===========================================================================
+  # ADMIN SERVICE - Port 8002
+  # Platform administration, requires 2FA
+  # ===========================================================================
+  admin:
+    image: php:8.2-apache
+    container_name: adsphere-admin
+    ports:
+      - "8002:80"
+    volumes:
+      - ./services/admin:/var/www/html/services/admin:ro
+      - ./services/shared:/var/www/html/services/shared:ro
+      - ./app:/var/www/html/app
+    environment:
+      - SERVICE_NAME=admin
+      - SERVICE_PORT=8002
+    working_dir: /var/www/html
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - adsphere-net
+
+  # ===========================================================================
+  # COMPANY SERVICE - Port 8003
+  # Company portal for advertisers
+  # ===========================================================================
+  company:
+    image: php:8.2-apache
+    container_name: adsphere-company
+    ports:
+      - "8003:80"
+    volumes:
+      - ./services/company:/var/www/html/services/company:ro
+      - ./services/shared:/var/www/html/services/shared:ro
+      - ./app:/var/www/html/app
+    environment:
+      - SERVICE_NAME=company
+      - SERVICE_PORT=8003
+    working_dir: /var/www/html
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - adsphere-net
+
+  # ===========================================================================
+  # MODERATION SERVICE - Port 8004
+  # AI/ML content moderation (Python FastAPI)
+  # ===========================================================================
+  moderation:
+    build:
+      context: ./app/moderator_services/moderation_service
+      dockerfile: Dockerfile
+    container_name: adsphere-moderation
+    ports:
+      - "8004:8000"
+    volumes:
+      - ./app/moderator_services/models_weights:/app/models_weights:ro
+      - ./app/database:/app/data
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVICE_NAME=moderation
+    restart: unless-stopped
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - adsphere-net
+
+  # ===========================================================================
+  # REDIS - Shared cache and message queue
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: adsphere-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - adsphere-net
+
+  # ===========================================================================
+  # NGINX GATEWAY (Optional) - Single entry point
+  # Routes traffic to appropriate service based on subdomain/path
+  # ===========================================================================
+  # gateway:
+  #   image: nginx:alpine
+  #   container_name: adsphere-gateway
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx-gateway.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - public
+  #     - admin
+  #     - company
+  #   networks:
+  #     - adsphere-net
+
+volumes:
+  redis_data:
+
+networks:
+  adsphere-net:
+    driver: bridge
+

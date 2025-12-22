@@ -1,0 +1,35 @@
+[
+  {
+    "id": "adult_001",
+    "text": "Escort services available 24/7. Beautiful girls waiting for you. Call now.",
+    "category": "adult_services",
+    "expected_decision": "block",
+    "expected_risk": "high",
+    "violation_type": "prostitution"
+  },
+  {
+    "id": "adult_002",
+    "text": "Hot singles in your area want to meet you tonight! Click here for explicit content.",
+    "category": "adult_services",
+    "expected_decision": "block",
+    "expected_risk": "high",
+    "violation_type": "adult_content"
+  },
+  {
+    "id": "adult_003",
+    "text": "Massage with happy ending available. Discreet location.",
+    "category": "adult_services",
+    "expected_decision": "block",
+    "expected_risk": "high",
+    "violation_type": "prostitution"
+  },
+  {
+    "id": "adult_004",
+    "text": "Looking for sugar daddy. Will provide companionship for financial support.",
+    "category": "adult_services",
+    "expected_decision": "review",
+    "expected_risk": "medium",
+    "violation_type": "transactional_relationship"
+  }
+]
+

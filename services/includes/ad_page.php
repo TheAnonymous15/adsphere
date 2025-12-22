@@ -1,0 +1,2206 @@
+<section id="ads-feed" class="w-full text-white mt-20">
+
+        <!-- FILTERS -->
+        <div class="sticky top-0 bg-black/30 backdrop-blur-xl shadow py-4 z-50">
+            <div class="max-w-7xl mx-auto flex justify-between items-center px-3 gap-3 flex-wrap">
+
+                <div class="relative flex-1 min-w-[200px]">
+                    <input id="search"
+                        class="text-black px-3 py-2 rounded w-full pr-12"
+                        placeholder="Search ads or speak...">
+                    <button id="voiceSearchBtn"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center transition-all"
+                        title="Voice Search">
+                        <i class="fas fa-microphone text-white text-sm"></i>
+                    </button>
+                </div>
+
+                <select id="categoryFilter"
+                    class="text-black rounded px-3 py-2">
+                    <option value="">All</option>
+                </select>
+
+                <select id="sortFilter"
+                    class="text-black rounded px-3 py-2">
+                    <option value="date">Latest</option>
+                    <option value="views">Most Viewed</option>
+                    <option value="favs">Favorites</option>
+                    <option value="ai">AI Recommended</option>
+                </select>
+
+                <button id="btnSearch"
+                    class="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-700 font-semibold">
+                    Go
+                </button>
+
+            </div>
+
+            <!-- Voice Search Status -->
+            <div id="voiceStatus" class="hidden max-w-7xl mx-auto px-3 mt-2">
+                <div class="bg-indigo-600/20 border border-indigo-600 rounded-lg px-4 py-2 text-sm flex items-center gap-2">
+                    <i class="fas fa-microphone-alt animate-pulse"></i>
+                    <span id="voiceStatusText">Listening...</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold mt-10 mb-4 px-4">
+            Latest Ads
+        </h2>
+
+        <p id="no-results" class="hidden text-center text-gray-300 py-12 text-lg">
+            No ads found.
+        </p>
+
+        <!-- cards -->
+        <div id="ads-grid"
+            class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 px-3">
+        </div>
+
+        <!-- loading -->
+        <div id="loading" class="hidden py-10 space-y-4">
+            <div class="animate-pulse flex flex-col gap-4">
+                <div class="rounded-xl bg-white/10 h-60"></div>
+                <div class="rounded bg-white/10 h-4 w-3/4"></div>
+                <div class="rounded bg-white/10 h-4 w-1/2"></div>
+            </div>
+        </div>
+    </section>
+
+<!-- ===================== CONTACT MODAL ===================== -->
+<div id="contactDealerModal"
+     class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
+
+  <div id="contactDealerCard"
+    class="w-11/12 max-w-lg rounded-2xl bg-slate-900 p-8 shadow-xl transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- HEADER -->
+    <div class="mb-5 flex items-center justify-between">
+      <h3 class="text-lg font-bold text-white">Contact Seller</h3>
+      <button id="closeDealerModalBtn" class="text-white text-xl hover:text-gray-300">&times;</button>
+    </div>
+
+    <!-- YOUR INFO -->
+    <div class="mb-4 space-y-3">
+      <input id="senderName" type="text" placeholder="Your Name" maxlength="50"
+        class="w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70
+               focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+
+      <input id="senderContact" type="text" placeholder="Your Phone/Email" maxlength="50"
+        class="w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70
+               focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+    </div>
+
+    <!-- MESSAGE -->
+    <textarea id="contactDealerMessage" rows="8" placeholder="Type your message..." maxlength="500"
+      class="mb-2 w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70
+             focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-sm"></textarea>
+    <div class="text-xs text-gray-400 text-right mb-4">
+      <span id="charCount">0</span>/500 characters
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="grid grid-cols-2 gap-2">
+      <button id="sendDealerWhatsApp" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 py-3 font-semibold hover:from-green-500 hover:to-emerald-400 transition-all duration-300 shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-2">
+        <i class="fab fa-whatsapp text-lg group-hover:scale-110 transition-transform"></i>
+        <span>WhatsApp</span>
+      </button>
+      <button id="sendDealerSMS" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 font-semibold hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2">
+        <i class="fas fa-sms text-lg group-hover:scale-110 transition-transform"></i>
+        <span>SMS</span>
+      </button>
+      <button id="sendDealerEmail" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 to-purple-500 py-3 font-semibold hover:from-indigo-500 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-indigo-500/30 flex items-center justify-center gap-2">
+        <i class="fas fa-envelope text-lg group-hover:scale-110 transition-transform"></i>
+        <span>Email</span>
+      </button>
+      <button id="callDealerNow" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-red-600 to-rose-500 py-3 font-semibold hover:from-red-500 hover:to-rose-400 transition-all duration-300 shadow-lg hover:shadow-red-500/30 flex items-center justify-center gap-2">
+        <i class="fas fa-phone-alt text-lg group-hover:scale-110 transition-transform"></i>
+        <span>Call</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ===================== BLOCK AD MODAL ===================== -->
+<div id="blockAdModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+  <div id="blockAdCard" class="w-full max-w-md rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-6 shadow-2xl border border-white/10 transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- Header with Icon -->
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-slate-700 to-slate-600 flex items-center justify-center">
+        <i class="fas fa-ban text-2xl text-white"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white">Block This Ad?</h3>
+      <p class="text-sm text-gray-400 mt-1">This ad won't appear in your feed anymore</p>
+    </div>
+
+    <!-- Ad Preview -->
+    <div id="blockAdPreview" class="bg-white/5 rounded-xl p-3 mb-4 border border-white/10">
+      <p id="blockAdTitle" class="font-medium text-white truncate"></p>
+    </div>
+
+    <!-- Reason Selection -->
+    <div class="mb-4">
+      <label class="text-sm text-gray-300 mb-2 block">Why are you blocking? (Optional)</label>
+      <div class="grid grid-cols-2 gap-2" id="blockReasons">
+        <button type="button" class="block-reason-btn px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white hover:bg-white/10 hover:border-indigo-500/50 transition-all" data-reason="not_relevant">
+          <i class="fas fa-times-circle mr-1 text-gray-400"></i>Not Relevant
+        </button>
+        <button type="button" class="block-reason-btn px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white hover:bg-white/10 hover:border-indigo-500/50 transition-all" data-reason="seen_too_often">
+          <i class="fas fa-redo mr-1 text-gray-400"></i>Seen Too Often
+        </button>
+        <button type="button" class="block-reason-btn px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white hover:bg-white/10 hover:border-indigo-500/50 transition-all" data-reason="misleading">
+          <i class="fas fa-exclamation mr-1 text-gray-400"></i>Misleading
+        </button>
+        <button type="button" class="block-reason-btn px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white hover:bg-white/10 hover:border-indigo-500/50 transition-all" data-reason="other">
+          <i class="fas fa-ellipsis-h mr-1 text-gray-400"></i>Other
+        </button>
+      </div>
+    </div>
+
+    <!-- Additional Comment -->
+    <div class="mb-5">
+      <textarea id="blockComment" rows="2" placeholder="Additional comments (optional)..." maxlength="200"
+        class="w-full rounded-xl border border-white/10 bg-white/5 p-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-sm"></textarea>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-3">
+      <button id="cancelBlockBtn" class="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium transition-all flex items-center justify-center gap-2 border border-white/10 hover:border-white/20">
+        <i class="fas fa-arrow-left"></i>
+        <span>Cancel</span>
+      </button>
+      <button id="confirmBlockBtn" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white font-medium transition-all shadow-lg hover:shadow-slate-500/30 flex items-center justify-center gap-2">
+        <i class="fas fa-ban"></i>
+        <span>Block Ad</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== REPORT AD MODAL ===================== -->
+<div id="reportAdModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+  <div id="reportAdCard" class="w-full max-w-md rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-6 shadow-2xl border border-white/10 transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- Header with Icon -->
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-600 to-rose-500 flex items-center justify-center">
+        <i class="fas fa-flag text-2xl text-white"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white">Report This Ad</h3>
+      <p class="text-sm text-gray-400 mt-1">Help us keep the community safe</p>
+    </div>
+
+    <!-- Ad Preview -->
+    <div id="reportAdPreview" class="bg-white/5 rounded-xl p-3 mb-4 border border-white/10">
+      <p id="reportAdTitle" class="font-medium text-white truncate"></p>
+    </div>
+
+    <!-- Report Reason Selection -->
+    <div class="mb-4">
+      <label class="text-sm text-gray-300 mb-2 block">What's wrong with this ad? <span class="text-red-400">*</span></label>
+      <div class="grid grid-cols-1 gap-2" id="reportReasons">
+        <button type="button" class="report-reason-btn px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white hover:bg-red-600/10 hover:border-red-500/50 transition-all text-left flex items-center" data-reason="spam">
+          <i class="fas fa-envelope-open-text w-8 text-gray-400"></i>
+          <div>
+            <span class="font-medium">Spam or Scam</span>
+            <p class="text-xs text-gray-500">Misleading offers or fake listings</p>
+          </div>
+        </button>
+        <button type="button" class="report-reason-btn px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white hover:bg-red-600/10 hover:border-red-500/50 transition-all text-left flex items-center" data-reason="inappropriate">
+          <i class="fas fa-ban w-8 text-gray-400"></i>
+          <div>
+            <span class="font-medium">Inappropriate Content</span>
+            <p class="text-xs text-gray-500">Adult, violent, or offensive material</p>
+          </div>
+        </button>
+        <button type="button" class="report-reason-btn px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white hover:bg-red-600/10 hover:border-red-500/50 transition-all text-left flex items-center" data-reason="illegal">
+          <i class="fas fa-gavel w-8 text-gray-400"></i>
+          <div>
+            <span class="font-medium">Illegal Product/Service</span>
+            <p class="text-xs text-gray-500">Prohibited or illegal items</p>
+          </div>
+        </button>
+        <button type="button" class="report-reason-btn px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white hover:bg-red-600/10 hover:border-red-500/50 transition-all text-left flex items-center" data-reason="counterfeit">
+          <i class="fas fa-copy w-8 text-gray-400"></i>
+          <div>
+            <span class="font-medium">Counterfeit or Stolen</span>
+            <p class="text-xs text-gray-500">Fake branded goods or stolen items</p>
+          </div>
+        </button>
+        <button type="button" class="report-reason-btn px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-white hover:bg-red-600/10 hover:border-red-500/50 transition-all text-left flex items-center" data-reason="other">
+          <i class="fas fa-ellipsis-h w-8 text-gray-400"></i>
+          <div>
+            <span class="font-medium">Other</span>
+            <p class="text-xs text-gray-500">Something else not listed above</p>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Additional Details -->
+    <div class="mb-5">
+      <label class="text-sm text-gray-300 mb-2 block">Additional details (optional)</label>
+      <textarea id="reportDetails" rows="3" placeholder="Please provide more information to help us investigate..." maxlength="500"
+        class="w-full rounded-xl border border-white/10 bg-white/5 p-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none text-sm"></textarea>
+      <div class="text-xs text-gray-500 text-right mt-1"><span id="reportCharCount">0</span>/500</div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-3">
+      <button id="cancelReportBtn" class="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium transition-all flex items-center justify-center gap-2 border border-white/10 hover:border-white/20">
+        <i class="fas fa-arrow-left"></i>
+        <span>Cancel</span>
+      </button>
+      <button id="confirmReportBtn" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-500 hover:from-red-500 hover:to-rose-400 text-white font-medium transition-all shadow-lg hover:shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
+        <i class="fas fa-paper-plane"></i>
+        <span>Submit Report</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+    <script>
+/*
+  ============================================
+  ADS FEED SCRIPT (REWRITTEN & FIXED)
+  - Fixes modal button click issues
+  - Proper event propagation handling
+  - Clean structure & comments
+  ============================================
+*/
+
+// ==============================
+// DEBUGGING SYSTEM
+// ==============================
+const DEBUG = true; // Set to false to disable all debug logs
+
+function debugLog(category, message, data = null) {
+  if (!DEBUG) return;
+
+  const emoji = {
+    'init': '🚀',
+    'element': '🔍',
+    'api': '📡',
+    'response': '📥',
+    'render': '🎨',
+    'success': '✅',
+    'error': '❌',
+    'warning': '⚠️',
+    'info': 'ℹ️',
+    'data': '📊'
+  };
+
+  const icon = emoji[category] || '📝';
+  const timestamp = new Date().toLocaleTimeString();
+
+  console.log(`[${timestamp}] ${icon} ${category.toUpperCase()}: ${message}`);
+  if (data !== null) {
+    console.log('  └─ Data:', data);
+  }
+}
+
+// Log script start
+debugLog('init', 'Ad page script loading...');
+
+// ==============================
+// GLOBAL STATE
+// ==============================
+
+let page = 1;
+let loading = false;
+let finished = false;
+let q = "";
+let category = "";
+let sort = "date";
+
+debugLog('init', 'Global state initialized', { page, loading, finished, q, category, sort });
+
+let favs = [];
+try {
+  debugLog('init', 'Loading favorites from localStorage...');
+  const stored = localStorage.getItem("ads_favorites");
+  if (stored) {
+    const parsed = JSON.parse(stored);
+    // Validate that it's an array and contains only strings
+    if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) {
+      // Limit array size to prevent DoS
+      favs = parsed.slice(0, 1000);
+      debugLog('success', `Loaded ${favs.length} favorites`);
+    }
+  } else {
+    debugLog('info', 'No favorites found in localStorage');
+  }
+} catch (e) {
+  debugLog('error', 'Failed to load favorites', e.message);
+  console.warn("Failed to load favorites:", e);
+  favs = [];
+  localStorage.removeItem("ads_favorites"); // Clear corrupted data
+}
+
+debugLog('element', 'Getting DOM elements...');
+const grid = document.getElementById("ads-grid");
+const loadingEl = document.getElementById("loading");
+const noResultsEl = document.getElementById("no-results");
+
+debugLog('element', 'DOM elements status', {
+  grid: grid ? '✅ Found' : '❌ Missing',
+  loadingEl: loadingEl ? '✅ Found' : '❌ Missing',
+  noResultsEl: noResultsEl ? '✅ Found' : '❌ Missing'
+});
+
+// Store active contact info
+let activeContact = {};
+
+// ==============================
+// DEVICE FINGERPRINTING & AI
+// ==============================
+let userProfile = null;
+let deviceReady = false;
+let personalizedAds = [];
+
+// ==============================
+// VOICE SEARCH
+// ==============================
+let recognition = null;
+let isVoiceSearching = false;
+
+function initVoiceSearch() {
+  // Check if browser supports speech recognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.warn('Voice search not supported in this browser');
+    document.getElementById('voiceSearchBtn')?.classList.add('hidden');
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  recognition.onstart = () => {
+    isVoiceSearching = true;
+    const btn = document.getElementById('voiceSearchBtn');
+    const status = document.getElementById('voiceStatus');
+    const statusText = document.getElementById('voiceStatusText');
+
+    btn.classList.add('animate-pulse', 'bg-red-600');
+    btn.classList.remove('bg-indigo-600');
+    status.classList.remove('hidden');
+    statusText.textContent = 'Listening... Speak now';
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const searchInput = document.getElementById('search');
+
+    // Set the transcribed text to search box
+    searchInput.value = transcript;
+
+    // Show feedback
+    const statusText = document.getElementById('voiceStatusText');
+    statusText.textContent = `Heard: "${transcript}"`;
+
+    // Auto-trigger search after 1 second
+    setTimeout(() => {
+      document.getElementById('btnSearch').click();
+    }, 1000);
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Voice search error:', event.error);
+    const statusText = document.getElementById('voiceStatusText');
+
+    if (event.error === 'no-speech') {
+      statusText.textContent = 'No speech detected. Try again.';
+    } else if (event.error === 'not-allowed') {
+      statusText.textContent = 'Microphone access denied.';
+    } else {
+      statusText.textContent = 'Error: ' + event.error;
+    }
+
+    setTimeout(() => {
+      document.getElementById('voiceStatus').classList.add('hidden');
+    }, 3000);
+  };
+
+  recognition.onend = () => {
+    isVoiceSearching = false;
+    const btn = document.getElementById('voiceSearchBtn');
+    btn.classList.remove('animate-pulse', 'bg-red-600');
+    btn.classList.add('bg-indigo-600');
+
+    setTimeout(() => {
+      document.getElementById('voiceStatus').classList.add('hidden');
+    }, 2000);
+  };
+}
+
+// Initialize voice search on page load
+initVoiceSearch();
+
+// Voice search button click handler
+document.getElementById('voiceSearchBtn')?.addEventListener('click', () => {
+  if (!recognition) {
+    alert('Voice search is not supported in your browser. Please use Chrome, Edge, or Safari.');
+    return;
+  }
+
+  if (isVoiceSearching) {
+    recognition.stop();
+  } else {
+    recognition.start();
+  }
+});
+
+// Rate limiting for contact actions
+const contactAttempts = new Map();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_ATTEMPTS = 3;
+
+function checkRateLimit(action) {
+  const now = Date.now();
+  const key = `${action}-${activeContact.phone || activeContact.email}`;
+
+  if (!contactAttempts.has(key)) {
+    contactAttempts.set(key, []);
+  }
+
+  const attempts = contactAttempts.get(key);
+  const recentAttempts = attempts.filter(time => now - time < RATE_LIMIT_WINDOW);
+
+  if (recentAttempts.length >= MAX_ATTEMPTS) {
+    alert("Too many attempts. Please wait a minute before trying again.");
+    return false;
+  }
+
+  recentAttempts.push(now);
+  contactAttempts.set(key, recentAttempts);
+  return true;
+}
+
+// ==============================
+// FAVORITES
+// ==============================
+async function toggleFav(id) {
+  id = String(id);
+
+  const isCurrentlyFavorited = favs.includes(id);
+  const action = isCurrentlyFavorited ? 'unfavorite' : 'favorite';
+
+  if (isCurrentlyFavorited) {
+    favs = favs.filter(f => f !== id);
+  } else {
+    favs.push(id);
+  }
+
+  localStorage.setItem("ads_favorites", JSON.stringify(favs));
+
+  // Track favorite interaction with analytics API
+  try {
+    await fetch('/api/track_interaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interaction_type: action === 'favorite' ? 'favorite' : 'unfavorite',
+        ad_id: id
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track favorite:', e);
+  }
+
+  // Track with device fingerprinting (AI learning)
+  if (window.deviceFingerprint && deviceReady) {
+    try {
+      // Favorites are treated as strong positive signals
+      if (action === 'favorite') {
+        await window.deviceFingerprint.trackInteraction(id, 'favorite');
+
+        // Track category preference
+        const card = document.querySelector(`[data-fav="${id}"]`)?.closest('.break-inside-avoid');
+        const category = card?.dataset.category;
+        if (category) {
+          await window.deviceFingerprint.trackCategoryInteraction(category, true);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to track AI learning for favorite:', e);
+    }
+  }
+}
+
+// ==============================
+// FEED RESET
+// ==============================
+function resetFeed() {
+  page = 1;
+  finished = false;
+  grid.innerHTML = "";
+  noResultsEl.classList.add("hidden");
+}
+
+// ==============================
+// LOAD CATEGORIES
+// ==============================
+async function loadCategories() {
+  debugLog('api', 'Loading categories from API...');
+
+  try {
+    const res = await fetch("/api/get_categories");
+    debugLog('response', `Categories API responded: ${res.status}`);
+
+    const data = await res.json();
+    debugLog('response', 'Categories data received', {
+      hasCategories: !!data.categories,
+      count: data.categories?.length || 0
+    });
+
+    const select = document.getElementById("categoryFilter");
+    if (!select) {
+      debugLog('error', 'Category filter element not found!');
+      return;
+    }
+
+    select.innerHTML = '<option value="">All Categories</option>';
+
+    // Handle new database format (objects with slug and name)
+    if (data.categories && Array.isArray(data.categories)) {
+      debugLog('info', `Adding ${data.categories.length} categories to dropdown`);
+
+      data.categories.forEach(cat => {
+        const opt = document.createElement("option");
+        // Check if it's an object (new format) or string (old format)
+        if (typeof cat === 'object' && cat.slug) {
+          opt.value = cat.slug;
+          opt.textContent = `${cat.name} (${cat.ad_count || 0})`;
+        } else {
+          // Fallback for old format
+          opt.value = cat;
+          opt.textContent = cat;
+        }
+        select.appendChild(opt);
+      });
+
+      debugLog('success', 'Categories loaded successfully');
+    }
+  } catch (e) {
+    debugLog('error', 'Failed to load categories', e.message);
+    console.warn("loadCategories error", e);
+  }
+}
+
+// ==============================
+// INITIALIZE DEVICE INTELLIGENCE
+// ==============================
+async function initializeDeviceIntelligence() {
+  if (deviceReady) return;
+
+  try {
+    // Initialize device fingerprint
+    userProfile = await window.deviceFingerprint.init();
+    deviceReady = true;
+
+    console.log('🧠 AI Intelligence Active');
+    console.log('Profile Strength:', userProfile ?
+      (userProfile.behavior.total_interactions < 5 ? 'Learning...' :
+       userProfile.behavior.total_interactions < 20 ? 'Building...' : 'Strong') :
+      'New');
+
+    // Get personalized recommendations
+    if (userProfile && userProfile.behavior.total_interactions > 3) {
+      const recommendations = await window.deviceFingerprint.getRecommendations();
+      if (recommendations && recommendations.length > 0) {
+        personalizedAds = recommendations.map(r => r.ad);
+        console.log(`📊 Personalized: ${personalizedAds.length} ads ranked by relevance`);
+      }
+    }
+  } catch (e) {
+    console.warn('Device intelligence initialization failed:', e);
+    deviceReady = false;
+  }
+}
+
+// ==============================
+// LOAD ADS (INTELLIGENT)
+// ==============================
+async function loadAds(reset = false) {
+  debugLog('api', `loadAds() called`, { reset, page, loading, finished });
+
+  if (reset) {
+    debugLog('info', 'Resetting feed...');
+    resetFeed();
+  }
+
+  if (loading || finished) {
+    debugLog('warning', 'Skipping load', { loading, finished });
+    return;
+  }
+
+  loading = true;
+  loadingEl.classList.remove("hidden");
+  debugLog('info', 'Loading state activated');
+
+  try {
+    // Initialize device intelligence on first load
+    if (!deviceReady) {
+      debugLog('info', 'Initializing device intelligence...');
+      await initializeDeviceIntelligence();
+    }
+
+    // Get ads from API
+    const apiUrl = `/api/get_ads?page=${page}&q=${encodeURIComponent(q)}&category=${encodeURIComponent(category)}&sort=${encodeURIComponent(sort)}`;
+    debugLog('api', 'Fetching ads from API', { url: apiUrl });
+
+    const res = await fetch(apiUrl);
+
+    debugLog('response', `API responded with status: ${res.status} ${res.statusText}`);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    debugLog('response', 'API response received', {
+      success: data.success,
+      adsCount: data.ads?.length || 0,
+      page: data.page,
+      total: data.total
+    });
+
+    console.log('📦 Full API Response:', data);
+
+    if (!data.ads || !data.ads.length) {
+      finished = true;
+      debugLog('warning', 'No ads found in API response');
+
+      if (page === 1) {
+        debugLog('info', 'Showing "no results" message');
+        noResultsEl.classList.remove("hidden");
+      }
+    } else {
+      let adsToRender = data.ads;
+      debugLog('data', `Processing ${adsToRender.length} ads`);
+
+      // INTELLIGENT SORTING: Use personalized recommendations if available
+      if (personalizedAds.length > 0 && !q && !category && sort === 'date') {
+        debugLog('info', 'Applying AI personalization...');
+        adsToRender = sortAdsByPersonalization(data.ads);
+
+        // Show intelligence indicator
+        if (page === 1) {
+          showIntelligenceIndicator();
+        }
+      }
+
+      debugLog('render', `Calling renderAds() with ${adsToRender.length} ads`);
+      renderAds(adsToRender);
+      page++;
+      debugLog('success', `Successfully loaded page ${page - 1}`);
+    }
+  } catch (e) {
+    finished = true;
+    debugLog('error', 'Failed to load ads', e.message);
+    console.error("❌ loadAds error:", e);
+    console.error("Error details:", e.message);
+    console.error("Stack:", e.stack);
+
+    // Show error to user
+    if (page === 1) {
+      noResultsEl.textContent = 'Failed to load ads. Please refresh the page.';
+      noResultsEl.classList.remove("hidden");
+      debugLog('error', 'Showing error message to user');
+    }
+  }
+
+  loading = false;
+  loadingEl.classList.add("hidden");
+  debugLog('info', 'Loading state deactivated');
+}
+
+// ==============================
+// INTELLIGENT AD SORTING
+// ==============================
+function sortAdsByPersonalization(ads) {
+  if (!personalizedAds.length) return ads;
+
+  // Create a map of personalized ad IDs with their scores
+  const scoreMap = new Map();
+  personalizedAds.forEach((ad, index) => {
+    scoreMap.set(ad.ad_id, 1000 - index); // Higher score for higher ranked ads
+  });
+
+  // Sort ads by personalization score
+  return ads.sort((a, b) => {
+    const scoreA = scoreMap.get(a.ad_id) || 0;
+    const scoreB = scoreMap.get(b.ad_id) || 0;
+    return scoreB - scoreA;
+  });
+}
+
+// ==============================
+// SHOW INTELLIGENCE INDICATOR
+// ==============================
+function showIntelligenceIndicator() {
+  const indicator = document.createElement('div');
+  indicator.className = 'fixed top-20 right-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-pulse';
+  indicator.innerHTML = `
+    <div class="flex items-center gap-2">
+      <i class="fas fa-brain"></i>
+      <span class="text-sm font-semibold">AI Personalized</span>
+    </div>
+  `;
+  document.body.appendChild(indicator);
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    indicator.style.opacity = '0';
+    indicator.style.transition = 'opacity 0.5s';
+    setTimeout(() => indicator.remove(), 500);
+  }, 3000);
+}
+
+// ==============================
+// SECURITY: HTML SANITIZATION
+// ==============================
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ==============================
+// RENDER ADS
+// ==============================
+function renderAds(ads) {
+  debugLog('render', `renderAds() called with ${ads.length} ads`);
+
+  if (!grid) {
+    debugLog('error', 'Grid element is NULL! Cannot render ads.');
+    console.error('❌ Grid element not found!');
+    return;
+  }
+
+  debugLog('info', `Grid element found, current children: ${grid.children.length}`);
+
+  let renderedCount = 0;
+  let errorCount = 0;
+
+  ads.forEach((ad, index) => {
+    try {
+      const id = String(ad.ad_id || ad.id || Math.random());
+      debugLog('render', `[${index + 1}/${ads.length}] Rendering ad: ${id}`, {
+        title: ad.title,
+        category: ad.category,
+        hasMedia: !!ad.media
+      });
+
+      // Track view (only once per ad per session)
+      trackAdView(id);
+
+    // Create card container
+    const card = document.createElement("div");
+    card.className = "break-inside-avoid bg-white/10 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition hover:-translate-y-1";
+
+    // Store contact data and ad info in dataset
+    card.dataset.contact = JSON.stringify(ad.contact || {});
+    card.dataset.adTitle = ad.title || 'Untitled';
+    card.dataset.adDescription = ad.description || '';
+    card.dataset.adId = id;
+    card.dataset.category = ad.category || 'uncategorized';
+
+    // Sanitize user inputs
+    const safeTitle = escapeHtml(ad.title || 'Untitled');
+    const safeCategory = escapeHtml(ad.category || '');
+    const safeMedia = escapeHtml(ad.media || '');
+
+    // Create media container
+    const mediaContainer = document.createElement('div');
+    mediaContainer.className = 'relative h-64 overflow-hidden';
+
+    // Create favorite button
+    const favBtn = document.createElement('button');
+    favBtn.setAttribute('data-fav', id);
+    favBtn.className = `absolute top-2 right-2 w-9 h-9 rounded-full flex items-center justify-center text-white text-xl ${favs.includes(id) ? 'bg-red-600' : 'bg-black/60'}`;
+    favBtn.textContent = '❤️';
+    mediaContainer.appendChild(favBtn);
+
+    // Create media element
+    const isVideo = ad.media && /\.(mp4|mov|webm)$/i.test(ad.media);
+    if (isVideo) {
+      const video = document.createElement('video');
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.className = 'w-full h-full object-cover';
+
+      const source = document.createElement('source');
+      source.src = safeMedia;
+      video.appendChild(source);
+
+      mediaContainer.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = safeMedia;
+      img.alt = safeTitle;
+      img.className = 'w-full h-full object-cover';
+      mediaContainer.appendChild(img);
+    }
+
+    // Create category badge
+    const categoryBadge = document.createElement('div');
+    categoryBadge.className = 'absolute bottom-2 left-2 bg-black/60 px-2 rounded text-xs';
+    categoryBadge.textContent = safeCategory;
+    mediaContainer.appendChild(categoryBadge);
+
+    // Create content section
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'p-3';
+
+    // Create title
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'font-bold truncate';
+    titleDiv.textContent = safeTitle;
+    contentDiv.appendChild(titleDiv);
+
+    // Create button container - modern design
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'mt-3 flex gap-2';
+
+    // Create contact button - Creative gradient design
+    const contactBtn = document.createElement('button');
+    contactBtn.className = 'contact-dealer action-btn flex-1 group relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_100%] hover:bg-right py-2.5 rounded-xl text-sm font-medium transition-all duration-500 hover:shadow-lg hover:shadow-indigo-500/30';
+    contactBtn.innerHTML = '<i class="fas fa-comments mr-1.5 group-hover:scale-110 transition-transform"></i>Contact';
+    buttonContainer.appendChild(contactBtn);
+
+    // Create more button
+    const moreBtn = document.createElement('button');
+    moreBtn.className = 'action-btn more-dealer flex-1 group relative overflow-hidden bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/25';
+    moreBtn.innerHTML = '<i class="fas fa-store mr-1.5 group-hover:scale-110 transition-transform"></i>More';
+    buttonContainer.appendChild(moreBtn);
+
+    contentDiv.appendChild(buttonContainer);
+
+    // Create interaction buttons container - 3 columns now
+    const interactionContainer = document.createElement('div');
+    interactionContainer.className = 'mt-2 grid grid-cols-4 gap-1.5';
+
+    // Check if user already liked/disliked this ad
+    const likedAds = getLikedAds();
+    const dislikedAds = getDislikedAds();
+    const blockedAds = getBlockedAds();
+    const isLiked = likedAds.includes(id);
+    const isDisliked = dislikedAds.includes(id);
+    const isBlocked = blockedAds.includes(id);
+
+    // Create Like button - Icon-focused design
+    const likeBtn = document.createElement('button');
+    likeBtn.setAttribute('data-like', id);
+    likeBtn.className = `action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
+      isLiked
+        ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg shadow-green-500/30'
+        : 'bg-white/5 hover:bg-gradient-to-r hover:from-green-600/20 hover:to-emerald-500/20 border border-white/10 hover:border-green-500/50'
+    }`;
+    likeBtn.innerHTML = `
+      <div class="flex flex-col items-center gap-0.5">
+        <i class="fas fa-thumbs-up text-sm group-hover:scale-125 transition-transform duration-300"></i>
+        <span class="text-[10px] opacity-80">${isLiked ? 'Liked!' : 'Like'}</span>
+      </div>
+    `;
+    likeBtn.title = 'Like this ad';
+    interactionContainer.appendChild(likeBtn);
+
+    // Create Not Interested button
+    const dislikeBtn = document.createElement('button');
+    dislikeBtn.setAttribute('data-dislike', id);
+    dislikeBtn.className = `action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
+      isDisliked
+        ? 'bg-gradient-to-r from-orange-600 to-amber-500 text-white shadow-lg shadow-orange-500/30'
+        : 'bg-white/5 hover:bg-gradient-to-r hover:from-orange-600/20 hover:to-amber-500/20 border border-white/10 hover:border-orange-500/50'
+    }`;
+    dislikeBtn.innerHTML = `
+      <div class="flex flex-col items-center gap-0.5">
+        <i class="fas fa-thumbs-down text-sm group-hover:scale-125 transition-transform duration-300"></i>
+        <span class="text-[10px] opacity-80">${isDisliked ? 'Hidden' : 'Skip'}</span>
+      </div>
+    `;
+    dislikeBtn.title = 'Not interested in this ad';
+    interactionContainer.appendChild(dislikeBtn);
+
+    // Create Block button
+    const blockBtn = document.createElement('button');
+    blockBtn.setAttribute('data-block', id);
+    blockBtn.className = `action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
+      isBlocked
+        ? 'bg-gradient-to-r from-slate-700 to-slate-600 text-white shadow-lg'
+        : 'bg-white/5 hover:bg-gradient-to-r hover:from-slate-700/30 hover:to-slate-600/30 border border-white/10 hover:border-slate-500/50'
+    }`;
+    blockBtn.innerHTML = `
+      <div class="flex flex-col items-center gap-0.5">
+        <i class="fas fa-ban text-sm group-hover:scale-125 transition-transform duration-300"></i>
+        <span class="text-[10px] opacity-80">${isBlocked ? 'Blocked' : 'Block'}</span>
+      </div>
+    `;
+    blockBtn.title = 'Block this ad from appearing';
+    interactionContainer.appendChild(blockBtn);
+
+    // Create Report button
+    const reportBtn = document.createElement('button');
+    reportBtn.setAttribute('data-report', id);
+    reportBtn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-white/5 hover:bg-gradient-to-r hover:from-red-600/20 hover:to-rose-500/20 border border-white/10 hover:border-red-500/50';
+    reportBtn.innerHTML = `
+      <div class="flex flex-col items-center gap-0.5">
+        <i class="fas fa-flag text-sm group-hover:scale-125 transition-transform duration-300 group-hover:text-red-400"></i>
+        <span class="text-[10px] opacity-80">Report</span>
+      </div>
+    `;
+    reportBtn.title = 'Report this ad for review';
+    interactionContainer.appendChild(reportBtn);
+
+    contentDiv.appendChild(interactionContainer);
+
+    // Assemble card
+    card.appendChild(mediaContainer);
+    card.appendChild(contentDiv);
+    grid.appendChild(card);
+
+    renderedCount++;
+    debugLog('success', `Ad ${id} successfully added to grid`);
+
+    // Start tracking time for this ad
+    startTrackingTime(id);
+
+    } catch (error) {
+      errorCount++;
+      debugLog('error', `Failed to render ad at index ${index}`, error.message);
+      console.error('Render error for ad:', ad, error);
+    }
+  });
+
+  debugLog('render', `Rendering complete!`, {
+    total: ads.length,
+    rendered: renderedCount,
+    errors: errorCount,
+    gridChildCount: grid.children.length
+  });
+
+  if (renderedCount > 0) {
+    debugLog('success', `✨ ${renderedCount} ads are now visible in the grid!`);
+  } else {
+    debugLog('error', 'No ads were rendered! Check errors above.');
+  }
+}
+
+// ==============================
+// EVENTS
+// ==============================
+grid.addEventListener("click", e => {
+  const favBtn = e.target.closest("[data-fav]");
+  if (favBtn) {
+    toggleFav(favBtn.dataset.fav);
+    favBtn.classList.toggle("bg-red-600");
+    favBtn.classList.toggle("bg-black/60");
+    return;
+  }
+
+  // Handle Like button
+  const likeBtn = e.target.closest("[data-like]");
+  if (likeBtn) {
+    const adId = likeBtn.dataset.like;
+    handleLike(adId, likeBtn);
+    return;
+  }
+
+  // Handle Dislike button
+  const dislikeBtn = e.target.closest("[data-dislike]");
+  if (dislikeBtn) {
+    const adId = dislikeBtn.dataset.dislike;
+    handleDislike(adId, dislikeBtn);
+    return;
+  }
+
+  // Handle Block button
+  const blockBtn = e.target.closest("[data-block]");
+  if (blockBtn) {
+    const card = blockBtn.closest(".break-inside-avoid");
+    const adId = blockBtn.dataset.block;
+    const adTitle = card?.dataset.adTitle || 'This Ad';
+    openBlockModal(adId, adTitle);
+    return;
+  }
+
+  // Handle Report button
+  const reportBtn = e.target.closest("[data-report]");
+  if (reportBtn) {
+    const card = reportBtn.closest(".break-inside-avoid");
+    const adId = reportBtn.dataset.report;
+    const adTitle = card?.dataset.adTitle || 'This Ad';
+    openReportModal(adId, adTitle);
+    return;
+  }
+
+  const contactBtn = e.target.closest(".contact-dealer");
+  if (contactBtn) {
+    const card = contactBtn.closest(".break-inside-avoid");
+    let contact = {};
+    try {
+      contact = JSON.parse(card.dataset.contact || "{}");
+    } catch (e) {
+      console.error("Failed to parse contact data:", e);
+      alert("Error loading contact information.");
+      return;
+    }
+
+    // Extract ad info for auto-fill
+    const adTitle = card.dataset.adTitle || '';
+    const adDescription = card.dataset.adDescription || '';
+    const adId = card.dataset.adId || '';
+
+    // Add ad ID to contact object
+    contact.adId = adId;
+
+    openDealerModal(contact, adTitle, adDescription);
+    return;
+  }
+
+});
+
+// Search & filters
+document.getElementById("btnSearch").onclick = () => {
+  q = document.getElementById("search").value.trim();
+  loadAds(true);
+};
+
+document.getElementById("categoryFilter").onchange = e => {
+  category = e.target.value;
+  loadAds(true);
+};
+
+document.getElementById("sortFilter").onchange = e => {
+  sort = e.target.value;
+  loadAds(true);
+};
+
+let debounce;
+document.getElementById("search").oninput = e => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => {
+    q = e.target.value.trim();
+    loadAds(true);
+  }, 350);
+};
+
+// Infinite scroll
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 450) {
+    loadAds();
+  }
+});
+
+// ==============================
+// MODAL FUNCTIONS
+// ==============================
+function openDealerModal(contact = {}, adTitle = '', adDescription = '') {
+  const modal = document.getElementById("contactDealerModal");
+  const modalCard = document.getElementById("contactDealerCard");
+  const messageBox = document.getElementById("contactDealerMessage");
+  const charCount = document.getElementById("charCount");
+  const senderName = document.getElementById("senderName");
+  const senderContact = document.getElementById("senderContact");
+
+  // Store contact data
+  activeContact = contact;
+
+  // Clear sender info fields
+  senderName.value = "";
+  senderContact.value = "";
+
+  // Auto-fill message with ad details
+  let autoMessage = "Hi, I'm interested in your ad";
+
+  if (adTitle) {
+    autoMessage += ` titled "${adTitle}"`;
+  }
+
+  if (adDescription) {
+    autoMessage += `.\n\nDescription: ${adDescription}`;
+  }
+
+  autoMessage += ".\n\nCan I get more info on this?\n\nThank you.";
+
+  // Ensure message doesn't exceed 500 characters
+  if (autoMessage.length > 500) {
+    // Truncate description if too long
+    const maxDescLength = 500 - autoMessage.length + adDescription.length - 3;
+    if (maxDescLength > 0) {
+      const truncatedDesc = adDescription.substring(0, maxDescLength) + '...';
+      autoMessage = "Hi, I'm interested in your ad";
+      if (adTitle) {
+        autoMessage += ` titled "${adTitle}"`;
+      }
+      autoMessage += `.\n\nDescription: ${truncatedDesc}`;
+      autoMessage += ".\n\nCan I get more info on this?\n\nThank you.";
+    } else {
+      // If still too long, just use title
+      autoMessage = `Hi, I'm interested in your ad "${adTitle}".\n\nCan I get more info on this?\n\nThank you.`;
+    }
+  }
+
+  messageBox.value = autoMessage;
+  if (charCount) charCount.textContent = autoMessage.length;
+
+  // Show modal
+  modal.classList.remove("hidden");
+  modal.classList.add("flex", "items-center", "justify-center");
+
+  // Animate modal card in
+  setTimeout(() => {
+    modalCard.classList.remove("scale-95", "opacity-0");
+    modalCard.classList.add("scale-100", "opacity-100");
+    messageBox.focus();
+    // Move cursor to end of text
+    messageBox.setSelectionRange(messageBox.value.length, messageBox.value.length);
+  }, 10);
+}
+
+// Character counter for message textarea
+const messageBox = document.getElementById("contactDealerMessage");
+const charCount = document.getElementById("charCount");
+if (messageBox && charCount) {
+  messageBox.addEventListener("input", () => {
+    charCount.textContent = messageBox.value.length;
+  });
+}
+
+function closeDealerModal() {
+  const modal = document.getElementById("contactDealerModal");
+  const modalCard = document.getElementById("contactDealerCard");
+
+  // Animate modal card out
+  modalCard.classList.remove("scale-100", "opacity-100");
+  modalCard.classList.add("scale-95", "opacity-0");
+
+  // Hide modal after animation
+  setTimeout(() => {
+    modal.classList.remove("flex", "items-center", "justify-center");
+    modal.classList.add("hidden");
+  }, 200);
+}
+
+// Close modal when clicking outside (backdrop)
+document.getElementById("contactDealerModal").addEventListener("click", (e) => {
+  if (e.target.id === "contactDealerModal") {
+    closeDealerModal();
+  }
+});
+
+// Close modal with X button
+document.getElementById("closeDealerModalBtn").addEventListener("click", closeDealerModal);
+
+// ==============================
+// CONTACT ACTIONS
+// ==============================
+// Build final message with sender info
+function buildFinalMessage(message) {
+  const senderName = document.getElementById("senderName").value.trim();
+  const senderContact = document.getElementById("senderContact").value.trim();
+
+  let finalMessage = message;
+
+  if (senderName || senderContact) {
+    finalMessage += "\n\n---\n";
+    if (senderName) {
+      finalMessage += `From: ${senderName}\n`;
+    }
+    if (senderContact) {
+      finalMessage += `Contact: ${senderContact}\n`;
+    }
+  } else {
+    finalMessage += "\n\n---\n";
+  }
+
+  // Add timestamp
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  const timeStr = now.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  finalMessage += `Sent on: ${dateStr} at: ${timeStr}`;
+
+  return finalMessage;
+}
+
+// Input validation functions
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
+}
+
+function validatePhone(phone) {
+  const cleaned = String(phone).replace(/\D/g, '');
+  return cleaned.length >= 9 && cleaned.length <= 15;
+}
+
+function sanitizeMessage(msg) {
+  if (!msg) return '';
+  // Limit message length
+  let sanitized = String(msg).trim();
+  if (sanitized.length > 500) {
+    sanitized = sanitized.substring(0, 500);
+  }
+  // Remove potentially dangerous characters
+  sanitized = sanitized.replace(/[<>]/g, '');
+  return sanitized;
+}
+
+// Normalize phone number to international format
+function normalizePhone(phone) {
+  if (!phone) return "";
+  let num = String(phone).replace(/\D/g, "");
+  if (num.startsWith("0")) num = "254" + num.slice(1);
+  if (!num.startsWith("254")) num = "254" + num;
+  return num;
+}
+
+// Call button handler
+document.getElementById("callDealerNow").addEventListener("click", () => {
+  if (!checkRateLimit('call')) return;
+
+  const phone = activeContact.phone;
+
+  if (!phone) {
+    alert("No phone number available for this seller.");
+    return;
+  }
+
+  if (!validatePhone(phone)) {
+    alert("Invalid phone number format.");
+    return;
+  }
+
+  // Track contact event
+  if (activeContact.adId) {
+    trackContact(activeContact.adId, 'call');
+  }
+
+  const normalizedPhone = normalizePhone(phone);
+  window.location.href = `tel:+${normalizedPhone}`;
+});
+
+// WhatsApp button handler
+document.getElementById("sendDealerWhatsApp").addEventListener("click", () => {
+  if (!checkRateLimit('whatsapp')) return;
+
+  const phone = activeContact.phone;
+  const rawMessage = document.getElementById("contactDealerMessage").value;
+
+  if (!phone) {
+    alert("No phone number available for this seller.");
+    return;
+  }
+
+  if (!validatePhone(phone)) {
+    alert("Invalid phone number format.");
+    return;
+  }
+
+  const message = sanitizeMessage(rawMessage);
+  if (!message) {
+    alert("Please type a message first!");
+    return;
+  }
+
+  // Build final message with sender info
+  const finalMessage = buildFinalMessage(message);
+
+  // Track contact event
+  if (activeContact.adId) {
+    trackContact(activeContact.adId, 'whatsapp');
+  }
+
+  const normalizedPhone = normalizePhone(phone);
+  const encodedMessage = encodeURIComponent(finalMessage);
+  window.open(`https://wa.me/${normalizedPhone}?text=${encodedMessage}`, "_blank");
+});
+
+// SMS button handler
+document.getElementById("sendDealerSMS").addEventListener("click", () => {
+  if (!checkRateLimit('sms')) return;
+
+  const phone = activeContact.phone;
+  const rawMessage = document.getElementById("contactDealerMessage").value;
+
+  if (!phone) {
+    alert("No phone number available for this seller.");
+    return;
+  }
+
+  if (!validatePhone(phone)) {
+    alert("Invalid phone number format.");
+    return;
+  }
+
+  const message = sanitizeMessage(rawMessage);
+  if (!message) {
+    alert("Please type a message first!");
+    return;
+  }
+
+  // Build final message with sender info
+  const finalMessage = buildFinalMessage(message);
+
+  // Track contact event
+  trackContact(activeContact.adId, 'sms');
+
+  const normalizedPhone = normalizePhone(phone);
+  const encodedMessage = encodeURIComponent(finalMessage);
+  window.location.href = `sms:+${normalizedPhone}?body=${encodedMessage}`;
+});
+
+// Email button handler
+document.getElementById("sendDealerEmail").addEventListener("click", () => {
+  if (!checkRateLimit('email')) return;
+
+  const email = activeContact.email;
+  const rawMessage = document.getElementById("contactDealerMessage").value;
+
+  if (!email) {
+    alert("No email address available for this seller.");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    alert("Invalid email address format.");
+    return;
+  }
+
+  const message = sanitizeMessage(rawMessage);
+  if (!message) {
+    alert("Please type a message first!");
+    return;
+  }
+
+  // Build final message with sender info
+  const finalMessage = buildFinalMessage(message);
+
+  // Track contact event
+  if (activeContact.adId) {
+    trackContact(activeContact.adId, 'email');
+  }
+
+  const encodedMessage = encodeURIComponent(finalMessage);
+  const subject = encodeURIComponent("Inquiry about your ad");
+  window.location.href = `mailto:${email}?subject=${subject}&body=${encodedMessage}`;
+});
+
+// ==============================
+// LIKE/DISLIKE TRACKING
+// ==============================
+function getLikedAds() {
+  try {
+    const stored = localStorage.getItem("ads_liked");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        return parsed.slice(0, 1000); // Limit to prevent abuse
+      }
+    }
+  } catch (e) {
+    console.warn("Failed to load liked ads:", e);
+  }
+  return [];
+}
+
+function getDislikedAds() {
+  try {
+    const stored = localStorage.getItem("ads_disliked");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        return parsed.slice(0, 1000);
+      }
+    }
+  } catch (e) {
+    console.warn("Failed to load disliked ads:", e);
+  }
+  return [];
+}
+
+function saveLikedAds(likedAds) {
+  try {
+    localStorage.setItem("ads_liked", JSON.stringify(likedAds));
+  } catch (e) {
+    console.warn("Failed to save liked ads:", e);
+  }
+}
+
+function saveDislikedAds(dislikedAds) {
+  try {
+    localStorage.setItem("ads_disliked", JSON.stringify(dislikedAds));
+  } catch (e) {
+    console.warn("Failed to save disliked ads:", e);
+  }
+}
+
+async function handleLike(adId, button) {
+  const likedAds = getLikedAds();
+  const dislikedAds = getDislikedAds();
+
+  // Check if already liked
+  if (likedAds.includes(adId)) {
+    // Unlike
+    const newLiked = likedAds.filter(id => id !== adId);
+    saveLikedAds(newLiked);
+
+    // Update button UI
+    button.classList.remove('bg-green-600', 'text-white');
+    button.classList.add('bg-white/10');
+    button.innerHTML = '<i class="fas fa-thumbs-up mr-1"></i>Like';
+    return;
+  }
+
+  // Remove from disliked if exists
+  if (dislikedAds.includes(adId)) {
+    const newDisliked = dislikedAds.filter(id => id !== adId);
+    saveDislikedAds(newDisliked);
+
+    // Update dislike button if visible
+    const dislikeBtn = document.querySelector(`[data-dislike="${adId}"]`);
+    if (dislikeBtn) {
+      dislikeBtn.classList.remove('bg-red-600', 'text-white');
+      dislikeBtn.classList.add('bg-white/10');
+      dislikeBtn.innerHTML = '<i class="fas fa-thumbs-down mr-1"></i>Not Interested';
+    }
+  }
+
+  // Add to liked
+  likedAds.push(adId);
+  saveLikedAds(likedAds);
+
+  // Update button UI
+  button.classList.remove('bg-white/10');
+  button.classList.add('bg-green-600', 'text-white');
+  button.innerHTML = '<i class="fas fa-thumbs-up mr-1"></i>Liked';
+
+  // Track interaction (standard)
+  try {
+    await fetch('/api/track_interaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interaction_type: 'like',
+        ad_id: adId
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track like:', e);
+  }
+
+  // Track with device fingerprinting (AI learning)
+  if (window.deviceFingerprint && deviceReady) {
+    try {
+      await window.deviceFingerprint.trackInteraction(adId, 'like');
+
+      // Find ad category and track it
+      const card = button.closest('.break-inside-avoid');
+      const category = card.dataset.category;
+      if (category) {
+        await window.deviceFingerprint.trackCategoryInteraction(category, true);
+      }
+    } catch (e) {
+      console.error('Failed to track AI learning:', e);
+    }
+  }
+}
+
+async function handleDislike(adId, button) {
+  const likedAds = getLikedAds();
+  const dislikedAds = getDislikedAds();
+
+  // Check if already disliked
+  if (dislikedAds.includes(adId)) {
+    // Un-dislike
+    const newDisliked = dislikedAds.filter(id => id !== adId);
+    saveDislikedAds(newDisliked);
+
+    // Update button UI
+    button.classList.remove('bg-red-600', 'text-white');
+    button.classList.add('bg-white/10');
+    button.innerHTML = '<i class="fas fa-thumbs-down mr-1"></i>Not Interested';
+    return;
+  }
+
+  // Remove from liked if exists
+  if (likedAds.includes(adId)) {
+    const newLiked = likedAds.filter(id => id !== adId);
+    saveLikedAds(newLiked);
+
+    // Update like button if visible
+    const likeBtn = document.querySelector(`[data-like="${adId}"]`);
+    if (likeBtn) {
+      likeBtn.classList.remove('bg-green-600', 'text-white');
+      likeBtn.classList.add('bg-white/10');
+      likeBtn.innerHTML = '<i class="fas fa-thumbs-up mr-1"></i>Like';
+    }
+  }
+
+  // Add to disliked
+  dislikedAds.push(adId);
+  saveDislikedAds(dislikedAds);
+
+  // Update button UI
+  button.classList.remove('bg-white/10');
+  button.classList.add('bg-red-600', 'text-white');
+  button.innerHTML = '<i class="fas fa-thumbs-down mr-1"></i>Not Interested';
+
+  // Track interaction
+  try {
+    await fetch('/api/track_interaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interaction_type: 'dislike',
+        ad_id: adId
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track dislike:', e);
+  }
+
+  // Track with device fingerprinting (AI learning)
+  if (window.deviceFingerprint && deviceReady) {
+    try {
+      await window.deviceFingerprint.trackInteraction(adId, 'dislike');
+
+      // Find ad category and track negative preference
+      const card = button.closest('.break-inside-avoid');
+      const category = card.dataset.category;
+      if (category) {
+        await window.deviceFingerprint.trackCategoryInteraction(category, false);
+      }
+    } catch (e) {
+      console.error('Failed to track AI learning:', e);
+    }
+  }
+}
+
+// ==============================
+// TIME TRACKING
+// ==============================
+const adTimeTracking = new Map();
+
+function startTrackingTime(adId) {
+  if (!adTimeTracking.has(adId)) {
+    adTimeTracking.set(adId, {
+      startTime: Date.now(),
+      reported: false
+    });
+  }
+}
+
+function stopTrackingTime(adId) {
+  if (adTimeTracking.has(adId)) {
+    const tracking = adTimeTracking.get(adId);
+    if (!tracking.reported) {
+      const timeSpent = Math.floor((Date.now() - tracking.startTime) / 1000); // Convert to seconds
+
+      // Only report if user spent at least 3 seconds viewing
+      if (timeSpent >= 3) {
+        trackTimeSpent(adId, timeSpent);
+      }
+
+      tracking.reported = true;
+    }
+  }
+}
+
+async function trackTimeSpent(adId, seconds) {
+  try {
+    await fetch('/api/track_interaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interaction_type: 'time_spent',
+        ad_id: adId,
+        value: seconds
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track time:', e);
+  }
+}
+
+// Track time when user leaves page or scrolls away
+window.addEventListener('beforeunload', () => {
+  adTimeTracking.forEach((tracking, adId) => {
+    stopTrackingTime(adId);
+  });
+});
+
+// Track time periodically for ads in viewport
+let lastScrollTime = Date.now();
+window.addEventListener('scroll', () => {
+  const now = Date.now();
+
+  // Only check every 2 seconds to avoid performance issues
+  if (now - lastScrollTime < 2000) return;
+  lastScrollTime = now;
+
+  // Check which ads are in viewport and report time for those that scrolled away
+  const cards = document.querySelectorAll('.break-inside-avoid');
+  cards.forEach(card => {
+    const adId = card.dataset.adId;
+    if (!adId) return;
+
+    const rect = card.getBoundingClientRect();
+    const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (!isInViewport && adTimeTracking.has(adId)) {
+      stopTrackingTime(adId);
+    }
+  });
+});
+
+// ==============================
+// ANALYTICS TRACKING
+// ==============================
+const viewedAds = new Set();
+
+async function trackAdView(adId) {
+  // Only track once per session
+  if (viewedAds.has(adId)) return;
+  viewedAds.add(adId);
+
+  try {
+    await fetch('/api/track_event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_type: 'view',
+        ad_id: adId,
+        metadata: {
+          referrer: document.referrer,
+          page: window.location.pathname
+        }
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track view:', e);
+  }
+}
+
+async function trackContact(adId, method) {
+  try {
+    await fetch('/api/track_event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_type: 'contact',
+        ad_id: adId,
+        metadata: {
+          method: method,
+          timestamp: Date.now()
+        }
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track contact:', e);
+  }
+}
+
+// ==============================
+// LIKED/DISLIKED/BLOCKED ADS STORAGE
+// ==============================
+function getLikedAds() {
+  try {
+    return JSON.parse(localStorage.getItem('liked_ads') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function getDislikedAds() {
+  try {
+    return JSON.parse(localStorage.getItem('disliked_ads') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function getBlockedAds() {
+  try {
+    return JSON.parse(localStorage.getItem('blocked_ads') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function getReportedAds() {
+  try {
+    return JSON.parse(localStorage.getItem('reported_ads') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+// Handle Like
+async function handleLike(adId, btn) {
+  const likedAds = getLikedAds();
+  const isLiked = likedAds.includes(adId);
+
+  if (isLiked) {
+    // Unlike
+    const newLiked = likedAds.filter(id => id !== adId);
+    localStorage.setItem('liked_ads', JSON.stringify(newLiked));
+    btn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-white/5 hover:bg-gradient-to-r hover:from-green-600/20 hover:to-emerald-500/20 border border-white/10 hover:border-green-500/50';
+    btn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-thumbs-up text-sm group-hover:scale-125 transition-transform duration-300"></i><span class="text-[10px] opacity-80">Like</span></div>';
+  } else {
+    // Like
+    likedAds.push(adId);
+    localStorage.setItem('liked_ads', JSON.stringify(likedAds));
+    btn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg shadow-green-500/30';
+    btn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-thumbs-up text-sm group-hover:scale-125 transition-transform duration-300"></i><span class="text-[10px] opacity-80">Liked!</span></div>';
+
+    // Also remove from disliked if present
+    const dislikedAds = getDislikedAds();
+    if (dislikedAds.includes(adId)) {
+      const newDisliked = dislikedAds.filter(id => id !== adId);
+      localStorage.setItem('disliked_ads', JSON.stringify(newDisliked));
+      // Update dislike button if visible
+      const dislikeBtn = document.querySelector(`[data-dislike="${adId}"]`);
+      if (dislikeBtn) {
+        dislikeBtn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-white/5 hover:bg-gradient-to-r hover:from-orange-600/20 hover:to-amber-500/20 border border-white/10 hover:border-orange-500/50';
+        dislikeBtn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-thumbs-down text-sm group-hover:scale-125 transition-transform duration-300"></i><span class="text-[10px] opacity-80">Skip</span></div>';
+      }
+    }
+  }
+
+  // Track to API
+  try {
+    await fetch('/api/track_interaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interaction_type: isLiked ? 'unlike' : 'like',
+        ad_id: adId
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track like:', e);
+  }
+}
+
+// Handle Dislike
+async function handleDislike(adId, btn) {
+  const dislikedAds = getDislikedAds();
+  const isDisliked = dislikedAds.includes(adId);
+
+  if (isDisliked) {
+    // Un-dislike
+    const newDisliked = dislikedAds.filter(id => id !== adId);
+    localStorage.setItem('disliked_ads', JSON.stringify(newDisliked));
+    btn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-white/5 hover:bg-gradient-to-r hover:from-orange-600/20 hover:to-amber-500/20 border border-white/10 hover:border-orange-500/50';
+    btn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-thumbs-down text-sm group-hover:scale-125 transition-transform duration-300"></i><span class="text-[10px] opacity-80">Skip</span></div>';
+  } else {
+    // Dislike
+    dislikedAds.push(adId);
+    localStorage.setItem('disliked_ads', JSON.stringify(dislikedAds));
+    btn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-gradient-to-r from-orange-600 to-amber-500 text-white shadow-lg shadow-orange-500/30';
+    btn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-thumbs-down text-sm group-hover:scale-125 transition-transform duration-300"></i><span class="text-[10px] opacity-80">Hidden</span></div>';
+
+    // Also remove from liked if present
+    const likedAds = getLikedAds();
+    if (likedAds.includes(adId)) {
+      const newLiked = likedAds.filter(id => id !== adId);
+      localStorage.setItem('liked_ads', JSON.stringify(newLiked));
+      // Update like button if visible
+      const likeBtn = document.querySelector(`[data-like="${adId}"]`);
+      if (likeBtn) {
+        likeBtn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-white/5 hover:bg-gradient-to-r hover:from-green-600/20 hover:to-emerald-500/20 border border-white/10 hover:border-green-500/50';
+        likeBtn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-thumbs-up text-sm group-hover:scale-125 transition-transform duration-300"></i><span class="text-[10px] opacity-80">Like</span></div>';
+      }
+    }
+  }
+
+  // Track to API
+  try {
+    await fetch('/api/track_interaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interaction_type: isDisliked ? 'un-dislike' : 'dislike',
+        ad_id: adId
+      })
+    });
+  } catch (e) {
+    console.error('Failed to track dislike:', e);
+  }
+}
+
+// ==============================
+// BLOCK AD MODAL
+// ==============================
+let activeBlockAdId = null;
+let selectedBlockReason = null;
+
+function openBlockModal(adId, adTitle) {
+  activeBlockAdId = adId;
+  selectedBlockReason = null;
+
+  const modal = document.getElementById('blockAdModal');
+  const card = document.getElementById('blockAdCard');
+  const titleEl = document.getElementById('blockAdTitle');
+
+  titleEl.textContent = adTitle;
+
+  // Reset selections
+  document.querySelectorAll('.block-reason-btn').forEach(btn => {
+    btn.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-600/20');
+  });
+  document.getElementById('blockComment').value = '';
+
+  // Show modal
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    card.classList.remove('scale-95', 'opacity-0');
+    card.classList.add('scale-100', 'opacity-100');
+  }, 10);
+}
+
+function closeBlockModal() {
+  const modal = document.getElementById('blockAdModal');
+  const card = document.getElementById('blockAdCard');
+
+  card.classList.add('scale-95', 'opacity-0');
+  card.classList.remove('scale-100', 'opacity-100');
+
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    activeBlockAdId = null;
+  }, 300);
+}
+
+async function confirmBlockAd() {
+  if (!activeBlockAdId) return;
+
+  const comment = document.getElementById('blockComment').value.trim();
+  const blockedAds = getBlockedAds();
+
+  if (!blockedAds.includes(activeBlockAdId)) {
+    blockedAds.push(activeBlockAdId);
+    localStorage.setItem('blocked_ads', JSON.stringify(blockedAds));
+  }
+
+  // Send to API
+  try {
+    await fetch('/api/block_ad', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ad_id: activeBlockAdId,
+        reason: selectedBlockReason || 'not_specified',
+        comment: comment,
+        device_id: getDeviceId(),
+        timestamp: Date.now()
+      })
+    });
+
+    // Show success toast
+    showToast('Ad blocked successfully', 'success');
+
+    // Update UI - update button state
+    const blockBtn = document.querySelector(`[data-block="${activeBlockAdId}"]`);
+    if (blockBtn) {
+      blockBtn.className = 'action-btn-icon group relative py-2 rounded-xl text-xs font-medium transition-all duration-300 bg-gradient-to-r from-slate-700 to-slate-600 text-white shadow-lg';
+      blockBtn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-ban text-sm"></i><span class="text-[10px] opacity-80">Blocked</span></div>';
+    }
+
+    // Optionally fade out the ad card
+    const card = document.querySelector(`[data-ad-id="${activeBlockAdId}"]`)?.closest('.break-inside-avoid');
+    if (card) {
+      card.style.opacity = '0.3';
+      card.style.transition = 'opacity 0.5s';
+    }
+
+  } catch (e) {
+    console.error('Failed to block ad:', e);
+    showToast('Failed to block ad. Please try again.', 'error');
+  }
+
+  closeBlockModal();
+}
+
+// Block reason selection
+document.getElementById('blockReasons')?.addEventListener('click', e => {
+  const btn = e.target.closest('.block-reason-btn');
+  if (!btn) return;
+
+  // Clear all selections
+  document.querySelectorAll('.block-reason-btn').forEach(b => {
+    b.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-600/20');
+  });
+
+  // Select clicked
+  btn.classList.add('ring-2', 'ring-indigo-500', 'bg-indigo-600/20');
+  selectedBlockReason = btn.dataset.reason;
+});
+
+// Block modal buttons
+document.getElementById('cancelBlockBtn')?.addEventListener('click', closeBlockModal);
+document.getElementById('confirmBlockBtn')?.addEventListener('click', confirmBlockAd);
+
+// Close on outside click
+document.getElementById('blockAdModal')?.addEventListener('click', e => {
+  if (e.target.id === 'blockAdModal') closeBlockModal();
+});
+
+// ==============================
+// REPORT AD MODAL
+// ==============================
+let activeReportAdId = null;
+let selectedReportReason = null;
+
+function openReportModal(adId, adTitle) {
+  activeReportAdId = adId;
+  selectedReportReason = null;
+
+  const modal = document.getElementById('reportAdModal');
+  const card = document.getElementById('reportAdCard');
+  const titleEl = document.getElementById('reportAdTitle');
+  const confirmBtn = document.getElementById('confirmReportBtn');
+
+  titleEl.textContent = adTitle;
+
+  // Reset selections
+  document.querySelectorAll('.report-reason-btn').forEach(btn => {
+    btn.classList.remove('ring-2', 'ring-red-500', 'bg-red-600/20');
+  });
+  document.getElementById('reportDetails').value = '';
+  document.getElementById('reportCharCount').textContent = '0';
+  confirmBtn.disabled = true;
+
+  // Show modal
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    card.classList.remove('scale-95', 'opacity-0');
+    card.classList.add('scale-100', 'opacity-100');
+  }, 10);
+}
+
+function closeReportModal() {
+  const modal = document.getElementById('reportAdModal');
+  const card = document.getElementById('reportAdCard');
+
+  card.classList.add('scale-95', 'opacity-0');
+  card.classList.remove('scale-100', 'opacity-100');
+
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    activeReportAdId = null;
+  }, 300);
+}
+
+async function confirmReportAd() {
+  if (!activeReportAdId || !selectedReportReason) return;
+
+  const details = document.getElementById('reportDetails').value.trim();
+  const reportedAds = getReportedAds();
+
+  if (!reportedAds.includes(activeReportAdId)) {
+    reportedAds.push(activeReportAdId);
+    localStorage.setItem('reported_ads', JSON.stringify(reportedAds));
+  }
+
+  // Send to API
+  try {
+    await fetch('/api/report_ad', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ad_id: activeReportAdId,
+        reason: selectedReportReason,
+        details: details,
+        device_id: getDeviceId(),
+        timestamp: Date.now()
+      })
+    });
+
+    // Show success toast
+    showToast('Report submitted. Thank you for helping keep our community safe!', 'success');
+
+    // Update report button
+    const reportBtn = document.querySelector(`[data-report="${activeReportAdId}"]`);
+    if (reportBtn) {
+      reportBtn.innerHTML = '<div class="flex flex-col items-center gap-0.5"><i class="fas fa-check text-sm text-green-400"></i><span class="text-[10px] opacity-80">Reported</span></div>';
+    }
+
+  } catch (e) {
+    console.error('Failed to report ad:', e);
+    showToast('Failed to submit report. Please try again.', 'error');
+  }
+
+  closeReportModal();
+}
+
+// Report reason selection
+document.getElementById('reportReasons')?.addEventListener('click', e => {
+  const btn = e.target.closest('.report-reason-btn');
+  if (!btn) return;
+
+  // Clear all selections
+  document.querySelectorAll('.report-reason-btn').forEach(b => {
+    b.classList.remove('ring-2', 'ring-red-500', 'bg-red-600/20');
+  });
+
+  // Select clicked
+  btn.classList.add('ring-2', 'ring-red-500', 'bg-red-600/20');
+  selectedReportReason = btn.dataset.reason;
+
+  // Enable submit button
+  document.getElementById('confirmReportBtn').disabled = false;
+});
+
+// Report details character counter
+document.getElementById('reportDetails')?.addEventListener('input', e => {
+  document.getElementById('reportCharCount').textContent = e.target.value.length;
+});
+
+// Report modal buttons
+document.getElementById('cancelReportBtn')?.addEventListener('click', closeReportModal);
+document.getElementById('confirmReportBtn')?.addEventListener('click', confirmReportAd);
+
+// Close on outside click
+document.getElementById('reportAdModal')?.addEventListener('click', e => {
+  if (e.target.id === 'reportAdModal') closeReportModal();
+});
+
+// ==============================
+// HELPER FUNCTIONS
+// ==============================
+function getDeviceId() {
+  let deviceId = localStorage.getItem('device_id');
+  if (!deviceId) {
+    deviceId = 'dev_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    localStorage.setItem('device_id', deviceId);
+  }
+  return deviceId;
+}
+
+function showToast(message, type = 'info') {
+  const toast = document.createElement('div');
+  const bgColor = {
+    success: 'from-green-600 to-emerald-500',
+    error: 'from-red-600 to-rose-500',
+    info: 'from-indigo-600 to-purple-500',
+    warning: 'from-yellow-600 to-amber-500'
+  }[type] || 'from-slate-700 to-slate-600';
+
+  const icon = {
+    success: 'fa-check-circle',
+    error: 'fa-exclamation-circle',
+    info: 'fa-info-circle',
+    warning: 'fa-exclamation-triangle'
+  }[type] || 'fa-info-circle';
+
+  toast.className = `fixed bottom-4 right-4 bg-gradient-to-r ${bgColor} text-white px-6 py-3 rounded-xl shadow-2xl z-[100] flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500`;
+  toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+
+  document.body.appendChild(toast);
+
+  // Animate in
+  setTimeout(() => {
+    toast.classList.remove('translate-y-20', 'opacity-0');
+  }, 10);
+
+  // Animate out
+  setTimeout(() => {
+    toast.classList.add('translate-y-20', 'opacity-0');
+    setTimeout(() => toast.remove(), 500);
+  }, 4000);
+}
+
+// ==============================
+// INIT
+// ==============================
+function initializeAdPage() {
+  debugLog('init', '========================================');
+  debugLog('init', 'INITIALIZING AD PAGE');
+  debugLog('init', '========================================');
+
+  // Verify required elements exist
+  const requiredElements = {
+    'ads-grid': grid,
+    'loading': loadingEl,
+    'no-results': noResultsEl,
+    'search': document.getElementById('search'),
+    'categoryFilter': document.getElementById('categoryFilter'),
+    'sortFilter': document.getElementById('sortFilter'),
+    'btnSearch': document.getElementById('btnSearch'),
+    'voiceSearchBtn': document.getElementById('voiceSearchBtn'),
+    'contactDealerModal': document.getElementById('contactDealerModal')
+  };
+
+  let missingElements = [];
+  let foundElements = [];
+
+  for (const [name, element] of Object.entries(requiredElements)) {
+    if (!element) {
+      missingElements.push(name);
+      debugLog('error', `Missing element: ${name}`);
+    } else {
+      foundElements.push(name);
+      debugLog('element', `Found element: ${name}`);
+    }
+  }
+
+  debugLog('element', `Element check summary`, {
+    total: Object.keys(requiredElements).length,
+    found: foundElements.length,
+    missing: missingElements.length
+  });
+
+  if (missingElements.length > 0) {
+    debugLog('error', '❌ INITIALIZATION FAILED', { missingElements });
+    console.error('❌ Cannot initialize - missing elements:', missingElements);
+    alert('Page loading error. Please refresh the page.\n\nMissing elements: ' + missingElements.join(', '));
+  } else {
+    debugLog('success', '✅ ALL REQUIRED ELEMENTS FOUND');
+    debugLog('init', 'Loading categories...');
+    loadCategories();
+
+    debugLog('init', 'Starting initial ad load...');
+    loadAds();
+
+    debugLog('init', '========================================');
+    debugLog('init', 'INITIALIZATION COMPLETE - Watch for API calls');
+    debugLog('init', '========================================');
+  }
+}
+
+// Run initialization when DOM is ready
+if (document.readyState === 'loading') {
+  debugLog('init', 'DOM is still loading, waiting for DOMContentLoaded...');
+  document.addEventListener('DOMContentLoaded', () => {
+    debugLog('init', 'DOMContentLoaded event fired');
+    initializeAdPage();
+  });
+} else {
+  debugLog('init', 'DOM is already ready, initializing immediately');
+  initializeAdPage();
+}
+
+    </script>

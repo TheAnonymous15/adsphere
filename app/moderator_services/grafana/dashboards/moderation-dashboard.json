@@ -1,0 +1,591 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "AdSphere Content Moderation Service Monitoring Dashboard",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "API Docs",
+      "tooltip": "Open API Documentation",
+      "type": "link",
+      "url": "http://localhost:8002/docs"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Health Check",
+      "tooltip": "API Health Status",
+      "type": "link",
+      "url": "http://localhost:8002/health"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Prometheus",
+      "tooltip": "Prometheus UI",
+      "type": "link",
+      "url": "http://localhost:9090"
+    }
+  ],
+  "liveNow": true,
+  "panels": [
+    {
+      "gridPos": { "h": 3, "w": 18, "x": 0, "y": 0 },
+      "id": 100,
+      "options": {
+        "content": "# 🛡️ AdSphere Moderation Service Dashboard\n\nReal-time monitoring of AI/ML content moderation system | WebSocket-First Architecture",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 3, "w": 6, "x": 18, "y": 0 },
+      "id": 200,
+      "options": {
+        "content": "### ⚡ Quick Actions\n[🔄 Restart Service](http://localhost:8002/admin/restart) | [📊 Clear Cache](http://localhost:8002/admin/clear-cache) | [📋 Logs](http://localhost:8002/admin/logs)",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 100 },
+              { "color": "red", "value": 500 }
+            ]
+          },
+          "unit": "reqps"
+        }
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 3 },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "expr": "sum(rate(moderation_requests_total[5m]))",
+          "legendFormat": "Requests/sec",
+          "refId": "A"
+        }
+      ],
+      "title": "📊 Request Rate",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.5 },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 3 },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["mean"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "expr": "avg(moderation_latency_seconds)",
+          "legendFormat": "Avg Latency",
+          "refId": "A"
+        }
+      ],
+      "title": "⏱️ Avg Latency",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 10 },
+              { "color": "red", "value": 50 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 3 },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "expr": "sum(moderation_errors_total)",
+          "legendFormat": "Total Errors",
+          "refId": "A"
+        }
+      ],
+      "title": "❌ Total Errors",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 3 },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "expr": "max(moderation_uptime_seconds)",
+          "legendFormat": "Uptime",
+          "refId": "A"
+        }
+      ],
+      "title": "🕐 Uptime",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "reqps"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 9 },
+      "id": 5,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate(moderation_requests_by_endpoint{endpoint=~\"/moderate/text.*\"}[5m]))",
+          "legendFormat": "Text",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(rate(moderation_requests_by_endpoint{endpoint=~\"/moderate/image.*\"}[5m]))",
+          "legendFormat": "Image",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(rate(moderation_requests_by_endpoint{endpoint=~\"/moderate/video.*\"}[5m]))",
+          "legendFormat": "Video",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(rate(moderation_requests_by_endpoint{endpoint=~\"/moderate/realtimescanner.*\"}[5m]))",
+          "legendFormat": "Scanner",
+          "refId": "D"
+        }
+      ],
+      "title": "📈 Request Rate by Endpoint",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "line+area" }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.5 },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 9 },
+      "id": 6,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "p95"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(moderation_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(moderation_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(moderation_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p99",
+          "refId": "C"
+        }
+      ],
+      "title": "⏱️ Response Time Percentiles",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 17 },
+      "id": 7,
+      "options": {
+        "displayLabels": ["name", "percent"],
+        "legend": { "displayMode": "table", "placement": "right", "showLegend": true },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "expr": "sum(moderation_requests_by_endpoint) by (endpoint)",
+          "legendFormat": "{{endpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "🎯 Request Distribution by Endpoint",
+      "type": "piechart"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "1": { "color": "green", "index": 0, "text": "UP" } }, "type": "value" },
+            { "options": { "0": { "color": "red", "index": 1, "text": "DOWN" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 17 },
+      "id": 8,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "expr": "up{job=\"moderation-api\"}",
+          "legendFormat": "API {{instance}}",
+          "refId": "A"
+        },
+        {
+          "expr": "up{job=\"redis\"}",
+          "legendFormat": "Redis",
+          "refId": "B"
+        },
+        {
+          "expr": "up{job=\"scanner-worker\"}",
+          "legendFormat": "Scanner {{instance}}",
+          "refId": "C"
+        }
+      ],
+      "title": "🏥 Service Health",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 30,
+            "gradientMode": "opacity",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 17 },
+      "id": 9,
+      "options": {
+        "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(moderation_decisions_total{decision=\"approve\"}[1h]))",
+          "legendFormat": "✅ Approved",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(moderation_decisions_total{decision=\"review\"}[1h]))",
+          "legendFormat": "⚠️ Review",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(increase(moderation_decisions_total{decision=\"block\"}[1h]))",
+          "legendFormat": "🚫 Blocked",
+          "refId": "C"
+        }
+      ],
+      "title": "🎭 Moderation Decisions (Last Hour)",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": { "h": 2, "w": 24, "x": 0, "y": 25 },
+      "id": 101,
+      "options": {
+        "content": "## 🖥️ Instance Performance",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "align": "auto",
+            "cellOptions": { "type": "auto" },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Requests" },
+            "properties": [{ "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Errors" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
+          }
+        ]
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 27 },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "expr": "moderation_requests_total",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "📋 Instance Details",
+      "transformations": [
+        { "id": "organize", "options": { "excludeByName": { "Time": true, "__name__": true, "job": true }, "indexByName": {}, "renameByName": { "instance": "Instance", "value": "Requests" } } }
+      ],
+      "type": "table"
+    },
+    {
+      "gridPos": { "h": 2, "w": 24, "x": 0, "y": 35 },
+      "id": 102,
+      "options": {
+        "content": "## ⚙️ System Controls",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 37 },
+      "id": 103,
+      "options": {
+        "content": "### 🔄 Service Management\n\n| Action | Description |\n|--------|-------------|\n| [🔄 Restart API](http://localhost:8002/admin/restart) | Gracefully restart all API instances |\n| [🛑 Shutdown](http://localhost:8002/admin/shutdown) | Gracefully shutdown service |\n| [💊 Health Check](http://localhost:8002/health) | Check service health |\n| [📊 Metrics](http://localhost:8002/metrics) | Raw Prometheus metrics |\n\n---\n\n**CLI Commands:**\n```bash\n./start.sh restart\n./start.sh stop\n./start.sh status\n```",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 37 },
+      "id": 104,
+      "options": {
+        "content": "### 📈 Scaling Controls\n\n| Action | Description |\n|--------|-------------|\n| [➕ Scale Up](http://localhost:8002/admin/scale?replicas=8) | Add more API instances |\n| [➖ Scale Down](http://localhost:8002/admin/scale?replicas=2) | Reduce API instances |\n| [📊 Current Scale](http://localhost:8002/admin/status) | View current instance count |\n\n---\n\n**CLI Commands:**\n```bash\n./start.sh scale 8 4 4\n# Scale: 8 API, 4 Scanner, 4 Video\n```",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 37 },
+      "id": 105,
+      "options": {
+        "content": "### 🧹 Maintenance\n\n| Action | Description |\n|--------|-------------|\n| [🗑️ Clear Cache](http://localhost:8002/admin/cache/clear) | Clear Redis cache |\n| [🔄 Clear Scan Cache](http://localhost:8002/admin/scan-cache/clear) | Clear ad scan results |\n| [📋 View Logs](http://localhost:8002/admin/logs) | View recent logs |\n| [🔍 Run Scanner](http://localhost:8002/admin/scanner/run) | Trigger manual scan |\n\n---\n\n**CLI Commands:**\n```bash\n./start.sh logs moderation-api\n./start.sh health\n```",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 45 },
+      "id": 106,
+      "options": {
+        "content": "### 🔧 Worker Controls\n\n| Worker | Start | Stop | Status |\n|--------|-------|------|--------|\n| Scanner | [▶️](http://localhost:8002/admin/worker/scanner/start) | [⏹️](http://localhost:8002/admin/worker/scanner/stop) | [📊](http://localhost:8002/admin/worker/scanner/status) |\n| Video | [▶️](http://localhost:8002/admin/worker/video/start) | [⏹️](http://localhost:8002/admin/worker/video/stop) | [📊](http://localhost:8002/admin/worker/video/status) |\n| Image | [▶️](http://localhost:8002/admin/worker/image/start) | [⏹️](http://localhost:8002/admin/worker/image/stop) | [📊](http://localhost:8002/admin/worker/image/status) |\n| Text | [▶️](http://localhost:8002/admin/worker/text/start) | [⏹️](http://localhost:8002/admin/worker/text/stop) | [📊](http://localhost:8002/admin/worker/text/status) |",
+        "mode": "markdown"
+      },
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 45 },
+      "id": 107,
+      "options": {
+        "content": "### 🔗 Quick Links\n\n| Resource | Link |\n|----------|------|\n| 📖 API Documentation | [OpenAPI Docs](http://localhost:8002/docs) |\n| 📊 Prometheus | [Prometheus UI](http://localhost:9090) |\n| 📈 Grafana | [This Dashboard](http://localhost:3000) |\n| 🔴 Redis Commander | [Redis GUI](http://localhost:8081) |\n| 🐳 Docker Status | Run: `docker ps` |\n| 📋 Logs | Run: `./start.sh logs` |",
+        "mode": "markdown"
+      },
+      "type": "text"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["moderation", "adsphere", "ai"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "AdSphere Moderation Dashboard",
+  "uid": "adsphere-moderation",
+  "version": 1,
+  "weekStart": ""
+}
+
