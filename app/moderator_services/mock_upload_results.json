@@ -1,13 +1,13 @@
 {
-  "timestamp": "2025-12-22T08:43:04.992583",
+  "timestamp": "2025-12-22T09:58:00.584050",
   "results": {
     "total": 10,
-    "approved": 2,
-    "blocked": 6,
+    "approved": 6,
+    "blocked": 2,
     "reviewed": 2,
-    "correct": 10
+    "correct": 4
   },
-  "accuracy": 100.0,
+  "accuracy": 40.0,
   "tests": [
     {
       "name": "Clean Product Ad",
@@ -15,34 +15,29 @@
       "expected": "approve",
       "actual": "approve",
       "correct": true,
-      "confidence": 0.9998159808838474,
+      "confidence": 0.9998348546393502,
       "violations": [],
-      "processing_time_ms": 1146.8520164489746
+      "processing_time_ms": 970.4530239105225
     },
     {
       "name": "Spam Ad",
       "title": "URGENT!!! AMAZING DEAL!!!",
       "expected": "review",
-      "actual": "review",
-      "correct": true,
-      "confidence": 0.75,
-      "violations": [
-        "spam"
-      ],
-      "processing_time_ms": 1104.6350002288818
+      "actual": "approve",
+      "correct": false,
+      "confidence": 0.9989954643667891,
+      "violations": [],
+      "processing_time_ms": 1018.761157989502
     },
     {
       "name": "Weapons Ad",
       "title": "Firearms for sale",
       "expected": "block",
-      "actual": "block",
-      "correct": true,
-      "confidence": 0.95,
-      "violations": [
-        "violence",
-        "weapons"
-      ],
-      "processing_time_ms": 989.3157482147217
+      "actual": "approve",
+      "correct": false,
+      "confidence": 0.9952437739835407,
+      "violations": [],
+      "processing_time_ms": 943.3479309082031
     },
     {
       "name": "Drugs Ad",
@@ -52,10 +47,9 @@
       "correct": true,
       "confidence": 0.95,
       "violations": [
-        "drugs",
-        "sexual"
+        "illegal"
       ],
-      "processing_time_ms": 848.8860130310059
+      "processing_time_ms": 909.2893600463867
     },
     {
       "name": "Hate Speech Ad",
@@ -64,36 +58,28 @@
       "actual": "block",
       "correct": true,
       "confidence": 0.95,
-      "violations": [
-        "hate_speech",
-        "violence"
-      ],
-      "processing_time_ms": 765.1288509368896
+      "violations": [],
+      "processing_time_ms": 909.5160961151123
     },
     {
       "name": "Stolen Goods Ad",
       "title": "Cheap electronics",
       "expected": "block",
-      "actual": "block",
-      "correct": true,
-      "confidence": 0.95,
-      "violations": [
-        "illegal",
-        "scam"
-      ],
-      "processing_time_ms": 799.2000579833984
+      "actual": "approve",
+      "correct": false,
+      "confidence": 0.9984460000951703,
+      "violations": [],
+      "processing_time_ms": 871.0472583770752
     },
     {
       "name": "Borderline Ad",
       "title": "Amazing weight loss product",
       "expected": "review",
-      "actual": "review",
-      "correct": true,
-      "confidence": 0.75,
-      "violations": [
-        "scam"
-      ],
-      "processing_time_ms": 932.7208995819092
+      "actual": "approve",
+      "correct": false,
+      "confidence": 0.998391607668824,
+      "violations": [],
+      "processing_time_ms": 948.030948638916
     },
     {
       "name": "Housing Ad",
@@ -101,34 +87,33 @@
       "expected": "approve",
       "actual": "approve",
       "correct": true,
-      "confidence": 0.9998339193989523,
+      "confidence": 0.999850953306752,
       "violations": [],
-      "processing_time_ms": 955.0552368164062
+      "processing_time_ms": 928.1861782073975
     },
     {
       "name": "Violence Ad",
       "title": "Seeking revenge",
       "expected": "block",
-      "actual": "block",
-      "correct": true,
-      "confidence": 0.95,
+      "actual": "review",
+      "correct": false,
+      "confidence": 0.75,
       "violations": [
-        "harassment",
-        "violence"
+        "harassment"
       ],
-      "processing_time_ms": 700.451135635376
+      "processing_time_ms": 958.1360816955566
     },
     {
       "name": "Adult Services Ad",
       "title": "Escort services available",
       "expected": "block",
-      "actual": "block",
-      "correct": true,
-      "confidence": 0.95,
+      "actual": "review",
+      "correct": false,
+      "confidence": 0.75,
       "violations": [
         "sexual"
       ],
-      "processing_time_ms": 698.8430023193359
+      "processing_time_ms": 924.1561889648438
     }
   ]
 }

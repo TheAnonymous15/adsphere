@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from moderation_service.app.services.text.text_moderation_pipeline import moderate_text
+from moderation_service.app.services.text import moderate_text
 
 # 50 Edge cases that test INTENT not just keywords
 test_cases = [

@@ -135,6 +135,22 @@ MODEL_REGISTRY: Dict[str, ModelInfo] = {
         import_name="transformers",
         description="XLM-RoBERTa fine-tuned for language detection (papluca/xlm-roberta-base-language-detection)"
     ),
+    "polyglot_toxic": ModelInfo(
+        name="Polyglot Toxicity Classifier",
+        model_type=ModelType.PRELOAD,
+        package="transformers",
+        import_name="transformers",
+        preload_func="_preload_polyglot_toxic",
+        description="Multilingual toxicity detection (citizenlab/distilbert-base-multilingual-cased-toxicity)"
+    ),
+    "bart_mnli": ModelInfo(
+        name="BART-MNLI Zero-Shot Classifier",
+        model_type=ModelType.PRELOAD,
+        package="transformers",
+        import_name="transformers",
+        preload_func="_preload_bart_mnli",
+        description="Zero-shot classification for intent detection (facebook/bart-large-mnli)"
+    ),
     "fasttext_lid": ModelInfo(
         name="fastText Language Identification (Compressed)",
         model_type=ModelType.FILE,
@@ -426,6 +442,33 @@ class ModelStore:
             return True
         except Exception as e:
             self._log(f"Detoxify preload failed: {e}", "error")
+            return False
+
+    def _preload_polyglot_toxic(self) -> bool:
+        """Preload Polyglot Toxicity model from HuggingFace."""
+        try:
+            from transformers import AutoTokenizer, AutoModelForSequenceClassification
+            model_name = "citizenlab/distilbert-base-multilingual-cased-toxicity"
+            self._log(f"Downloading toxicity model: {model_name}", "download")
+            AutoTokenizer.from_pretrained(model_name)
+            AutoModelForSequenceClassification.from_pretrained(model_name)
+            self._log("Polyglot toxicity model ready", "ok")
+            return True
+        except Exception as e:
+            self._log(f"Polyglot toxic preload failed: {e}", "error")
+            return False
+
+    def _preload_bart_mnli(self) -> bool:
+        """Preload BART-MNLI model from HuggingFace."""
+        try:
+            from transformers import pipeline
+            model_name = "facebook/bart-large-mnli"
+            self._log(f"Downloading intent model: {model_name}", "download")
+            pipeline("zero-shot-classification", model=model_name, device=-1)
+            self._log("BART-MNLI model ready", "ok")
+            return True
+        except Exception as e:
+            self._log(f"BART-MNLI preload failed: {e}", "error")
             return False
 
     def _preload_nudenet(self) -> bool:

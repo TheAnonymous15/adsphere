@@ -33,7 +33,7 @@ REQUIRED_MODELS = ['detoxify', 'transformers', 'torch']
 if not ensure_models(REQUIRED_MODELS, verbose=False):
     print("⚠ Some models not available")
 
-from moderation_service.app.services.text.text_moderation_pipeline import (
+from moderation_service.app.services.text import (
     TextModerationPipeline,
     moderate_text,
     ModerationDecision

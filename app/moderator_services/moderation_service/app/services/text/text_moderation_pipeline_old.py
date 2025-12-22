@@ -508,18 +508,18 @@ class VectorDatabase:
 class IntentClassifier:
     """Step 6: Intent classification using transformer models"""
 
-    # Intent categories for ads
+    # Intent categories for ads - specific to distinguish actual violations from legitimate content
     INTENTS = [
-        "legitimate_ad",      # Normal product/service ad
-        "spam",               # Spam or low-quality content
-        "scam",               # Potential scam
-        "illegal_sale",       # Selling illegal items
-        "adult_content",      # Adult/NSFW content
-        "hate_speech",        # Hate or discriminatory content
-        "violence_threat",    # Violent threats
-        "personal_attack",    # Targeted harassment
-        "misinformation",     # False or misleading claims
-        "prohibited_item"     # Prohibited items (weapons, drugs)
+        "legitimate_product_or_service",  # Normal product/service ad
+        "educational_or_informational",   # News, education, discussion
+        "spam_or_clickbait",              # Spam or low-quality content
+        "financial_scam",                 # Money scams, get-rich-quick
+        "illegal_goods_for_sale",         # Actually selling illegal items
+        "sexual_services_for_sale",       # Actually selling sexual services
+        "hate_or_discrimination",         # Hate or discriminatory content
+        "violence_or_threat",             # Actual threats of violence
+        "personal_attack",                # Targeted harassment
+        "false_claims",                   # Misleading health/product claims
     ]
 
     def __init__(self):
@@ -642,17 +642,16 @@ class FeatureAggregator:
             'auto_block_threshold': 0.70,
             'review_threshold': 0.35,
             'approve_threshold': 0.20,
-            # Intent thresholds - balanced to avoid false positives
+            # Intent thresholds - tuned for balance
             'intent_thresholds': {
-                'scam': 0.40,            # Raised to reduce false positives
-                'illegal_sale': 0.35,    # Clear violations
-                'adult_content': 0.50,   # Raised significantly - many legit uses
-                'hate_speech': 0.35,     # Clear violations
-                'violence_threat': 0.40, # Raised - many legit contexts
-                'prohibited_item': 0.40, # Raised - many legit contexts
-                'spam': 0.45,            # Raised
+                'financial_scam': 0.35,
+                'illegal_goods_for_sale': 0.35,
+                'sexual_services_for_sale': 0.40,
+                'hate_or_discrimination': 0.35,
+                'violence_or_threat': 0.38,
+                'spam_or_clickbait': 0.40,
                 'personal_attack': 0.40,
-                'misinformation': 0.45
+                'false_claims': 0.42
             },
             # Toxicity thresholds - raised to reduce over-blocking
             'toxicity_thresholds': {
@@ -705,32 +704,32 @@ class FeatureAggregator:
         # =========================================================
         # STEP 0: Get Legitimate Intent Score (CONTEXT AWARENESS)
         # =========================================================
-        legit_score = intent_scores.get('legitimate_ad', 0.5)
+        # Check both legitimate categories
+        legit_product = intent_scores.get('legitimate_product_or_service', 0)
+        legit_educational = intent_scores.get('educational_or_informational', 0)
+        legit_score = max(legit_product, legit_educational)
 
-        # If content is clearly legitimate (high score), raise all thresholds
-        # This prevents false positives on legitimate business content
+        # Only apply threshold modifier for very high legitimate scores
+        # This is more conservative to avoid missing actual violations
         threshold_modifier = 1.0
-        if legit_score >= 0.5:
-            threshold_modifier = 1.0 + (legit_score - 0.5)  # Up to 1.5x higher thresholds
-        elif legit_score < 0.3:
-            threshold_modifier = 0.8  # Lower thresholds for suspicious content
+        if legit_score >= 0.6:  # Only for very clearly legitimate content
+            threshold_modifier = 1.0 + ((legit_score - 0.6) * 0.5)  # Max 1.2x
 
         # =========================================================
         # STEP 1: Intent Classification (PRIMARY SIGNAL)
         # =========================================================
         intent_risk = 0.0
 
-        # Map intents to violation types
+        # Map intents to violation types (updated labels)
         intent_to_violation = {
-            'scam': ViolationType.SCAM,
-            'illegal_sale': ViolationType.ILLEGAL,
-            'adult_content': ViolationType.SEXUAL,
-            'hate_speech': ViolationType.HATE_SPEECH,
-            'violence_threat': ViolationType.VIOLENCE,
-            'prohibited_item': ViolationType.WEAPONS,
-            'spam': ViolationType.SPAM,
+            'financial_scam': ViolationType.SCAM,
+            'illegal_goods_for_sale': ViolationType.ILLEGAL,
+            'sexual_services_for_sale': ViolationType.SEXUAL,
+            'hate_or_discrimination': ViolationType.HATE_SPEECH,
+            'violence_or_threat': ViolationType.VIOLENCE,
+            'spam_or_clickbait': ViolationType.SPAM,
             'personal_attack': ViolationType.HARASSMENT,
-            'misinformation': ViolationType.MISLEADING
+            'false_claims': ViolationType.MISLEADING
         }
 
         for intent, violation_type in intent_to_violation.items():
@@ -743,9 +742,14 @@ class FeatureAggregator:
                 violations.append(violation_type)
                 intent_risk = max(intent_risk, score)
 
-        # If legitimate_ad score is very low AND we have violations, boost risk
-        if legit_score < 0.25 and len(violations) > 0:
-            intent_risk = max(intent_risk, 0.6)
+        # If legitimate score is very low AND bad intent scores are present
+        if legit_score < 0.3:
+            # Check if any bad intent has moderate score
+            bad_intents = ['financial_scam', 'illegal_goods_for_sale', 'sexual_services_for_sale',
+                          'hate_or_discrimination', 'violence_or_threat']
+            for bad_intent in bad_intents:
+                if intent_scores.get(bad_intent, 0) >= 0.25:
+                    intent_risk = max(intent_risk, 0.5)
 
         component_scores['intent'] = intent_risk * self.weights['intent']
 
