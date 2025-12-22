@@ -1,0 +1,43 @@
+[
+  {
+    "id": "violence_001",
+    "text": "Looking to buy weapons and explosives for sale. Contact me for illegal firearms.",
+    "category": "illegal",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "weapons"
+  },
+  {
+    "id": "violence_002",
+    "text": "I will kill anyone who gets in my way. Violence is the answer.",
+    "category": "threats",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "violence_threats"
+  },
+  {
+    "id": "violence_003",
+    "text": "Join our fight! Bring your guns and knives to the protest.",
+    "category": "incitement",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "violence_incitement"
+  },
+  {
+    "id": "violence_004",
+    "text": "Selling brass knuckles, tasers, and other self-defense weapons.",
+    "category": "weapons",
+    "expected_decision": "block",
+    "expected_risk": "high",
+    "violation_type": "weapons_sale"
+  },
+  {
+    "id": "violence_005",
+    "text": "Learn how to make homemade explosives. Free tutorial video.",
+    "category": "dangerous_instruction",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "dangerous_content"
+  }
+]
+

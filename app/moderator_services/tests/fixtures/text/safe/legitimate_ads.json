@@ -1,0 +1,59 @@
+[
+  {
+    "id": "safe_001",
+    "text": "Selling my laptop. MacBook Pro 2020, excellent condition, barely used.",
+    "category": "electronics",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_002",
+    "text": "Beautiful 3-bedroom house for rent in quiet neighborhood. Close to schools and parks.",
+    "category": "housing",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_003",
+    "text": "Looking for a marketing manager with 5+ years experience. Competitive salary and benefits.",
+    "category": "jobs",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_004",
+    "text": "Fresh organic vegetables from local farm. Delivery available.",
+    "category": "food",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_005",
+    "text": "Toyota Camry 2018 for sale. Low mileage, one owner, full service history.",
+    "category": "vehicles",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_006",
+    "text": "Free kittens to good home. Litter trained, healthy and playful.",
+    "category": "pets",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_007",
+    "text": "Guitar lessons for beginners. Experienced teacher, flexible schedule.",
+    "category": "services",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  },
+  {
+    "id": "safe_008",
+    "text": "Wedding dress, size 8, worn once. Beautiful lace details, dry cleaned.",
+    "category": "clothing",
+    "expected_decision": "approve",
+    "expected_risk": "safe"
+  }
+]
+

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "drugs_001",
+    "text": "Selling cocaine, heroin, and meth. Fast delivery, good prices.",
+    "category": "drug_trafficking",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "illegal_drugs"
+  },
+  {
+    "id": "drugs_002",
+    "text": "Buy weed online. High quality marijuana delivered to your door.",
+    "category": "drug_sale",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "drug_sale"
+  },
+  {
+    "id": "drugs_003",
+    "text": "Prescription pills for sale without prescription. Oxycontin, Xanax, Adderall.",
+    "category": "prescription_drugs",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "illegal_pharma"
+  },
+  {
+    "id": "drugs_004",
+    "text": "Get high-quality MDMA and ecstasy pills. Party supplies available.",
+    "category": "drug_sale",
+    "expected_decision": "block",
+    "expected_risk": "critical",
+    "violation_type": "illegal_drugs"
+  }
+]
+

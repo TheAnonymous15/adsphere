@@ -1,0 +1,684 @@
+========================================
+  Comprehensive Mock Ad Upload Test
+  Extended Test Suite (20+ Cases)
+========================================
+
+1. Checking Moderation Service Status...
+   ML Service: ✅ Available
+   Backend: ML Microservice
+   Version: 2.0.0
+
+2. Running Moderation Tests on 30 Sample Ads...
+
+================================================================================
+
+TEST 1: Weapon Image Test
+--------------------------------------------------------------------------------
+Category: Image Test - Weapon
+Title: Fucking awesome gun for sale - best shit ever
+Description: This badass weapon will blow your fucking mind. Perfect for killing and destroyi...
+Expected: BLOCK
+Image: weapon.jpeg (12.9 KB)
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 85/100
+   Risk Level: critical
+   Processing Time: 68.41ms
+   Flags: weapons
+   Issues:
+      - Weapons: 0.70 exceeds block threshold (0.5)
+   Top ML Scores:
+      - hate: 99.7%
+      - weapons: 70%
+
+================================================================================
+
+TEST 2: Hate Speech Image Test
+--------------------------------------------------------------------------------
+Category: Image Test - Hate Speech
+Title: Kill all jews - join our movement
+Description: Fuck these dirty bastards. We need to eliminate all these cockroaches from our c...
+Expected: BLOCK
+Image: sam.jpeg (12.8 KB)
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 86/100
+   Risk Level: critical
+   Processing Time: 90.61ms
+   Flags: self_harm, hate
+   Issues:
+      - Critical violation: self_harm detected
+   Top ML Scores:
+      - hate: 99.9%
+      - self_harm: 41.8%
+
+================================================================================
+
+TEST 3: Violence Image Test
+--------------------------------------------------------------------------------
+Category: Image Test - Violence
+Title: Beat the shit out of your enemies - hire me
+Description: I will fuck up anyone you want. Assault, violence, murder - whatever the fuck yo...
+Expected: BLOCK
+Image: assault-criminal-lawyer.jpg (46.5 KB)
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 85/100
+   Risk Level: critical
+   Processing Time: 30.94ms
+   Flags: violence
+   Issues:
+      - Violence: 0.70 exceeds block threshold (0.6)
+   Top ML Scores:
+      - hate: 99.7%
+      - violence: 70%
+
+================================================================================
+
+TEST 4: Drug Sale with Image
+--------------------------------------------------------------------------------
+Category: Image Test - Drugs
+Title: Pure cocaine and heroin - fuck yeah!
+Description: Get high as fuck with this premium shit. Best quality meth, cocaine, heroin. The...
+Expected: BLOCK
+Image: 1.webp (3.9 KB)
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 0/100
+   Risk Level: critical
+   Processing Time: 0.78ms
+   Flags: drugs_hard
+   Issues:
+      - Rule violation: critical_drugs_hard
+      - Rule violation: critical_drugs_hard
+      - Rule violation: obfuscated_drugs_hard
+
+================================================================================
+
+TEST 5: Excessive Profanity Test
+--------------------------------------------------------------------------------
+Category: Image Test - Profanity Only
+Title: Fucking amazing deal you assholes!
+Description: This shit is the best fucking product ever. Dont be a dumb bitch, buy this crap ...
+Expected: REVIEW
+Image: images.jpeg (8.9 KB)
+
+RESULT:
+   Decision: ❌ BLOCK (Expected: REVIEW)
+   Safe: No
+   AI Score: 91/100
+   Risk Level: critical
+   Processing Time: 30.48ms
+   Flags: hate
+   Issues:
+      - Hate: 1.00 exceeds block threshold (0.5)
+   Top ML Scores:
+      - hate: 99.8%
+
+================================================================================
+
+TEST 6: iPhone 15 Pro
+--------------------------------------------------------------------------------
+Category: Clean Electronics
+Title: Brand New iPhone 15 Pro Max
+Description: Sealed in box, 256GB, Space Black color. Comes with Apple warranty and all origi...
+Expected: APPROVE
+
+RESULT:
+   Decision: ✅ APPROVE
+   Safe: Yes
+   AI Score: 99/100
+   Risk Level: low
+   Processing Time: 37.39ms
+   Top ML Scores:
+      - spam: 12.6%
+
+================================================================================
+
+TEST 7: Apartment Listing
+--------------------------------------------------------------------------------
+Category: Clean Housing
+Title: 3-Bedroom Apartment Downtown
+Description: Spacious apartment with modern kitchen, balcony, parking. Close to metro, school...
+Expected: APPROVE
+
+RESULT:
+   Decision: ✅ APPROVE
+   Safe: Yes
+   AI Score: 100/100
+   Risk Level: low
+   Processing Time: 32.72ms
+
+================================================================================
+
+TEST 8: Car for Sale
+--------------------------------------------------------------------------------
+Category: Clean Automotive
+Title: 2020 Toyota Camry
+Description: Excellent condition, low mileage, one owner, full service history. New tires, ex...
+Expected: APPROVE
+
+RESULT:
+   Decision: ✅ APPROVE
+   Safe: Yes
+   AI Score: 100/100
+   Risk Level: low
+   Processing Time: 35.58ms
+
+================================================================================
+
+TEST 9: Tutoring Services
+--------------------------------------------------------------------------------
+Category: Clean Services
+Title: Math and Science Tutoring
+Description: Experienced teacher offering tutoring for high school students. Math, Physics, C...
+Expected: APPROVE
+
+RESULT:
+   Decision: ✅ APPROVE
+   Safe: Yes
+   AI Score: 99/100
+   Risk Level: low
+   Processing Time: 30.43ms
+
+================================================================================
+
+TEST 10: Firearms Sale
+--------------------------------------------------------------------------------
+Category: Weapons
+Title: AR-15 Rifle for Sale
+Description: Semi-automatic rifle with scope, 3 magazines, 500 rounds of ammunition. Great co...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 94/100
+   Risk Level: critical
+   Processing Time: 33.17ms
+   Flags: weapons
+   Issues:
+      - Weapons: 0.70 exceeds block threshold (0.5)
+   Top ML Scores:
+      - weapons: 70%
+
+================================================================================
+
+TEST 11: Gun Parts
+--------------------------------------------------------------------------------
+Category: Weapons
+Title: Pistol and handgun accessories
+Description: Selling Glock 19, extra magazines, holster, and cleaning kit. Also have 9mm ammu...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 94/100
+   Risk Level: critical
+   Processing Time: 28.18ms
+   Flags: weapons
+   Issues:
+      - Weapons: 0.70 exceeds block threshold (0.5)
+   Top ML Scores:
+      - weapons: 70%
+
+================================================================================
+
+TEST 12: Knives
+--------------------------------------------------------------------------------
+Category: Weapons
+Title: Combat knives and tactical gear
+Description: Military-grade combat knives, switchblades, and hunting knives. Sharp and ready ...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 94/100
+   Risk Level: critical
+   Processing Time: 25.95ms
+   Flags: weapons
+   Issues:
+      - Weapons: 0.70 exceeds block threshold (0.5)
+   Top ML Scores:
+      - weapons: 70%
+
+================================================================================
+
+TEST 13: Hitman Services
+--------------------------------------------------------------------------------
+Category: Violence
+Title: Professional problem solver
+Description: Need someone taken care of? I handle all types of jobs. Violence, assault, or wo...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 94/100
+   Risk Level: critical
+   Processing Time: 33.27ms
+   Flags: violence
+   Issues:
+      - Violence: 0.70 exceeds block threshold (0.6)
+   Top ML Scores:
+      - violence: 70%
+
+================================================================================
+
+TEST 14: Fighting Services
+--------------------------------------------------------------------------------
+Category: Violence
+Title: Will beat someone up for money
+Description: Looking to hurt your enemy? I provide physical violence services. Will assault, ...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 91/100
+   Risk Level: critical
+   Processing Time: 30.86ms
+   Flags: violence
+   Issues:
+      - Violence: 0.70 exceeds block threshold (0.6)
+   Top ML Scores:
+      - violence: 70%
+      - hate: 35.3%
+
+================================================================================
+
+TEST 15: Cocaine Sale
+--------------------------------------------------------------------------------
+Category: Hard Drugs
+Title: High quality cocaine available
+Description: Pure Colombian cocaine for sale. Also have heroin, meth, and fentanyl. Fast deli...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 0/100
+   Risk Level: critical
+   Processing Time: 1.01ms
+   Flags: drugs_hard
+   Issues:
+      - Rule violation: critical_drugs_hard
+      - Rule violation: critical_drugs_hard
+      - Rule violation: critical_drugs_hard
+
+================================================================================
+
+TEST 16: Meth Lab
+--------------------------------------------------------------------------------
+Category: Hard Drugs
+Title: Crystal meth - bulk quantities
+Description: Fresh batch of methamphetamine. High purity, competitive prices. Wholesale avail...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 0/100
+   Risk Level: critical
+   Processing Time: 1.22ms
+   Flags: drugs_hard
+   Issues:
+      - Rule violation: critical_drugs_hard
+      - Rule violation: critical_drugs_hard
+      - Rule violation: obfuscated_drugs_hard
+
+================================================================================
+
+TEST 17: Pills Without Prescription
+--------------------------------------------------------------------------------
+Category: Prescription Drugs
+Title: Oxycodone and Xanax for sale
+Description: Selling prescription medication without prescription. Oxy, Xanax, Adderall, Vico...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 0/100
+   Risk Level: critical
+   Processing Time: 3.02ms
+   Flags: drugs_hard
+   Issues:
+      - Rule violation: critical_drugs_hard
+      - Rule violation: critical_drugs_hard
+      - Rule violation: critical_drugs_hard
+
+================================================================================
+
+TEST 18: Racist Group
+--------------------------------------------------------------------------------
+Category: Hate Speech
+Title: White supremacy meeting
+Description: Join our movement! We hate all minorities and foreigners. Planning to destroy an...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 89/100
+   Risk Level: critical
+   Processing Time: 56.61ms
+   Flags: self_harm, hate
+   Issues:
+      - Critical violation: self_harm detected
+   Top ML Scores:
+      - hate: 78.1%
+      - self_harm: 29.6%
+
+================================================================================
+
+TEST 19: Discriminatory Hiring
+--------------------------------------------------------------------------------
+Category: Hate Speech
+Title: Job opening - No blacks or Muslims
+Description: Hiring for position. No African Americans, no Muslims, no immigrants. Only white...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 96/100
+   Risk Level: critical
+   Processing Time: 30.71ms
+   Flags: self_harm
+   Issues:
+      - Critical violation: self_harm detected
+   Top ML Scores:
+      - hate: 24.4%
+      - spam: 10.9%
+      - self_harm: 10.4%
+
+================================================================================
+
+TEST 20: Homophobic Content
+--------------------------------------------------------------------------------
+Category: Hate Speech
+Title: Death to all LGBT people
+Description: Gay people are disgusting and should be eliminated. Join us in fighting against ...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 85/100
+   Risk Level: critical
+   Processing Time: 32.62ms
+   Flags: self_harm
+   Issues:
+      - Critical violation: self_harm detected
+   Top ML Scores:
+      - hate: 99.1%
+      - self_harm: 45.1%
+
+================================================================================
+
+TEST 21: Prostitution
+--------------------------------------------------------------------------------
+Category: Adult Services
+Title: Escort services - Beautiful girls
+Description: Sex workers available 24/7. Full service escorts, sexual services, no condom opt...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 89/100
+   Risk Level: critical
+   Processing Time: 28.9ms
+   Flags: sexual_content, adult
+   Issues:
+      - Sexual_content: 0.60 exceeds block threshold (0.5)
+   Top ML Scores:
+      - sexual_content: 60%
+      - hate: 59.8%
+
+================================================================================
+
+TEST 22: Explicit Services
+--------------------------------------------------------------------------------
+Category: Adult Services
+Title: Massage with happy ending
+Description: Sensual massage services. Full body massage ending in sexual release. Asian girl...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 88/100
+   Risk Level: critical
+   Processing Time: 30.89ms
+   Flags: sexual_content, adult
+   Issues:
+      - Sexual_content: 0.70 exceeds block threshold (0.5)
+   Top ML Scores:
+      - sexual_content: 70%
+      - hate: 55%
+
+================================================================================
+
+TEST 23: Stolen Electronics
+--------------------------------------------------------------------------------
+Category: Theft
+Title: Cheap laptops and phones - No receipts
+Description: Selling stolen MacBooks, iPhones, iPads. No paperwork, no questions asked. Very ...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 0/100
+   Risk Level: critical
+   Processing Time: 1.83ms
+   Flags: illegal, theft
+   Issues:
+      - Rule violation: critical_theft
+      - Rule violation: critical_theft
+      - Rule violation: critical_theft
+
+================================================================================
+
+TEST 24: Stolen Car Parts
+--------------------------------------------------------------------------------
+Category: Theft
+Title: Car parts - Jacked from vehicles
+Description: Stolen catalytic converters, wheels, stereos. Fresh off the truck. No serial num...
+Expected: BLOCK
+
+RESULT:
+   Decision: ✅ BLOCK
+   Safe: No
+   AI Score: 0/100
+   Risk Level: critical
+   Processing Time: 1.69ms
+   Flags: illegal, theft
+   Issues:
+      - Rule violation: critical_theft
+      - Rule violation: critical_theft
+      - Rule violation: critical_theft
+
+================================================================================
+
+TEST 25: Excessive Caps
+--------------------------------------------------------------------------------
+Category: Spam
+Title: URGENT!!! AMAZING DEAL!!! ACT NOW!!!
+Description: LIMITED TIME ONLY!!! BUY NOW!!! DONT MISS OUT!!! CLICK HERE!!! GUARANTEED RESULT...
+Expected: REVIEW
+
+RESULT:
+   Decision: ❌ BLOCK (Expected: REVIEW)
+   Safe: No
+   AI Score: 86/100
+   Risk Level: critical
+   Processing Time: 53.94ms
+   Flags: scam_fraud, spam, scam, excessive_punctuation, urgency, caps_spam
+   Issues:
+      - Scam_fraud: 0.90 exceeds review threshold (0.5)
+      - Spam: 1.30 exceeds block threshold (0.98)
+   Top ML Scores:
+      - spam: 130%
+      - scam_fraud: 90%
+
+================================================================================
+
+TEST 26: Weight Loss Fraud
+--------------------------------------------------------------------------------
+Category: Scam
+Title: Lose 50 pounds in 5 days - Guaranteed!
+Description: Miracle formula! Secret ingredient! Lose weight without exercise! Guaranteed res...
+Expected: REVIEW
+
+RESULT:
+   Decision: ❌ BLOCK (Expected: REVIEW)
+   Safe: No
+   AI Score: 88/100
+   Risk Level: high
+   Processing Time: 28.71ms
+   Flags: scam_fraud, spam, scam
+   Top ML Scores:
+      - spam: 91%
+      - scam_fraud: 90%
+
+================================================================================
+
+TEST 27: Get Rich Quick
+--------------------------------------------------------------------------------
+Category: Scam
+Title: Make $10,000 per week from home!
+Description: No experience needed! Work from home! Make money fast! Get rich quick! Guarantee...
+Expected: REVIEW
+
+RESULT:
+   Decision: ❌ BLOCK (Expected: REVIEW)
+   Safe: No
+   AI Score: 92/100
+   Risk Level: high
+   Processing Time: 37.36ms
+   Flags: scam_fraud, spam, scam
+   Top ML Scores:
+      - spam: 70%
+      - scam_fraud: 60%
+
+================================================================================
+
+TEST 28: Fake Investment
+--------------------------------------------------------------------------------
+Category: Scam
+Title: 500% return guaranteed - Risk free!
+Description: Invest now and triple your money! No risk, guaranteed profit! Limited spots avai...
+Expected: REVIEW
+
+RESULT:
+   Decision: ❌ BLOCK (Expected: REVIEW)
+   Safe: No
+   AI Score: 89/100
+   Risk Level: high
+   Processing Time: 30.3ms
+   Flags: scam_fraud, spam, scam, urgency
+   Top ML Scores:
+      - spam: 91%
+      - scam_fraud: 90%
+
+================================================================================
+
+TEST 29: Aggressive Marketing
+--------------------------------------------------------------------------------
+Category: Borderline
+Title: Best deal ever! You must buy this now!
+Description: This is the best product ever made! Everyone needs this! Limited stock! Order to...
+Expected: REVIEW
+
+RESULT:
+   Decision: ❌ APPROVE (Expected: REVIEW)
+   Safe: Yes
+   AI Score: 99/100
+   Risk Level: low
+   Processing Time: 38.27ms
+   Top ML Scores:
+      - spam: 14.9%
+
+================================================================================
+
+TEST 30: Questionable Health Claims
+--------------------------------------------------------------------------------
+Category: Borderline
+Title: Cure cancer naturally with herbs
+Description: Natural remedy cures all cancers! No chemotherapy needed! FDA approved alternati...
+Expected: REVIEW
+
+RESULT:
+   Decision: ❌ APPROVE (Expected: REVIEW)
+   Safe: Yes
+   AI Score: 99/100
+   Risk Level: low
+   Processing Time: 28.11ms
+   Top ML Scores:
+      - spam: 11.9%
+
+================================================================================
+
+
+========================================
+  Test Summary
+========================================
+
+Total Tests: 30
+Approved: 6
+Blocked: 24
+Flagged for Review: 0
+
+Overall Accuracy: 23/30 (76.7%)
+
+========================================
+  Accuracy by Category
+========================================
+
+✅ Image Test - Weapon: 1/1 (100%)
+✅ Image Test - Hate Speech: 1/1 (100%)
+✅ Image Test - Violence: 1/1 (100%)
+✅ Image Test - Drugs: 1/1 (100%)
+❌ Image Test - Profanity Only: 0/1 (0%)
+✅ Clean Electronics: 1/1 (100%)
+✅ Clean Housing: 1/1 (100%)
+✅ Clean Automotive: 1/1 (100%)
+✅ Clean Services: 1/1 (100%)
+✅ Weapons: 3/3 (100%)
+✅ Violence: 2/2 (100%)
+✅ Hard Drugs: 2/2 (100%)
+✅ Prescription Drugs: 1/1 (100%)
+✅ Hate Speech: 3/3 (100%)
+✅ Adult Services: 2/2 (100%)
+✅ Theft: 2/2 (100%)
+❌ Spam: 0/1 (0%)
+❌ Scam: 0/3 (0%)
+❌ Borderline: 0/2 (0%)
+
+✅ GOOD! System is working properly.
+
+========================================
+  Protection Assessment
+========================================
+
+✅ Protected - Critical Content (Weapons, Drugs, Violence)
+✅ Detected - Hate Speech & Discrimination
+✅ Detected - Adult Content
+✅ Detected - Stolen Goods
+⚠️ Check needed - Spam & Scams
+✅ Approved - Clean Content
+
+✅ Comprehensive test complete!

@@ -1,6 +1,6 @@
 {
     "ad_id": "AD-202512-113047.114-94U75",
-    "total_views": 29,
+    "total_views": 30,
     "total_clicks": 0,
     "total_contacts": 7,
     "events": [
@@ -510,11 +510,35 @@
                 "referrer": "",
                 "page": "\/"
             }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766240331,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766240346,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 14
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766257869,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 70622
         }
     ],
-    "updated_at": 1766187246,
-    "total_time_spent": 32236,
-    "avg_time_spent": 1790.89,
+    "updated_at": 1766257869,
+    "total_time_spent": 102872,
+    "avg_time_spent": 5143.6,
     "last_contact": 1766129843,
     "total_unfavorites": 1,
     "current_favorites": 1,

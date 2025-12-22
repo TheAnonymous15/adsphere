@@ -1,0 +1,36 @@
+REAL-TIME AD SCANNER TEST SUMMARY
+Generated: 2025-12-21 16:50:21
+================================================================================
+
+Total Ads Scanned: 3
+Clean Ads: 0
+Flagged Ads: 3
+
+SEVERITY BREAKDOWN:
+  Critical: 1
+  High: 0
+  Medium: 2
+  Low: 0
+
+FLAGGED ADS:
+
+1. Weapons for sale (ID: AD-202512-2038154411-C6X5I)
+   Company: meda media technologies
+   Severity: critical
+   AI Score: 94/100
+   Action: ban
+
+2. Vacant House (ID: AD-202512-113047.114-94U75)
+   Company: meda media technologies
+   Severity: medium
+   AI Score: 99/100
+   Action: delete
+
+3. Food mart (ID: food-mart)
+   Company: meda media technologies
+   Severity: medium
+   AI Score: 99/100
+   Action: delete
+
+
+Full JSON report: /Users/danielkinyua/Downloads/projects/ad/adsphere/app/logs/scanner_reports_2025-12-21.json

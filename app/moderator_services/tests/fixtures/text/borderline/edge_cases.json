@@ -1,0 +1,83 @@
+[
+  {
+    "id": "borderline_001",
+    "text": "Selling kitchen knives set. Professional chef quality, very sharp.",
+    "category": "kitchenware",
+    "expected_decision": "approve",
+    "expected_risk": "safe",
+    "notes": "Legitimate kitchen items, not weapons"
+  },
+  {
+    "id": "borderline_002",
+    "text": "Airsoft guns for sale. Realistic replicas for sport and training.",
+    "category": "sports",
+    "expected_decision": "review",
+    "expected_risk": "medium",
+    "notes": "Legal sport equipment but could be concerning"
+  },
+  {
+    "id": "borderline_003",
+    "text": "Vintage war memorabilia. Historical items from WWII including uniforms.",
+    "category": "collectibles",
+    "expected_decision": "review",
+    "expected_risk": "low",
+    "notes": "Historical items, context matters"
+  },
+  {
+    "id": "borderline_004",
+    "text": "Self-defense classes for women. Learn to protect yourself.",
+    "category": "services",
+    "expected_decision": "approve",
+    "expected_risk": "safe",
+    "notes": "Legitimate safety training"
+  },
+  {
+    "id": "borderline_005",
+    "text": "Halloween costume - realistic police uniform with toy gun.",
+    "category": "costume",
+    "expected_decision": "review",
+    "expected_risk": "low",
+    "notes": "Costume, not actual uniform or weapon"
+  },
+  {
+    "id": "borderline_006",
+    "text": "Herbal supplements for natural wellness. Not FDA approved.",
+    "category": "health",
+    "expected_decision": "review",
+    "expected_risk": "medium",
+    "notes": "Health claims need review"
+  },
+  {
+    "id": "borderline_007",
+    "text": "Beer brewing kit. Make your own craft beer at home.",
+    "category": "hobbies",
+    "expected_decision": "approve",
+    "expected_risk": "safe",
+    "notes": "Legal hobby activity"
+  },
+  {
+    "id": "borderline_008",
+    "text": "Weight loss pills - lose 30 pounds in 30 days guaranteed!",
+    "category": "health",
+    "expected_decision": "review",
+    "expected_risk": "medium",
+    "notes": "Unrealistic health claims"
+  },
+  {
+    "id": "borderline_009",
+    "text": "Roommate wanted. Female only, must be clean and quiet.",
+    "category": "housing",
+    "expected_decision": "review",
+    "expected_risk": "low",
+    "notes": "Gender preference may violate fair housing"
+  },
+  {
+    "id": "borderline_010",
+    "text": "Looking for investors. High-risk, high-reward cryptocurrency opportunity.",
+    "category": "investment",
+    "expected_decision": "review",
+    "expected_risk": "medium",
+    "notes": "Investment solicitation, needs disclosure"
+  }
+]
+

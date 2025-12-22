@@ -1,0 +1,49 @@
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Redis
+redis==5.0.1
+hiredis==2.3.2
+
+# Video processing
+opencv-python-headless==4.9.0.80
+ffmpeg-python==0.2.0
+
+# ML Frameworks
+torch==2.2.0
+torchvision==0.17.0
+torchaudio==2.2.0
+
+
+# Text detoxification
+detoxify==0.5.2
+transformers==4.36.2
+
+# Perceptual hashing / similarity
+imagehash==4.3.1
+Pillow==10.2.0
+
+# NSFW detection
+# open_sfw2==0.10.0
+
+# Nude detection / explicit classifier
+nudenet==2.0.9
+
+# OCR (optional - large dependency, ~500MB)
+# paddlepaddle
+# paddleocr
+
+ ASR
+ openai-whisper==20231117
+#vosk
+
+# Utilities
+httpx==0.26.0
+python-dotenv==1.0.0
+loguru==0.7.2
+numpy==1.26.3
+scipy==1.11.4
+psutil==5.9.8

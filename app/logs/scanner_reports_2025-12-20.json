@@ -1,0 +1,36 @@
+{
+    "mode": "incremental",
+    "scan_time": "2025-12-20 14:09:59",
+    "total_scanned": 1,
+    "flagged_ads": [
+        {
+            "ad_id": "AD-202512-2038154411-C6X5I",
+            "title": "Weapons for sale",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "category": "Food",
+            "is_clean": false,
+            "ai_score": 94,
+            "risk_level": "critical",
+            "severity": 4,
+            "severity_level": "critical",
+            "violations": {
+                "issues": [
+                    "Weapons: 0.70 exceeds block threshold (0.5)"
+                ],
+                "warnings": []
+            },
+            "scan_time": 1766239799
+        }
+    ],
+    "clean_ads": 0,
+    "cached_skips": 2,
+    "batches_processed": 1,
+    "statistics": {
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+    },
+    "processing_time": 63.68
+}

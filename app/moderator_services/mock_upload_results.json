@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-12-22T08:43:04.992583",
+  "results": {
+    "total": 10,
+    "approved": 2,
+    "blocked": 6,
+    "reviewed": 2,
+    "correct": 10
+  },
+  "accuracy": 100.0,
+  "tests": [
+    {
+      "name": "Clean Product Ad",
+      "title": "Brand New iPhone 15 Pro",
+      "expected": "approve",
+      "actual": "approve",
+      "correct": true,
+      "confidence": 0.9998159808838474,
+      "violations": [],
+      "processing_time_ms": 1146.8520164489746
+    },
+    {
+      "name": "Spam Ad",
+      "title": "URGENT!!! AMAZING DEAL!!!",
+      "expected": "review",
+      "actual": "review",
+      "correct": true,
+      "confidence": 0.75,
+      "violations": [
+        "spam"
+      ],
+      "processing_time_ms": 1104.6350002288818
+    },
+    {
+      "name": "Weapons Ad",
+      "title": "Firearms for sale",
+      "expected": "block",
+      "actual": "block",
+      "correct": true,
+      "confidence": 0.95,
+      "violations": [
+        "violence",
+        "weapons"
+      ],
+      "processing_time_ms": 989.3157482147217
+    },
+    {
+      "name": "Drugs Ad",
+      "title": "Party supplies available",
+      "expected": "block",
+      "actual": "block",
+      "correct": true,
+      "confidence": 0.95,
+      "violations": [
+        "drugs",
+        "sexual"
+      ],
+      "processing_time_ms": 848.8860130310059
+    },
+    {
+      "name": "Hate Speech Ad",
+      "title": "Special group gathering",
+      "expected": "block",
+      "actual": "block",
+      "correct": true,
+      "confidence": 0.95,
+      "violations": [
+        "hate_speech",
+        "violence"
+      ],
+      "processing_time_ms": 765.1288509368896
+    },
+    {
+      "name": "Stolen Goods Ad",
+      "title": "Cheap electronics",
+      "expected": "block",
+      "actual": "block",
+      "correct": true,
+      "confidence": 0.95,
+      "violations": [
+        "illegal",
+        "scam"
+      ],
+      "processing_time_ms": 799.2000579833984
+    },
+    {
+      "name": "Borderline Ad",
+      "title": "Amazing weight loss product",
+      "expected": "review",
+      "actual": "review",
+      "correct": true,
+      "confidence": 0.75,
+      "violations": [
+        "scam"
+      ],
+      "processing_time_ms": 932.7208995819092
+    },
+    {
+      "name": "Housing Ad",
+      "title": "Beautiful 2-bedroom apartment",
+      "expected": "approve",
+      "actual": "approve",
+      "correct": true,
+      "confidence": 0.9998339193989523,
+      "violations": [],
+      "processing_time_ms": 955.0552368164062
+    },
+    {
+      "name": "Violence Ad",
+      "title": "Seeking revenge",
+      "expected": "block",
+      "actual": "block",
+      "correct": true,
+      "confidence": 0.95,
+      "violations": [
+        "harassment",
+        "violence"
+      ],
+      "processing_time_ms": 700.451135635376
+    },
+    {
+      "name": "Adult Services Ad",
+      "title": "Escort services available",
+      "expected": "block",
+      "actual": "block",
+      "correct": true,
+      "confidence": 0.95,
+      "violations": [
+        "sexual"
+      ],
+      "processing_time_ms": 698.8430023193359
+    }
+  ]
+}

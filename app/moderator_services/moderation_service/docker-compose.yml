@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  moderation:
+    build: .
+    container_name: adsphere_moderation
+    ports:
+      - "8002:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=INFO
+      - GPU_ENABLED=false
+      - DEBUG=false
+    volumes:
+      - ./logs:/app/logs
+      - ./cache:/app/cache
+      - ./models_weights:/app/models_weights
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - moderation_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: adsphere_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    networks:
+      - moderation_network
+
+  # Optional: Redis Commander (GUI for Redis)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: adsphere_redis_commander
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - moderation_network
+
+volumes:
+  redis_data:
+
+networks:
+  moderation_network:
+    driver: bridge
+

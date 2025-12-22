@@ -1,0 +1,206 @@
+{
+    "scan_time": "2025-12-21 16:50:21",
+    "total_scanned": 3,
+    "flagged_ads": [
+        {
+            "ad_id": "AD-202512-2038154411-C6X5I",
+            "title": "Weapons for sale",
+            "description": "Guns for sale...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Food",
+            "created_at": 1766176695,
+            "is_clean": false,
+            "ai_score": 94,
+            "risk_level": "critical",
+            "severity": 4,
+            "severity_level": "critical",
+            "violations": {
+                "content_issues": [
+                    "Weapons: 0.70 exceeds block threshold (0.5)"
+                ],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "ban",
+                "all_actions": [
+                    "ban"
+                ],
+                "urgency": "immediate",
+                "reasoning": [
+                    "Permanent ban: Critical violation by repeat offender (6 violations)",
+                    "Send warning email to company"
+                ],
+                "violation_details": [
+                    "Content violations: Weapons: 0.70 exceeds block threshold (0.5)",
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nURGENT: Your advertisement \"Weapons for sale\" has been flagged for CRITICAL policy violations and has been removed immediately.\n\nViolations detected:\n- Weapons: 0.70 exceeds block threshold (0.5)\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766335821,
+            "ml_audit": {
+                "audit_id": "mod-20251221-0f7cd4ce0252",
+                "decision": "block",
+                "global_score": 0.9361341514652304,
+                "category_scores": {
+                    "nudity": 0,
+                    "sexual_content": 0,
+                    "violence": 0,
+                    "weapons": 0.7,
+                    "blood": 0,
+                    "hate": 0.00824913289397955,
+                    "self_harm": 0.00015239525237120688,
+                    "drugs": 0,
+                    "scam_fraud": 0,
+                    "spam": 0.1,
+                    "minors": 0
+                },
+                "ai_models_used": [
+                    "detoxify",
+                    "contextual_intelligence"
+                ],
+                "processing_time": 133.59
+            }
+        },
+        {
+            "ad_id": "AD-202512-113047.114-94U75",
+            "title": "Vacant House",
+            "description": "2 bedroom Ruiru Wataalam...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Housing",
+            "created_at": 1766057447.1149,
+            "is_clean": false,
+            "ai_score": 99,
+            "risk_level": "low",
+            "severity": 2,
+            "severity_level": "medium",
+            "violations": {
+                "content_issues": [],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "delete",
+                "all_actions": [
+                    "delete"
+                ],
+                "urgency": "medium",
+                "reasoning": [
+                    "Delete ad: Repeat violation detected"
+                ],
+                "violation_details": [
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nWe've noticed some concerns with your advertisement \"Vacant House\".\n\nPlease review:\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766335821,
+            "ml_audit": {
+                "audit_id": "mod-20251221-bbb1bdea440f",
+                "decision": "approve",
+                "global_score": 0.9890574798222932,
+                "category_scores": {
+                    "nudity": 0,
+                    "sexual_content": 0,
+                    "violence": 0,
+                    "weapons": 0,
+                    "blood": 0,
+                    "hate": 0.009045488201081753,
+                    "self_harm": 0.00012723859981633723,
+                    "drugs": 0,
+                    "scam_fraud": 0,
+                    "spam": 0.16216216216216217,
+                    "minors": 0
+                },
+                "ai_models_used": [
+                    "detoxify",
+                    "contextual_intelligence"
+                ],
+                "processing_time": 38.95
+            }
+        },
+        {
+            "ad_id": "food-mart",
+            "title": "Food mart",
+            "description": "Food for thought...",
+            "company": "meda media technologies",
+            "company_slug": "meda-media-technologies",
+            "company_email": "ld@mega.com",
+            "category": "Electronics",
+            "created_at": 1766054751,
+            "is_clean": false,
+            "ai_score": 99,
+            "risk_level": "low",
+            "severity": 2,
+            "severity_level": "medium",
+            "violations": {
+                "content_issues": [],
+                "warnings": [],
+                "copyright_concerns": [],
+                "pattern_flags": [
+                    "Repeat offender: 6 previous violations"
+                ]
+            },
+            "recommendation": {
+                "primary_action": "delete",
+                "all_actions": [
+                    "delete"
+                ],
+                "urgency": "medium",
+                "reasoning": [
+                    "Delete ad: Repeat violation detected"
+                ],
+                "violation_details": [
+                    "Pattern flags: Repeat offender: 6 previous violations"
+                ],
+                "suggested_message": "Dear meda media technologies,\n\nWe've noticed some concerns with your advertisement \"Food mart\".\n\nPlease review:\n\nPlease review our Terms of Service and Advertising Policy.\n\nIf you believe this is an error, please contact our support team.\n\nBest regards,\nAdSphere Moderation Team"
+            },
+            "scan_time": 1766335821,
+            "ml_audit": {
+                "audit_id": "mod-20251221-e840582306e9",
+                "decision": "approve",
+                "global_score": 0.9927213307329882,
+                "category_scores": {
+                    "nudity": 0,
+                    "sexual_content": 0,
+                    "violence": 0,
+                    "weapons": 0,
+                    "blood": 0,
+                    "hate": 0.0006638675113208592,
+                    "self_harm": 7.233918586280197e-5,
+                    "drugs": 0,
+                    "scam_fraud": 0,
+                    "spam": 0.11538461538461539,
+                    "minors": 0
+                },
+                "ai_models_used": [
+                    "detoxify",
+                    "contextual_intelligence"
+                ],
+                "processing_time": 42.6
+            }
+        }
+    ],
+    "clean_ads": 0,
+    "statistics": {
+        "critical": 1,
+        "high": 0,
+        "medium": 2,
+        "low": 0
+    },
+    "processing_time": "217.09ms",
+    "ml_service": {
+        "available": true,
+        "backend": "ML Microservice",
+        "version": "2.0.0"
+    }
+}

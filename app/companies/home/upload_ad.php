@@ -20,9 +20,9 @@ $metaBase = __DIR__ . "/../metadata/";
 require_once __DIR__ . '/../../database/AdModel.php';
 $adModel = new AdModel();
 
-// Load AI Content Moderator
-require_once __DIR__ . '/../../includes/AIContentModerator.php';
-$aiModerator = new AIContentModerator();
+// Load NEW AI/ML Moderation Service Client
+require_once __DIR__ . '/../../moderator_services/ModerationServiceClient.php';
+$moderationClient = new ModerationServiceClient('http://localhost:8002');
 
 // Get company metadata with contact info (from database)
 $companyData = Database::getInstance()->queryOne(
@@ -275,35 +275,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // ===== AI CONTENT MODERATION =====
-            // Scan text content
-            $imagePaths = array_map(function($file) use ($adDir) {
-                return "$adDir/$file";
-            }, $uploadedFiles);
+            // ===== AI/ML CONTENT MODERATION (New Service) =====
+            // Prepare media URLs for moderation based on media type
+            $imageUrls = [];
+            $videoUrls = [];
 
-            $moderationResult = $aiModerator->moderateAd($title, $description, $imagePaths);
-            $copyrightResult = $aiModerator->checkCopyrightRisk($title, $description);
+            foreach ($uploadedFiles as $file) {
+                $filePath = "$adDir/$file";
 
-            // Check if content is safe
-            if (!$moderationResult['safe']) {
-                throw new Exception(
-                    "❌ Content Rejected by AI: Your ad contains policy violations. " .
-                    implode(", ", $moderationResult['issues'])
-                );
+                if ($mediaType === 'video') {
+                    $videoUrls[] = $filePath;
+                } else {
+                    $imageUrls[] = $filePath;
+                }
             }
 
-            // If score is between 70-85, approve with warnings
-            if ($moderationResult['score'] < 85 && $moderationResult['score'] >= 70) {
-                $msg .= " ⚠️ Warnings: " . implode(", ", array_merge(
-                    $moderationResult['warnings'],
-                    $copyrightResult['concerns']
-                ));
+            // Call the new moderation service with retry logic
+            $moderationResult = null;
+            $maxRetries = 2;
+            $retryCount = 0;
+
+            while ($retryCount <= $maxRetries && $moderationResult === null) {
+                try {
+                    $moderationResult = $moderationClient->moderateRealtime(
+                        title: $title,
+                        description: $description,
+                        imageUrls: $imageUrls,
+                        videoUrls: $videoUrls,
+                        context: [
+                            'ad_id' => $adId,
+                            'company' => $loggedCompany,
+                            'category' => $category,
+                            'user_id' => $_SESSION['user_id'] ?? null,
+                            'source' => 'ad_upload',
+                            'media_type' => $mediaType
+                        ]
+                    );
+                } catch (Exception $e) {
+                    error_log("[MODERATION] Retry $retryCount failed: " . $e->getMessage());
+                    $retryCount++;
+                    if ($retryCount <= $maxRetries) {
+                        usleep(500000); // Wait 500ms before retry
+                    }
+                }
+            }
+
+            // Check moderation result
+            if ($moderationResult === null) {
+                // Service unavailable - log warning but allow upload
+                error_log("[MODERATION] Service unavailable for ad $adId - proceeding with upload");
+                $msg .= " ⚠️ AI moderation temporarily unavailable";
                 $msgType = "warning";
-            }
+                $aiReport = [
+                    'status' => 'service_unavailable',
+                    'decision' => 'pending_review',
+                    'message' => 'Moderation service unavailable - manual review required'
+                ];
+            } else {
+                // Process moderation decision
+                $decision = $moderationResult['decision'];
+                $riskLevel = $moderationResult['risk_level'];
+                $globalScore = $moderationResult['global_score'] ?? 0.0;
+                $flags = $moderationResult['flags'] ?? [];
+                $reasons = $moderationResult['reasons'] ?? [];
 
-            // Generate AI report
-            $aiReport = $aiModerator->generateReport($moderationResult, $copyrightResult);
+                // Block if decision is 'block'
+                if ($decision === 'block') {
+                    // Delete uploaded files
+                    foreach ($uploadedFiles as $file) {
+                        @unlink("$adDir/$file");
+                    }
+                    @rmdir($adDir);
+
+                    throw new Exception(
+                        "❌ Content Rejected by AI Moderation: " .
+                        implode(", ", $reasons) .
+                        " (Risk: " . strtoupper($riskLevel) . ")"
+                    );
+                }
+
+                // Flag for review if decision is 'review'
+                $adStatus = 'active'; // Default status
+
+                if ($decision === 'review') {
+                    $msg .= " ⚠️ Flagged for Review: " . implode(", ", $reasons);
+                    $msgType = "warning";
+                    $adStatus = 'pending_review'; // Set status to pending review
+                }
+
+                // Build AI report for storage
+                $aiReport = [
+                    'service' => 'adsphere_ml_moderation',
+                    'version' => '1.0.0',
+                    'decision' => $decision,
+                    'risk_level' => $riskLevel,
+                    'global_score' => $globalScore,
+                    'category_scores' => $moderationResult['category_scores'] ?? [],
+                    'flags' => $flags,
+                    'reasons' => $reasons,
+                    'audit_id' => $moderationResult['audit_id'] ?? null,
+                    'processing_time_ms' => $moderationResult['processing_time'] ?? 0,
+                    'timestamp' => date('Y-m-d H:i:s'),
+                    'ai_sources' => $moderationResult['ai_sources'] ?? []
+                ];
+
+                // Log moderation decision
+                error_log(sprintf(
+                    "[MODERATION] Ad %s: Decision=%s, Risk=%s, Score=%.2f, Flags=%s",
+                    $adId,
+                    $decision,
+                    $riskLevel,
+                    $globalScore,
+                    implode(',', $flags)
+                ));
+            }
             // ===== END AI MODERATION =====
+
+            // Ensure adStatus is set (default to active if moderation was skipped)
+            if (!isset($adStatus)) {
+                $adStatus = 'active';
+            }
 
             // Prepare data for database
             $adData = [
@@ -319,7 +410,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'contact_sms' => $contactInfo['sms'],
                 'contact_email' => $contactInfo['email'],
                 'contact_whatsapp' => $contactInfo['whatsapp'],
-                'status' => 'active'
+                'status' => $adStatus  // Use dynamic status based on moderation
             ];
 
             // Save to database using AdModel
@@ -337,13 +428,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "media_type" => $mediaInfo['type'],
                     "primary_media" => $mediaInfo['primary'],
                     "timestamp" => time(),
+                    "status" => $adStatus,  // Include status in meta.json
                     "contact" => [
                         "phone" => $contactInfo["phone"] ?? null,
                         "sms" => $contactInfo["sms"] ?? null,
                         "email" => $contactInfo["email"] ?? null,
                         "whatsapp" => $contactInfo["whatsapp"] ?? null
                     ],
-                    "ai_moderation" => $aiReport
+                    "ai_moderation" => $aiReport ?? null
                 ];
 
                 file_put_contents("$adDir/meta.json", json_encode($jsonData, JSON_PRETTY_PRINT));
