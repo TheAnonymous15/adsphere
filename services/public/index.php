@@ -161,6 +161,22 @@ if ($uri === 'categories') {
     $slug = 'categories';
 }
 
+if ($uri === 'register' || $uri === 'signup') {
+    $slug = 'register';
+}
+
+if ($uri === 'login' || $uri === 'signin') {
+    $slug = 'login';
+}
+
+if ($uri === 'terms' || $uri === 'terms-of-service' || $uri === 'tos') {
+    $slug = 'terms';
+}
+
+if ($uri === 'privacy' || $uri === 'privacy-policy') {
+    $slug = 'privacy';
+}
+
 // ------------------------------
 // Cache config per page
 // ------------------------------
@@ -250,21 +266,22 @@ $routes = [
 
     // Pages (from pages/)
     'browse' => PAGES_PATH . 'browse.php',
+    'register' => PAGES_PATH . 'register.php',
+    'login' => PAGES_PATH . 'login.php',
 
     // Error pages
     '404' => INCLUDE_PATH . '404.php',
     '403' => INCLUDE_PATH . '403.php',
     '500' => INCLUDE_PATH . '500.php',
 
-    // Auth pages (redirect to company service)
-    'login' => INCLUDE_PATH . 'login.php',
 
     // Components
     'header' => INCLUDE_PATH . 'header.php',
     'footer' => INCLUDE_PATH . 'footer.php',
 
-    // Terms
-    'terms' => INCLUDE_PATH . 'terms_of_service.php',
+    // Terms & Privacy
+    'terms' => PAGES_PATH . 'terms.php',
+    'privacy' => PAGES_PATH . 'terms.php',
 ];
 
 // ------------------------------

@@ -33,21 +33,24 @@ if (file_exists($analyticsFile)) {
     $analytics = json_decode(file_get_contents($analyticsFile), true) ?? [];
 }
 
-// Initialize structure if needed
-if (!isset($analytics['ad_id'])) {
-    $analytics['ad_id'] = $adId;
-    $analytics['total_views'] = 0;
-    $analytics['total_clicks'] = 0;
-    $analytics['total_contacts'] = 0;
-    $analytics['total_likes'] = 0;
-    $analytics['total_dislikes'] = 0;
-    $analytics['total_favorites'] = 0;
-    $analytics['total_unfavorites'] = 0;
-    $analytics['current_favorites'] = 0;
-    $analytics['total_time_spent'] = 0; // in seconds
-    $analytics['avg_time_spent'] = 0;
-    $analytics['events'] = [];
-}
+// Ensure all required keys exist with defaults
+$defaults = [
+    'ad_id' => $adId,
+    'total_views' => 0,
+    'total_clicks' => 0,
+    'total_contacts' => 0,
+    'total_likes' => 0,
+    'total_dislikes' => 0,
+    'total_favorites' => 0,
+    'total_unfavorites' => 0,
+    'current_favorites' => 0,
+    'total_time_spent' => 0,
+    'avg_time_spent' => 0,
+    'events' => []
+];
+
+// Merge defaults with existing data (existing data takes precedence)
+$analytics = array_merge($defaults, $analytics);
 
 // Create event
 $event = [

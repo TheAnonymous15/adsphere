@@ -1,0 +1,645 @@
+<?php
+/**
+ * TERMS OF SERVICE & PRIVACY POLICY
+ * AdSphere - Public Viewers
+ */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service & Privacy Policy - AdSphere</title>
+    <link rel="icon" type="image/png" href="/services/assets/images/adsphere.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #4338ca, #6d28d9);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toc-link {
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            padding-left: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(234, 88, 12, 0.2));
+            border-left: 4px solid #f59e0b;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2));
+            border-left: 4px solid #22c55e;
+        }
+
+        h2 {
+            scroll-margin-top: 100px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-black/30 border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <i class="fas fa-bullhorn text-lg text-white"></i>
+            </div>
+            <span class="text-xl font-bold text-white">AdSphere</span>
+        </a>
+        <a href="/" class="text-indigo-300 hover:text-white transition-colors text-sm">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Home
+        </a>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-16 px-4">
+    <div class="max-w-4xl mx-auto">
+
+        <!-- Title Section -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-sm mb-6">
+                <i class="fas fa-shield-alt"></i>
+                <span>Last Updated: December 23, 2025</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Terms of Service & Privacy Policy</h1>
+            <p class="text-xl text-indigo-200/70 max-w-2xl mx-auto">
+                Your privacy matters to us. Here's everything you need to know about how we handle your data.
+            </p>
+        </div>
+
+        <!-- Quick Summary Card -->
+        <div class="glass-card rounded-3xl p-8 mb-10">
+            <div class="flex items-start gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-check-double text-xl text-white"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white mb-2">Quick Summary</h2>
+                    <p class="text-indigo-200/70">The key points you should know, in plain language.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="success-box rounded-xl p-4">
+                    <h3 class="font-semibold text-green-300 mb-2"><i class="fas fa-check mr-2"></i>What We DO</h3>
+                    <ul class="text-sm text-green-200/80 space-y-1">
+                        <li>• Personalize ads based on your interests</li>
+                        <li>• Save your favorites securely</li>
+                        <li>• Send price alerts you opted into</li>
+                        <li>• Protect your data with encryption</li>
+                    </ul>
+                </div>
+                <div class="warning-box rounded-xl p-4">
+                    <h3 class="font-semibold text-amber-300 mb-2"><i class="fas fa-times mr-2"></i>What We DON'T Do</h3>
+                    <ul class="text-sm text-amber-200/80 space-y-1">
+                        <li>• Sell your personal data to third parties</li>
+                        <li>• Share your email without consent</li>
+                        <li>• Track you across other websites</li>
+                        <li>• Store your payment information</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="glass-card rounded-2xl p-6 mb-10">
+            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="fas fa-list text-indigo-400"></i>
+                Table of Contents
+            </h3>
+            <nav class="grid md:grid-cols-2 gap-2">
+                <a href="#acceptance" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">1. Acceptance of Terms</a>
+                <a href="#data-collection" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">2. Data We Collect</a>
+                <a href="#data-usage" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">3. How We Use Your Data</a>
+                <a href="#personalization" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">4. Ad Personalization</a>
+                <a href="#cookies" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">5. Cookies & Tracking</a>
+                <a href="#data-sharing" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">6. Data Sharing</a>
+                <a href="#your-rights" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">7. Your Rights</a>
+                <a href="#security" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">8. Data Security</a>
+                <a href="#children" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">9. Children's Privacy</a>
+                <a href="#changes" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">10. Policy Changes</a>
+                <a href="#contact" class="toc-link px-4 py-2 rounded-lg text-indigo-200 hover:text-white">11. Contact Us</a>
+            </nav>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="space-y-8">
+
+            <!-- Section 1: Acceptance -->
+            <section id="acceptance" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-indigo-600/30 flex items-center justify-center">
+                        <i class="fas fa-handshake text-indigo-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">1. Acceptance of Terms</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>
+                        By accessing or using AdSphere, you agree to be bound by these Terms of Service and our Privacy Policy.
+                        If you disagree with any part of these terms, you may not access our service.
+                    </p>
+                    <p>
+                        These terms apply to all visitors, users, and others who access or use our platform, whether you create
+                        an account or browse as a guest.
+                    </p>
+                    <div class="highlight-box rounded-lg p-4 mt-4">
+                        <p class="text-sm">
+                            <i class="fas fa-info-circle mr-2 text-indigo-400"></i>
+                            <strong>Plain Language:</strong> By using AdSphere, you're agreeing to these rules.
+                            No account required to browse, but some features need registration.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Data Collection -->
+            <section id="data-collection" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-blue-600/30 flex items-center justify-center">
+                        <i class="fas fa-database text-blue-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">2. Data We Collect</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>We collect different types of information depending on how you use AdSphere:</p>
+
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-semibold text-white mb-3 flex items-center gap-2">
+                                <i class="fas fa-user-edit text-green-400"></i>
+                                Information You Provide
+                            </h4>
+                            <ul class="text-sm space-y-2">
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Name and email (when registering)</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Interest preferences you select</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Feedback and support messages</li>
+                                <li><i class="fas fa-check text-green-400 mr-2"></i>Ads you save to favorites</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-semibold text-white mb-3 flex items-center gap-2">
+                                <i class="fas fa-robot text-blue-400"></i>
+                                Automatically Collected
+                            </h4>
+                            <ul class="text-sm space-y-2">
+                                <li><i class="fas fa-check text-blue-400 mr-2"></i>Device type and browser info</li>
+                                <li><i class="fas fa-check text-blue-400 mr-2"></i>Ads you view and interact with</li>
+                                <li><i class="fas fa-check text-blue-400 mr-2"></i>Time spent on pages</li>
+                                <li><i class="fas fa-check text-blue-400 mr-2"></i>General location (country/city)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="warning-box rounded-lg p-4 mt-4">
+                        <p class="text-sm">
+                            <i class="fas fa-exclamation-triangle mr-2 text-amber-400"></i>
+                            <strong>We Never Collect:</strong> Precise GPS location, financial information,
+                            health data, or any sensitive personal information.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Data Usage -->
+            <section id="data-usage" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-purple-600/30 flex items-center justify-center">
+                        <i class="fas fa-cogs text-purple-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">3. How We Use Your Data</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>We use the information we collect to:</p>
+
+                    <div class="space-y-3 mt-4">
+                        <div class="flex items-start gap-3 bg-white/5 rounded-lg p-3">
+                            <div class="w-8 h-8 rounded-full bg-indigo-600/30 flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-magic text-indigo-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Personalize Your Experience</h4>
+                                <p class="text-sm">Show you ads that match your interests and preferences.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/5 rounded-lg p-3">
+                            <div class="w-8 h-8 rounded-full bg-green-600/30 flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-bell text-green-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Send Notifications</h4>
+                                <p class="text-sm">Price drop alerts, new listings in your interests (only if opted in).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/5 rounded-lg p-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-600/30 flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-chart-line text-blue-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Improve Our Platform</h4>
+                                <p class="text-sm">Analyze usage patterns to make AdSphere better for everyone.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/5 rounded-lg p-3">
+                            <div class="w-8 h-8 rounded-full bg-red-600/30 flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-shield-alt text-red-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Ensure Safety</h4>
+                                <p class="text-sm">Detect fraud, spam, and protect our community.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Personalization -->
+            <section id="personalization" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-pink-600/30 flex items-center justify-center">
+                        <i class="fas fa-brain text-pink-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">4. Ad Personalization</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>
+                        AdSphere uses AI-powered personalization to show you relevant ads. Here's how it works:
+                    </p>
+
+                    <div class="highlight-box rounded-lg p-4">
+                        <h4 class="font-semibold text-white mb-3">How We Personalize Ads</h4>
+                        <ol class="text-sm space-y-2">
+                            <li><span class="text-indigo-400 font-bold">1.</span> You select interest categories when signing up</li>
+                            <li><span class="text-indigo-400 font-bold">2.</span> We track which ads you like, save, or skip</li>
+                            <li><span class="text-indigo-400 font-bold">3.</span> Our AI learns your preferences over time</li>
+                            <li><span class="text-indigo-400 font-bold">4.</span> We show you more of what you're interested in</li>
+                        </ol>
+                    </div>
+
+                    <div class="success-box rounded-lg p-4 mt-4">
+                        <h4 class="font-semibold text-green-300 mb-2">
+                            <i class="fas fa-toggle-on mr-2"></i>You're in Control
+                        </h4>
+                        <p class="text-sm text-green-200/80">
+                            You can disable personalization anytime in your account settings.
+                            You'll still see ads, but they won't be tailored to your interests.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Cookies -->
+            <section id="cookies" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-600/30 flex items-center justify-center">
+                        <i class="fas fa-cookie-bite text-amber-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">5. Cookies & Tracking</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>We use cookies and similar technologies to enhance your experience:</p>
+
+                    <div class="overflow-x-auto mt-4">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-white/10">
+                                    <th class="text-left py-3 px-4 text-white">Cookie Type</th>
+                                    <th class="text-left py-3 px-4 text-white">Purpose</th>
+                                    <th class="text-left py-3 px-4 text-white">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr>
+                                    <td class="py-3 px-4"><span class="text-green-400">Essential</span></td>
+                                    <td class="py-3 px-4">Keep you logged in, security</td>
+                                    <td class="py-3 px-4">Session</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><span class="text-blue-400">Functional</span></td>
+                                    <td class="py-3 px-4">Remember preferences, favorites</td>
+                                    <td class="py-3 px-4">1 year</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><span class="text-purple-400">Analytics</span></td>
+                                    <td class="py-3 px-4">Understand how you use AdSphere</td>
+                                    <td class="py-3 px-4">30 days</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><span class="text-pink-400">Personalization</span></td>
+                                    <td class="py-3 px-4">Show relevant ads</td>
+                                    <td class="py-3 px-4">90 days</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="warning-box rounded-lg p-4 mt-4">
+                        <p class="text-sm">
+                            <i class="fas fa-info-circle mr-2 text-amber-400"></i>
+                            <strong>Note:</strong> We do NOT use third-party tracking cookies.
+                            Your activity on AdSphere stays on AdSphere.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Data Sharing -->
+            <section id="data-sharing" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-red-600/30 flex items-center justify-center">
+                        <i class="fas fa-share-alt text-red-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">6. Data Sharing</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p><strong class="text-white">We do NOT sell your personal data.</strong> Period.</p>
+
+                    <p>We may share limited data only in these cases:</p>
+
+                    <div class="space-y-3 mt-4">
+                        <div class="bg-white/5 rounded-lg p-4">
+                            <h4 class="font-semibold text-white mb-2">
+                                <i class="fas fa-store mr-2 text-indigo-400"></i>With Advertisers
+                            </h4>
+                            <p class="text-sm">
+                                When you contact a dealer, we share only the information you provide in your message
+                                (name, contact, message). We never share your browsing history or preferences.
+                            </p>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-4">
+                            <h4 class="font-semibold text-white mb-2">
+                                <i class="fas fa-server mr-2 text-blue-400"></i>Service Providers
+                            </h4>
+                            <p class="text-sm">
+                                Trusted partners who help us operate (hosting, email delivery).
+                                They're contractually bound to protect your data.
+                            </p>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-4">
+                            <h4 class="font-semibold text-white mb-2">
+                                <i class="fas fa-gavel mr-2 text-amber-400"></i>Legal Requirements
+                            </h4>
+                            <p class="text-sm">
+                                If required by law, court order, or to protect rights and safety.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7: Your Rights -->
+            <section id="your-rights" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-green-600/30 flex items-center justify-center">
+                        <i class="fas fa-user-shield text-green-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">7. Your Rights</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>You have full control over your data. Here's what you can do:</p>
+
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-white/5 rounded-xl p-4 flex items-start gap-3">
+                            <i class="fas fa-eye text-2xl text-blue-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-white">Access</h4>
+                                <p class="text-sm">Request a copy of all data we have about you.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex items-start gap-3">
+                            <i class="fas fa-edit text-2xl text-green-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-white">Correct</h4>
+                                <p class="text-sm">Update or fix any inaccurate information.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex items-start gap-3">
+                            <i class="fas fa-trash-alt text-2xl text-red-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-white">Delete</h4>
+                                <p class="text-sm">Request complete deletion of your account and data.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex items-start gap-3">
+                            <i class="fas fa-download text-2xl text-purple-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-white">Export</h4>
+                                <p class="text-sm">Download your data in a portable format.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex items-start gap-3">
+                            <i class="fas fa-ban text-2xl text-amber-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-white">Opt-Out</h4>
+                                <p class="text-sm">Disable personalization and marketing emails.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 flex items-start gap-3">
+                            <i class="fas fa-question-circle text-2xl text-cyan-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-white">Ask Questions</h4>
+                                <p class="text-sm">Contact us anytime about your privacy.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box rounded-lg p-4 mt-4">
+                        <p class="text-sm">
+                            <i class="fas fa-clock mr-2 text-indigo-400"></i>
+                            We respond to all privacy requests within <strong>30 days</strong>.
+                            Email us at <a href="mailto:privacy@adsphere.com" class="text-indigo-300 hover:text-white underline">privacy@adsphere.com</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 8: Security -->
+            <section id="security" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-600/30 flex items-center justify-center">
+                        <i class="fas fa-lock text-cyan-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">8. Data Security</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>We take security seriously. Here's how we protect your data:</p>
+
+                    <div class="grid md:grid-cols-3 gap-4 mt-4">
+                        <div class="text-center bg-white/5 rounded-xl p-4">
+                            <i class="fas fa-key text-3xl text-green-400 mb-3"></i>
+                            <h4 class="font-semibold text-white mb-2">Encryption</h4>
+                            <p class="text-xs">All data encrypted in transit (TLS 1.3) and at rest (AES-256)</p>
+                        </div>
+                        <div class="text-center bg-white/5 rounded-xl p-4">
+                            <i class="fas fa-user-lock text-3xl text-blue-400 mb-3"></i>
+                            <h4 class="font-semibold text-white mb-2">Password Security</h4>
+                            <p class="text-xs">Passwords hashed with Argon2id, never stored in plain text</p>
+                        </div>
+                        <div class="text-center bg-white/5 rounded-xl p-4">
+                            <i class="fas fa-shield-virus text-3xl text-purple-400 mb-3"></i>
+                            <h4 class="font-semibold text-white mb-2">Regular Audits</h4>
+                            <p class="text-xs">Security assessments and vulnerability scanning</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9: Children -->
+            <section id="children" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-yellow-600/30 flex items-center justify-center">
+                        <i class="fas fa-child text-yellow-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">9. Children's Privacy</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>
+                        AdSphere is not intended for children under 13 years of age. We do not knowingly collect
+                        personal information from children under 13.
+                    </p>
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm">
+                            <i class="fas fa-exclamation-circle mr-2 text-amber-400"></i>
+                            If you believe we have collected information from a child under 13, please contact us
+                            immediately and we will delete it.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 10: Changes -->
+            <section id="changes" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-orange-600/30 flex items-center justify-center">
+                        <i class="fas fa-sync-alt text-orange-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">10. Policy Changes</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>
+                        We may update this policy from time to time. When we make significant changes:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li>We'll update the "Last Updated" date at the top</li>
+                        <li>We'll notify registered users via email</li>
+                        <li>We'll show a notice on the website</li>
+                        <li>Major changes will require re-acceptance</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 11: Contact -->
+            <section id="contact" class="section-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-teal-600/30 flex items-center justify-center">
+                        <i class="fas fa-envelope text-teal-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">11. Contact Us</h2>
+                </div>
+                <div class="text-indigo-200/80 space-y-4">
+                    <p>Have questions about these terms or your privacy? We're here to help.</p>
+
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-semibold text-white mb-3">
+                                <i class="fas fa-shield-alt mr-2 text-green-400"></i>Privacy Concerns
+                            </h4>
+                            <p class="text-sm mb-2">Email: <a href="mailto:privacy@adsphere.com" class="text-indigo-300 hover:text-white">privacy@adsphere.com</a></p>
+                            <p class="text-sm">Response time: Within 48 hours</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-semibold text-white mb-3">
+                                <i class="fas fa-headset mr-2 text-blue-400"></i>General Support
+                            </h4>
+                            <p class="text-sm mb-2">Email: <a href="mailto:support@adsphere.com" class="text-indigo-300 hover:text-white">support@adsphere.com</a></p>
+                            <p class="text-sm">Response time: Within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Agreement Footer -->
+        <div class="glass-card rounded-2xl p-6 mt-10 text-center">
+            <p class="text-indigo-200/70 mb-4">
+                By using AdSphere, you acknowledge that you have read, understood, and agree to these terms.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/register" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold transition-all">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </a>
+                <a href="/" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium transition-all border border-white/20">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 py-8 px-4">
+    <div class="max-w-4xl mx-auto text-center text-indigo-200/60 text-sm">
+        <p>&copy; <?= date('Y') ?> AdSphere. All rights reserved.</p>
+        <p class="mt-2">
+            <a href="/terms" class="hover:text-white">Terms</a> •
+            <a href="/privacy" class="hover:text-white">Privacy</a> •
+            <a href="mailto:legal@adsphere.com" class="hover:text-white">Legal</a>
+        </p>
+    </div>
+</footer>
+
+<script>
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+

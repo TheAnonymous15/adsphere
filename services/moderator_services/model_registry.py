@@ -176,6 +176,22 @@ MODEL_REGISTRY: Dict[str, ModelInfo] = {
         import_name="sentence_transformers",
         description="Semantic text embeddings (all-MiniLM-L6-v2)"
     ),
+    "sentence_transformers_minilm": ModelInfo(
+        name="Sentence Transformers (all-MiniLM-L6-v2)",
+        model_type=ModelType.PRELOAD,
+        package="sentence-transformers",
+        import_name="sentence_transformers",
+        preload_func="_preload_sentence_transformers_minilm",
+        description="Semantic text embeddings for category search (sentence-transformers/all-MiniLM-L6-v2)"
+    ),
+    "sentence_transformers_multilingual": ModelInfo(
+        name="Sentence Transformers Multilingual (paraphrase-multilingual-MiniLM-L12-v2)",
+        model_type=ModelType.PRELOAD,
+        package="sentence-transformers",
+        import_name="sentence_transformers",
+        preload_func="_preload_sentence_transformers_multilingual",
+        description="Multilingual semantic embeddings for 50+ languages including Swahili, Arabic, Chinese, etc."
+    ),
     "faiss": ModelInfo(
         name="FAISS (Vector Search)",
         model_type=ModelType.PACKAGE,
@@ -480,6 +496,56 @@ class ModelStore:
         except Exception as e:
             self._log(f"NudeNet preload failed: {e}", "warning")
             return False
+
+    def _preload_sentence_transformers_minilm(self) -> bool:
+        """Preload Sentence Transformers all-MiniLM-L6-v2 model."""
+        try:
+            from sentence_transformers import SentenceTransformer
+            model_name = "sentence-transformers/all-MiniLM-L6-v2"
+            self._log(f"Downloading sentence transformer: {model_name}", "download")
+            model = SentenceTransformer(model_name)
+            # Cache the model in _loaded_models for reuse
+            self._loaded_models['sentence_transformers_minilm'] = model
+            self._log("Sentence Transformers (all-MiniLM-L6-v2) ready", "ok")
+            return True
+        except Exception as e:
+            self._log(f"Sentence Transformers preload failed: {e}", "error")
+            return False
+
+    def get_sentence_transformer(self) -> Any:
+        """Get the preloaded sentence transformer model."""
+        if 'sentence_transformers_minilm' in self._loaded_models:
+            return self._loaded_models['sentence_transformers_minilm']
+
+        # Try to load if not preloaded
+        if self._preload_sentence_transformers_minilm():
+            return self._loaded_models.get('sentence_transformers_minilm')
+        return None
+
+    def _preload_sentence_transformers_multilingual(self) -> bool:
+        """Preload Sentence Transformers paraphrase-multilingual-MiniLM-L12-v2 model."""
+        try:
+            from sentence_transformers import SentenceTransformer
+            model_name = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+            self._log(f"Downloading multilingual sentence transformer: {model_name}", "download")
+            model = SentenceTransformer(model_name)
+            # Cache the model in _loaded_models for reuse
+            self._loaded_models['sentence_transformers_multilingual'] = model
+            self._log("Sentence Transformers Multilingual (paraphrase-multilingual-MiniLM-L12-v2) ready", "ok")
+            return True
+        except Exception as e:
+            self._log(f"Multilingual Sentence Transformers preload failed: {e}", "error")
+            return False
+
+    def get_sentence_transformer_multilingual(self) -> Any:
+        """Get the preloaded multilingual sentence transformer model."""
+        if 'sentence_transformers_multilingual' in self._loaded_models:
+            return self._loaded_models['sentence_transformers_multilingual']
+
+        # Try to load if not preloaded
+        if self._preload_sentence_transformers_multilingual():
+            return self._loaded_models.get('sentence_transformers_multilingual')
+        return None
 
     # =========================================================================
     # Public API

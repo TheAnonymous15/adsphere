@@ -6,6 +6,21 @@ Provides backward-compatible namespace for the text moderation
 pipeline and individual components following modular refactor.
 """
 
+import sys
+from pathlib import Path
+
+# Set up paths for model_registry import
+# Path: text/__init__.py -> text -> services -> app -> moderation_service -> moderator_services
+TEXT_DIR = Path(__file__).parent.resolve()
+SERVICES_DIR = TEXT_DIR.parent.resolve()
+APP_DIR = SERVICES_DIR.parent.resolve()
+MODERATION_SERVICE_DIR = APP_DIR.parent.resolve()
+MODERATOR_SERVICES_DIR = MODERATION_SERVICE_DIR.parent.resolve()
+
+for _path in [str(MODERATOR_SERVICES_DIR), str(MODERATION_SERVICE_DIR), str(APP_DIR)]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
 __version__ = "2.0.0"
 __compat__ = "1.x legacy API maintained"
 

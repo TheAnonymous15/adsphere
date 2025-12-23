@@ -18,6 +18,13 @@ import tempfile
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 
+# Search service
+try:
+    from app.services.search_assisatnt.search_service import SearchService
+    SEARCH_AVAILABLE = True
+except ImportError:
+    SEARCH_AVAILABLE = False
+
 router = APIRouter()
 
 # Initialize master pipeline (singleton)
@@ -1935,4 +1942,138 @@ async def get_scanner_config():
         "scanner_type": "basic",
         "message": "Using basic scanner without advanced configuration"
     }
+
+
+# ===========================================================================
+# AI SEARCH ASSISTANT ENDPOINTS
+# ===========================================================================
+
+class SearchRequest(BaseModel):
+    """Search request model"""
+    query: str
+    top_k: int = 5
+    threshold: float = 0.25
+    categories: Optional[List[Dict[str, Any]]] = None
+
+
+class SearchResult(BaseModel):
+    """Individual search result"""
+    slug: str
+    name: str
+    score: float
+    match_type: str
+
+
+class SearchResponse(BaseModel):
+    """Search response model"""
+    success: bool
+    query: str
+    results: List[SearchResult]
+    count: int
+    processing_time_ms: float
+    model_type: str = "semantic"
+
+
+# Search service singleton
+_search_service = None
+
+def get_search_service():
+    """Get or initialize search service"""
+    global _search_service
+    if _search_service is None and SEARCH_AVAILABLE:
+        _search_service = SearchService()
+    return _search_service
+
+
+@router.post("/search/match", response_model=SearchResponse, tags=["search"])
+async def search_categories(request: SearchRequest):
+    """
+    AI-powered category search using semantic similarity.
+
+    Match user queries like "hungry", "TV", "rent" to relevant categories
+    using sentence transformer embeddings and cosine similarity.
+
+    - **query**: Search term (e.g., "hungry", "TV", "rent")
+    - **top_k**: Maximum results to return (default: 5)
+    - **threshold**: Minimum similarity score 0-1 (default: 0.25)
+    - **categories**: Optional custom categories to search
+    """
+    if not SEARCH_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Search service not available")
+
+    start_time = time.time()
+
+    try:
+        search_service = get_search_service()
+
+        if request.categories:
+            search_service.set_categories(request.categories)
+
+        result = search_service.search(
+            query=request.query,
+            top_k=request.top_k,
+            threshold=request.threshold
+        )
+
+        return SearchResponse(
+            success=True,
+            query=request.query,
+            results=[SearchResult(**r) for r in result.get("results", [])],
+            count=result.get("count", 0),
+            processing_time_ms=round((time.time() - start_time) * 1000, 2),
+            model_type=result.get("model_type", "semantic")
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
+
+
+@router.get("/search/quick/{query}", tags=["search"])
+async def quick_search(query: str, top_k: int = 3):
+    """
+    Quick search endpoint - returns just matching category slugs.
+
+    Optimized for autocomplete/typeahead scenarios.
+    """
+    if not SEARCH_AVAILABLE:
+        return {"success": False, "matches": [], "error": "Search unavailable"}
+
+    try:
+        search_service = get_search_service()
+        result = search_service.search(query=query, top_k=top_k)
+
+        return {
+            "success": True,
+            "query": query,
+            "matches": [r["slug"] for r in result.get("results", [])]
+        }
+
+    except Exception as e:
+        return {"success": False, "matches": [], "error": str(e)}
+
+
+@router.get("/search/health", tags=["search"])
+async def search_health():
+    """Health check for search service"""
+    if not SEARCH_AVAILABLE:
+        return {
+            "status": "unavailable",
+            "model_loaded": False,
+            "categories_count": 0
+        }
+
+    try:
+        search_service = get_search_service()
+        return {
+            "status": "healthy",
+            "model_loaded": search_service.matcher.is_loaded,
+            "categories_count": len(search_service.matcher.categories)
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "model_loaded": False,
+            "categories_count": 0
+        }
 

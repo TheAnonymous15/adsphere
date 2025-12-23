@@ -7,8 +7,17 @@ from pathlib import Path
 from typing import Dict, Optional
 import os
 
-# Add parent path for model_registry import
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent.parent))
+# Set up paths for model_registry import
+# Path: services/asr_whisper.py -> services -> app -> moderation_service -> moderator_services
+CURRENT_DIR = Path(__file__).parent.resolve()
+APP_DIR = CURRENT_DIR.parent.resolve()
+MODERATION_SERVICE_DIR = APP_DIR.parent.resolve()
+MODERATOR_SERVICES_DIR = MODERATION_SERVICE_DIR.parent.resolve()
+
+for _path in [str(MODERATOR_SERVICES_DIR), str(MODERATION_SERVICE_DIR), str(APP_DIR)]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
 from model_registry import ensure_models
 
 # Ensure required models are available

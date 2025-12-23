@@ -34,8 +34,18 @@ import time
 import re
 import unicodedata
 
-# Add parent paths for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent.parent.parent))
+# Set up paths for imports
+# Path: text/text_moderation_pipeline_old.py -> text -> services -> app -> moderation_service -> moderator_services
+CURRENT_DIR = Path(__file__).parent.resolve()
+SERVICES_DIR = CURRENT_DIR.parent.resolve()
+APP_DIR = SERVICES_DIR.parent.resolve()
+MODERATION_SERVICE_DIR = APP_DIR.parent.resolve()
+MODERATOR_SERVICES_DIR = MODERATION_SERVICE_DIR.parent.resolve()
+
+for _path in [str(MODERATOR_SERVICES_DIR), str(MODERATION_SERVICE_DIR), str(APP_DIR)]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
 from model_registry import ensure_models, get_model_path
 
 

@@ -28,6 +28,14 @@ from app.core.hashing import ContentHasher
 from app.models.schemas import CategoryScores, ModerationRequest
 from app.utils.logging import audit_logger, app_logger
 
+# AI Search Assistant
+try:
+    from app.services.search_assisatnt.search_service import SearchService
+    SEARCH_SERVICE_AVAILABLE = True
+except ImportError as e:
+    app_logger.warning(f"SearchService not available: {e}")
+    SEARCH_SERVICE_AVAILABLE = False
+
 
 class MasterModerationPipeline:
     """
@@ -103,6 +111,17 @@ class MasterModerationPipeline:
 
         # Contextual intelligence for intent-aware moderation
         self.contextual_intelligence = ContextualIntelligence()
+
+        # AI Search Assistant for category matching
+        if SEARCH_SERVICE_AVAILABLE:
+            try:
+                self.search_service = SearchService()
+                app_logger.info("SearchService loaded successfully")
+            except Exception as e:
+                app_logger.warning(f"SearchService failed to load: {e}")
+                self.search_service = None
+        else:
+            self.search_service = None
 
         app_logger.info("Master pipeline initialized")
 
@@ -587,4 +606,87 @@ class MasterModerationPipeline:
             'timestamp': datetime.utcnow().isoformat() + 'Z',
             **kwargs
         }
+
+    # ===================================================================
+    # AI SEARCH ASSISTANT METHODS
+    # ===================================================================
+
+    def search_categories(
+        self,
+        query: str,
+        top_k: int = 5,
+        threshold: float = 0.25,
+        categories: Optional[List[Dict]] = None
+    ) -> Dict:
+        """
+        AI-powered category search using semantic similarity.
+
+        Args:
+            query: User's search query (e.g., "hungry", "TV", "rent")
+            top_k: Maximum number of results to return
+            threshold: Minimum similarity score (0-1)
+            categories: Optional custom categories to search against
+
+        Returns:
+            Dict with matching categories and scores
+        """
+        start_time = time.time()
+
+        if not self.search_service:
+            return {
+                'success': False,
+                'error': 'Search service not available',
+                'query': query,
+                'results': [],
+                'count': 0
+            }
+
+        try:
+            # Set custom categories if provided
+            if categories:
+                self.search_service.set_categories(categories)
+
+            # Perform search
+            result = self.search_service.search(query, top_k, threshold)
+            result['processing_time_ms'] = round((time.time() - start_time) * 1000, 2)
+
+            app_logger.debug(f"Search query '{query}' returned {result['count']} results")
+            return result
+
+        except Exception as e:
+            app_logger.error(f"Search failed for query '{query}': {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'query': query,
+                'results': [],
+                'count': 0
+            }
+
+    def quick_search(self, query: str, top_k: int = 3) -> List[str]:
+        """
+        Quick search returning just category slugs.
+
+        Args:
+            query: Search term
+            top_k: Max results
+
+        Returns:
+            List of matching category slugs
+        """
+        result = self.search_categories(query, top_k)
+        if result.get('success'):
+            return [r['slug'] for r in result.get('results', [])]
+        return []
+
+
+# Singleton instance
+_pipeline_instance: Optional[MasterModerationPipeline] = None
+
+def get_pipeline() -> MasterModerationPipeline:
+    """Get or create the singleton MasterModerationPipeline instance."""
+    global _pipeline_instance
+    if _pipeline_instance is None:
+        _pipeline_instance = MasterModerationPipeline()
+    return _pipeline_instance
 

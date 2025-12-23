@@ -32,6 +32,14 @@ try:
 except ImportError:
     ADMIN_ROUTES_AVAILABLE = False
 
+# Try to import search routes
+try:
+    from app.services.search_assisatnt.search_service import router as search_router
+    SEARCH_ROUTES_AVAILABLE = True
+except ImportError as e:
+    print(f"Search routes not available: {e}")
+    SEARCH_ROUTES_AVAILABLE = False
+
 # Shared service lifecycle
 from app.services.lifecycle import (
     init_services,
@@ -39,6 +47,9 @@ from app.services.lifecycle import (
 )
 
 import logging
+
+from app.api.routes_architecture import router as architecture_router
+from app.api.routes_docs import router as docs_router
 
 
 # -----------------------------------------------------------
@@ -125,7 +136,7 @@ from app.api.api_docs import (
 # FastAPI container with comprehensive documentation
 # -----------------------------------------------------------
 app = FastAPI(
-    title="AdSphere Moderation API",
+    title="🛡️ AdSphere Moderation API",
     version=settings.VERSION,
     description=API_DESCRIPTION,
     docs_url="/docs",
@@ -141,6 +152,18 @@ app = FastAPI(
         "operationsSorter": "method",
         "filter": True,
         "tagsSorter": "alpha",
+        "defaultModelsExpandDepth": 3,
+        "defaultModelExpandDepth": 3,
+        "showExtensions": True,
+        "showCommonExtensions": True,
+        "tryItOutEnabled": True,
+        "persistAuthorization": True,
+        "syntaxHighlight.theme": "monokai",
+    },
+    redoc_url_parameters={
+        "expandResponses": "200,201",
+        "hideDownloadButton": False,
+        "hideHostname": False,
     },
 )
 
@@ -218,7 +241,19 @@ if ADMIN_ROUTES_AVAILABLE:
         prefix="/admin",
         tags=["admin"],
     )
-)
+
+# AI-powered Search endpoints
+if SEARCH_ROUTES_AVAILABLE:
+    app.include_router(
+        search_router,
+        tags=["search"],
+    )
+
+# Add architecture docs route
+app.include_router(architecture_router)
+
+# Add detailed documentation route
+app.include_router(docs_router)
 
 
 # -----------------------------------------------------------

@@ -262,6 +262,80 @@
   </div>
 </div>
 
+<!-- ===================== PERSONALIZED ADS SIGNUP POPUP ===================== -->
+<div id="personalizedAdsPopup" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+  <div id="personalizedAdsCard" class="w-full max-w-md rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 p-8 shadow-2xl border border-white/20 transform scale-95 opacity-0 transition-all duration-500 relative overflow-hidden">
+
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-indigo-500/20 to-cyan-500/20 rounded-full blur-3xl"></div>
+
+    <!-- Close Button -->
+    <button id="closePersonalizedPopup" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <!-- Icon Header -->
+    <div class="text-center mb-6 relative">
+      <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse">
+        <i class="fas fa-magic text-3xl text-white"></i>
+      </div>
+      <h3 class="text-2xl font-bold text-white mb-2">Get Personalized Ads</h3>
+      <p class="text-sm text-indigo-200/80">Discover products tailored just for you</p>
+    </div>
+
+    <!-- Benefits List -->
+    <div class="space-y-3 mb-6">
+      <div class="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/10">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-brain text-white"></i>
+        </div>
+        <div>
+          <p class="text-white font-medium text-sm">AI-Powered Recommendations</p>
+          <p class="text-indigo-200/60 text-xs">Ads that match your interests</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/10">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-heart text-white"></i>
+        </div>
+        <div>
+          <p class="text-white font-medium text-sm">Save Your Favorites</p>
+          <p class="text-indigo-200/60 text-xs">Access them from any device</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/10">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-bell text-white"></i>
+        </div>
+        <div>
+          <p class="text-white font-medium text-sm">Price Drop Alerts</p>
+          <p class="text-indigo-200/60 text-xs">Get notified when prices fall</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="space-y-3">
+      <a href="/register" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 text-white font-semibold transition-all shadow-lg hover:shadow-purple-500/30 flex items-center justify-center gap-2 group">
+        <i class="fas fa-user-plus group-hover:scale-110 transition-transform"></i>
+        <span>Sign Up Free</span>
+      </a>
+
+      <a href="/login" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium transition-all border border-white/20 hover:border-white/30 flex items-center justify-center gap-2">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Already have an account? Login</span>
+      </a>
+    </div>
+
+    <!-- Skip Link -->
+    <button id="skipPersonalizedPopup" class="w-full mt-4 text-center text-indigo-300/60 hover:text-indigo-300 text-sm transition-colors">
+      Maybe later
+    </button>
+  </div>
+</div>
 
 
     <script>
@@ -2201,6 +2275,117 @@ if (document.readyState === 'loading') {
 } else {
   debugLog('init', 'DOM is already ready, initializing immediately');
   initializeAdPage();
+}
+
+// ==============================
+// PERSONALIZED ADS POPUP
+// ==============================
+const POPUP_DELAY = 15000; // 15 seconds after page load
+const POPUP_COOLDOWN_DAYS = 3; // Don't show again for 3 days if dismissed
+
+function shouldShowPersonalizedPopup() {
+  // Don't show if user is logged in
+  if (localStorage.getItem('user_logged_in') === 'true') return false;
+
+  // Don't show if user already signed up
+  if (localStorage.getItem('personalized_ads_signup') === 'true') return false;
+
+  // Check cooldown period
+  const lastDismissed = localStorage.getItem('personalized_popup_dismissed');
+  if (lastDismissed) {
+    const dismissedDate = new Date(parseInt(lastDismissed));
+    const cooldownEnd = new Date(dismissedDate.getTime() + (POPUP_COOLDOWN_DAYS * 24 * 60 * 60 * 1000));
+    if (new Date() < cooldownEnd) return false;
+  }
+
+  // Check if shown this session
+  if (sessionStorage.getItem('personalized_popup_shown') === 'true') return false;
+
+  return true;
+}
+
+function showPersonalizedPopup() {
+  const popup = document.getElementById('personalizedAdsPopup');
+  const card = document.getElementById('personalizedAdsCard');
+
+  if (!popup || !card) return;
+
+  // Mark as shown this session
+  sessionStorage.setItem('personalized_popup_shown', 'true');
+
+  // Show popup
+  popup.classList.remove('hidden');
+
+  // Animate in
+  setTimeout(() => {
+    card.classList.remove('scale-95', 'opacity-0');
+    card.classList.add('scale-100', 'opacity-100');
+  }, 10);
+}
+
+function hidePersonalizedPopup(markDismissed = false) {
+  const popup = document.getElementById('personalizedAdsPopup');
+  const card = document.getElementById('personalizedAdsCard');
+
+  if (!popup || !card) return;
+
+  // Animate out
+  card.classList.add('scale-95', 'opacity-0');
+  card.classList.remove('scale-100', 'opacity-100');
+
+  setTimeout(() => {
+    popup.classList.add('hidden');
+  }, 300);
+
+  // Mark as dismissed if user clicked "Maybe later"
+  if (markDismissed) {
+    localStorage.setItem('personalized_popup_dismissed', Date.now().toString());
+  }
+}
+
+// Popup event listeners
+document.getElementById('closePersonalizedPopup')?.addEventListener('click', () => {
+  hidePersonalizedPopup(true);
+});
+
+document.getElementById('skipPersonalizedPopup')?.addEventListener('click', () => {
+  hidePersonalizedPopup(true);
+});
+
+// Close on outside click
+document.getElementById('personalizedAdsPopup')?.addEventListener('click', (e) => {
+  if (e.target.id === 'personalizedAdsPopup') {
+    hidePersonalizedPopup(true);
+  }
+});
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const popup = document.getElementById('personalizedAdsPopup');
+    if (popup && !popup.classList.contains('hidden')) {
+      hidePersonalizedPopup(true);
+    }
+  }
+});
+
+// Schedule popup to show after delay
+if (shouldShowPersonalizedPopup()) {
+  setTimeout(() => {
+    // Only show if user has scrolled (engaged with content)
+    if (window.scrollY > 100 || document.querySelectorAll('#ads-grid > div').length > 0) {
+      showPersonalizedPopup();
+    } else {
+      // Wait for scroll instead
+      const scrollHandler = () => {
+        if (window.scrollY > 200) {
+          window.removeEventListener('scroll', scrollHandler);
+          setTimeout(showPersonalizedPopup, 3000); // 3 second delay after scroll
+        }
+      };
+      window.addEventListener('scroll', scrollHandler);
+    }
+  }, POPUP_DELAY);
 }
 
     </script>

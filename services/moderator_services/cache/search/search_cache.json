@@ -1,0 +1,3304 @@
+{
+  "entries": {
+    "hungry|k3|t0.2": {
+      "query": "hungry|k3|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445486.814625,
+      "accessed": 1766445486.814625,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "tv|k3|t0.2": {
+      "query": "tv|k3|t0.2",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445486.837332,
+      "accessed": 1766445486.837332,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "rent apartment|k3|t0.2": {
+      "query": "rent apartment|k3|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2839,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.844324,
+      "accessed": 1766445486.844324,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "car for sale|k3|t0.2": {
+      "query": "car for sale|k3|t0.2",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445486.866473,
+      "accessed": 1766445486.866473,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "job vacancy|k3|t0.2": {
+      "query": "job vacancy|k3|t0.2",
+      "results": [
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445486.873365,
+      "accessed": 1766445486.873365,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "gym workout|k3|t0.2": {
+      "query": "gym workout|k3|t0.2",
+      "results": [
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445486.8802161,
+      "accessed": 1766445486.8802161,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "flight ticket|k3|t0.2": {
+      "query": "flight ticket|k3|t0.2",
+      "results": [
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445486.886601,
+      "accessed": 1766445486.886601,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "laptop computer|k3|t0.2": {
+      "query": "laptop computer|k3|t0.2",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445486.892983,
+      "accessed": 1766445486.892983,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "sofa furniture|k3|t0.2": {
+      "query": "sofa furniture|k3|t0.2",
+      "results": [
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2778,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2307,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.8996632,
+      "accessed": 1766445486.899664,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "dog cat pet|k3|t0.2": {
+      "query": "dog cat pet|k3|t0.2",
+      "results": [
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445486.90683,
+      "accessed": 1766445486.906831,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "chakula|k3|t0.15": {
+      "query": "chakula|k3|t0.15",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.3233,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.3,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.913586,
+      "accessed": 1766445486.913586,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "nyumba|k3|t0.15": {
+      "query": "nyumba|k3|t0.15",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.392,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3376,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.920556,
+      "accessed": 1766445486.920556,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "gari|k3|t0.15": {
+      "query": "gari|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3008,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.294,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.927312,
+      "accessed": 1766445486.9273129,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "kazi|k3|t0.15": {
+      "query": "kazi|k3|t0.15",
+      "results": [
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3304,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.934199,
+      "accessed": 1766445486.934199,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "comida|k3|t0.15": {
+      "query": "comida|k3|t0.15",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2667,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2409,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445486.940872,
+      "accessed": 1766445486.940872,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "coche|k3|t0.15": {
+      "query": "coche|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2625,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2393,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.1306372,
+      "accessed": 1766445487.1306381,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "trabajo|k3|t0.15": {
+      "query": "trabajo|k3|t0.15",
+      "results": [
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.376,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2341,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.137989,
+      "accessed": 1766445487.13799,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "casa|k3|t0.15": {
+      "query": "casa|k3|t0.15",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.423,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3306,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.145398,
+      "accessed": 1766445487.145399,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "nourriture|k3|t0.15": {
+      "query": "nourriture|k3|t0.15",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2918,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2681,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.152085,
+      "accessed": 1766445487.152085,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "voiture|k3|t0.15": {
+      "query": "voiture|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.266,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2444,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.1589398,
+      "accessed": 1766445487.1589398,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "maison|k3|t0.15": {
+      "query": "maison|k3|t0.15",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.4175,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3157,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.1658251,
+      "accessed": 1766445487.1658251,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "essen|k3|t0.15": {
+      "query": "essen|k3|t0.15",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2774,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2694,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.172574,
+      "accessed": 1766445487.172574,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "auto|k3|t0.15": {
+      "query": "auto|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2095,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.1899,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.18007,
+      "accessed": 1766445487.18007,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "haus|k3|t0.15": {
+      "query": "haus|k3|t0.15",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445487.186877,
+      "accessed": 1766445487.186877,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "طعام|k3|t0.15": {
+      "query": "طعام|k3|t0.15",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.5141,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2659,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.224,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.193704,
+      "accessed": 1766445487.193704,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "سيارة|k3|t0.15": {
+      "query": "سيارة|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.4037,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.201232,
+      "accessed": 1766445487.201232,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "食物|k3|t0.15": {
+      "query": "食物|k3|t0.15",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.5192,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2644,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2279,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.208349,
+      "accessed": 1766445487.208349,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "汽车|k3|t0.15": {
+      "query": "汽车|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.4957,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2161,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.1874,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.2154849,
+      "accessed": 1766445487.2154849,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "房子|k3|t0.15": {
+      "query": "房子|k3|t0.15",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.5172,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.4203,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.273,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.222263,
+      "accessed": 1766445487.222264,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "carro|k3|t0.15": {
+      "query": "carro|k3|t0.15",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.226,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.1876,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.229225,
+      "accessed": 1766445487.229225,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "food|k3|t0.3": {
+      "query": "food|k3|t0.3",
+      "results": [
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.4861,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.236216,
+      "accessed": 1766445487.236216,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "car|k3|t0.3": {
+      "query": "car|k3|t0.3",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766445487.243155,
+      "accessed": 1766445487.243155,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "house|k3|t0.3": {
+      "query": "house|k3|t0.3",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.3923,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.249962,
+      "accessed": 1766445487.249962,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "job|k3|t0.3": {
+      "query": "job|k3|t0.3",
+      "results": [
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.3659,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.256723,
+      "accessed": 1766445487.256723,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "phone|k3|t0.3": {
+      "query": "phone|k3|t0.3",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445487.263375,
+      "accessed": 1766445487.263375,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "clothes|k3|t0.3": {
+      "query": "clothes|k3|t0.3",
+      "results": [
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.3211,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3095,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766445487.2702038,
+      "accessed": 1766445487.2702038,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "doctor|k3|t0.3": {
+      "query": "doctor|k3|t0.3",
+      "results": [
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445487.2770061,
+      "accessed": 1766445487.277007,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "school|k3|t0.3": {
+      "query": "school|k3|t0.3",
+      "results": [
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445487.2840278,
+      "accessed": 1766445487.2840278,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "travel|k3|t0.3": {
+      "query": "travel|k3|t0.3",
+      "results": [
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445487.290706,
+      "accessed": 1766445487.290706,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "movie|k3|t0.3": {
+      "query": "movie|k3|t0.3",
+      "results": [
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766445487.297924,
+      "accessed": 1766445487.297924,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "cha|k10|t0.2": {
+      "query": "cha|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3563,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3476,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.3445,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2988,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2912,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450165.1720672,
+      "accessed": 1766450165.1720672,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "chak|k10|t0.2": {
+      "query": "chak|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3371,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2895,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2838,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2762,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.2707,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2639,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2603,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2415,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2408,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450168.73321,
+      "accessed": 1766450168.73321,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "chaku|k10|t0.2": {
+      "query": "chaku|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.4274,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.4203,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.4136,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.3883,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.3849,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.3732,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.3726,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.3711,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.3614,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450170.389059,
+      "accessed": 1766450170.389059,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "chakul|k10|t0.2": {
+      "query": "chakul|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3955,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3904,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.3693,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3673,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.3631,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.3579,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.3556,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.3237,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.3214,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450170.633087,
+      "accessed": 1766450170.633087,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "chakula|k10|t0.2": {
+      "query": "chakula|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.3233,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.3,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2835,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.281,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.279,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2704,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2612,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2594,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "score": 0.2563,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450170.950649,
+      "accessed": 1766450170.950649,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "c|k10|t0.2": {
+      "query": "c|k10|t0.2",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2043,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450175.021585,
+      "accessed": 1766450175.021585,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "e|k10|t0.2": {
+      "query": "e|k10|t0.2",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.294,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2789,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2753,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2601,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2536,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2454,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.229,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2277,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2252,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2159,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450185.175939,
+      "accessed": 1766450185.175939,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "eat|k10|t0.2": {
+      "query": "eat|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2122,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2058,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450185.6697001,
+      "accessed": 1766450185.6697001,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "r|k10|t0.2": {
+      "query": "r|k10|t0.2",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.9,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.9,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.9,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "score": 0.9,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.9,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.9,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.7,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.7,
+          "match_type": "keyword"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.7,
+          "match_type": "keyword"
+        }
+      ],
+      "created": 1766450209.7461262,
+      "accessed": 1766450209.7461271,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "ren|k10|t0.2": {
+      "query": "ren|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.3058,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2779,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2522,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2508,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2361,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2341,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2315,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450210.401609,
+      "accessed": 1766450210.40161,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "rent|k10|t0.2": {
+      "query": "rent|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2473,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2081,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450210.720157,
+      "accessed": 1766450210.720157,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "h|k10|t0.2": {
+      "query": "h|k10|t0.2",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2746,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2738,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2676,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2538,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2529,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2435,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2323,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2265,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2263,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2247,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450216.068039,
+      "accessed": 1766450216.068039,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "ho|k10|t0.2": {
+      "query": "ho|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3304,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3302,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3111,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2971,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2738,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2732,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2699,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2614,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2562,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.256,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450216.4925299,
+      "accessed": 1766450216.4925299,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "home|k10|t0.2": {
+      "query": "home|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.27,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2609,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2432,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2376,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2139,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450217.215987,
+      "accessed": 1766450217.215987,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "redio|k10|t0.2": {
+      "query": "redio|k10|t0.2",
+      "results": [
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.3259,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2828,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2736,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2635,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2617,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2577,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2542,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2475,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.2257,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2251,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450253.9290292,
+      "accessed": 1766450253.9290292,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "ku|k10|t0.2": {
+      "query": "ku|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.4069,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3775,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3691,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3472,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.3385,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.3332,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.3331,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.3294,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.3114,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.3105,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450271.608939,
+      "accessed": 1766450271.608939,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "kula|k10|t0.2": {
+      "query": "kula|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766450272.048759,
+      "accessed": 1766450272.048759,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "k|k10|t0.2": {
+      "query": "k|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2388,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2274,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2146,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450276.7475939,
+      "accessed": 1766450276.7475939,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "n|k10|t0.2": {
+      "query": "n|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2703,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2598,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2588,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2556,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2401,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.22,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2157,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2154,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2127,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2011,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450281.391244,
+      "accessed": 1766450281.391244,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "nyu|k10|t0.2": {
+      "query": "nyu|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2925,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2813,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.277,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2754,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2614,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2581,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2534,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2501,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2419,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450282.0122979,
+      "accessed": 1766450282.012299,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "nyum|k10|t0.2": {
+      "query": "nyum|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.3082,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2977,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2928,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2842,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.278,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2743,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2724,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2675,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2536,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450282.305043,
+      "accessed": 1766450282.305043,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "nyumb|k10|t0.2": {
+      "query": "nyumb|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.2207,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2136,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.204,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2014,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450282.621269,
+      "accessed": 1766450282.621269,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "nyumba|k10|t0.2": {
+      "query": "nyumba|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.392,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3376,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3112,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2995,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.29,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2799,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2708,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2547,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2531,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450283.196418,
+      "accessed": 1766450283.196418,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "food|k3|t0.25": {
+      "query": "food|k3|t0.25",
+      "results": [
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.4861,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766450805.2866712,
+      "accessed": 1766450805.2866712,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "tv|k3|t0.25": {
+      "query": "tv|k3|t0.25",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766450805.395382,
+      "accessed": 1766450805.395382,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "hungry|k3|t0.25": {
+      "query": "hungry|k3|t0.25",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766450832.258354,
+      "accessed": 1766450832.258354,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "i want to buy a car|k3|t0.25": {
+      "query": "i want to buy a car|k3|t0.25",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        }
+      ],
+      "created": 1766450832.5561862,
+      "accessed": 1766450832.5561862,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "hungry|k3|t0.3": {
+      "query": "hungry|k3|t0.3",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.98,
+          "match_type": "exact_keyword"
+        }
+      ],
+      "created": 1766451880.299045,
+      "accessed": 1766451880.299045,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "ch|k10|t0.2": {
+      "query": "ch|k10|t0.2",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2389,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2225,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2031,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.203,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2024,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482447.224385,
+      "accessed": 1766482447.224385,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "w|k10|t0.2": {
+      "query": "w|k10|t0.2",
+      "results": [
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2695,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2606,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2473,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.243,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2379,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2349,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2347,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.231,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2267,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2246,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482461.4815922,
+      "accessed": 1766482461.4815922,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "wi|k10|t0.2": {
+      "query": "wi|k10|t0.2",
+      "results": [
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.282,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2801,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2739,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2694,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2684,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.268,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2614,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2596,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2569,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2554,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482463.5292742,
+      "accessed": 1766482463.5292742,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "wire|k10|t0.2": {
+      "query": "wire|k10|t0.2",
+      "results": [
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.324,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482464.691572,
+      "accessed": 1766482464.691572,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "wir|k10|t0.2": {
+      "query": "wir|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2769,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2687,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2649,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2567,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2541,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2527,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2458,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2441,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2422,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2407,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482472.756997,
+      "accessed": 1766482472.7569978,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "kn|k10|t0.2": {
+      "query": "kn|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2527,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2336,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2066,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482479.2564638,
+      "accessed": 1766482479.2564638,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "kni|k10|t0.2": {
+      "query": "kni|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3025,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2766,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2716,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2686,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2668,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2663,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.265,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.2489,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2409,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2396,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482479.635455,
+      "accessed": 1766482479.635455,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "knif|k10|t0.2": {
+      "query": "knif|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3285,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3052,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.303,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2836,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2779,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2754,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2683,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2601,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2569,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2537,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482480.2586508,
+      "accessed": 1766482480.2586508,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "wa|k10|t0.2": {
+      "query": "wa|k10|t0.2",
+      "results": [
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2827,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2401,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2206,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2206,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2141,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "furniture",
+          "name": "Furniture",
+          "score": 0.2043,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482489.7530198,
+      "accessed": 1766482489.7530198,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "wat|k10|t0.2": {
+      "query": "wat|k10|t0.2",
+      "results": [
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.7,
+          "match_type": "partial_keyword"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3625,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3528,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3351,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.3278,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.3111,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.3055,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.3042,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.3042,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3031,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482490.255009,
+      "accessed": 1766482490.255009,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "water|k10|t0.2": {
+      "query": "water|k10|t0.2",
+      "results": [
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.23,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "score": 0.206,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482490.962255,
+      "accessed": 1766482490.962255,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "wate|k10|t0.2": {
+      "query": "wate|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3449,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3273,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.3148,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3072,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3013,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2971,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2874,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.286,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2818,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2806,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482493.761014,
+      "accessed": 1766482493.761014,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "s|k10|t0.2": {
+      "query": "s|k10|t0.2",
+      "results": [
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2804,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2157,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482498.702333,
+      "accessed": 1766482498.702333,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "sp|k10|t0.2": {
+      "query": "sp|k10|t0.2",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2521,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2472,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2174,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2055,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2045,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482499.468637,
+      "accessed": 1766482499.468637,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "spoo|k10|t0.2": {
+      "query": "spoo|k10|t0.2",
+      "results": [
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3191,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3025,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.299,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2953,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.2947,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2896,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.2585,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "electronics",
+          "name": "Electronics",
+          "score": 0.2452,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2446,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "health",
+          "name": "Health",
+          "score": 0.2361,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482500.226006,
+      "accessed": 1766482500.226006,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "spoon|k10|t0.2": {
+      "query": "spoon|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.2828,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482500.903426,
+      "accessed": 1766482500.9034271,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "ki|k10|t0.2": {
+      "query": "ki|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.3226,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.2681,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.2621,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.259,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "services",
+          "name": "Services",
+          "score": 0.2572,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2518,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.2483,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2464,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.2385,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.2355,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482513.228873,
+      "accessed": 1766482513.228873,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "kijiko|k10|t0.2": {
+      "query": "kijiko|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.4346,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.3495,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3457,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3433,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.3357,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.3314,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.3282,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.3266,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.3122,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.3035,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482514.3382242,
+      "accessed": 1766482514.3382242,
+      "hits": 1,
+      "ttl": 604800
+    },
+    "kijik|k10|t0.2": {
+      "query": "kijik|k10|t0.2",
+      "results": [
+        {
+          "slug": "food",
+          "name": "Food",
+          "score": 0.4115,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "education",
+          "name": "Education",
+          "score": 0.3415,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "housing",
+          "name": "Housing",
+          "score": 0.3245,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "jobs",
+          "name": "Jobs",
+          "score": 0.319,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "vehicles",
+          "name": "Vehicles",
+          "score": 0.3181,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "fashion",
+          "name": "Fashion",
+          "score": 0.3141,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "books",
+          "name": "Books",
+          "score": 0.3098,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "entertainment",
+          "name": "Entertainment",
+          "score": 0.308,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "travel",
+          "name": "Travel",
+          "score": 0.2908,
+          "match_type": "semantic"
+        },
+        {
+          "slug": "pets",
+          "name": "Pets",
+          "score": 0.2895,
+          "match_type": "semantic"
+        }
+      ],
+      "created": 1766482521.462931,
+      "accessed": 1766482521.462931,
+      "hits": 1,
+      "ttl": 604800
+    }
+  },
+  "metadata": {
+    "created": 1766445436.572969
+  }
+}

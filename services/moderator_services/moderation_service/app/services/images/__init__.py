@@ -26,6 +26,21 @@ Module Structure:
 - security/           - Security detectors and sanitizer
 """
 
+import sys
+from pathlib import Path
+
+# Set up paths for model_registry import
+# Path: images/__init__.py -> images -> services -> app -> moderation_service -> moderator_services
+IMAGES_DIR = Path(__file__).parent.resolve()
+SERVICES_DIR = IMAGES_DIR.parent.resolve()
+APP_DIR = SERVICES_DIR.parent.resolve()
+MODERATION_SERVICE_DIR = APP_DIR.parent.resolve()
+MODERATOR_SERVICES_DIR = MODERATION_SERVICE_DIR.parent.resolve()
+
+for _path in [str(MODERATOR_SERVICES_DIR), str(MODERATION_SERVICE_DIR), str(APP_DIR)]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
 # Import from models
 from .models import (
     ImageModerationDecision,

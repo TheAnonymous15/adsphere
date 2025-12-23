@@ -15,6 +15,23 @@ Individual detectors for image security analysis:
 - ml_hidden: ML-enhanced hidden data detection
 """
 
+import sys
+from pathlib import Path
+
+# Set up paths for model_registry import
+# Path: detectors/__init__.py -> detectors -> security -> images -> services -> app -> moderation_service -> moderator_services
+CURRENT_DIR = Path(__file__).parent.resolve()
+SECURITY_DIR = CURRENT_DIR.parent.resolve()
+IMAGES_DIR = SECURITY_DIR.parent.resolve()
+SERVICES_DIR = IMAGES_DIR.parent.resolve()
+APP_DIR = SERVICES_DIR.parent.resolve()
+MODERATION_SERVICE_DIR = APP_DIR.parent.resolve()
+MODERATOR_SERVICES_DIR = MODERATION_SERVICE_DIR.parent.resolve()
+
+for _path in [str(MODERATOR_SERVICES_DIR), str(MODERATION_SERVICE_DIR), str(APP_DIR)]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
 from .file_structure import FileStructureDetector, FileStructureResult
 from .file_size import FileSizeDetector
 from .entropy import EntropyDetector, EntropyResult
