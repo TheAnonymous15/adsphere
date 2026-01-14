@@ -1,0 +1,91 @@
+{# CATEGORIES LISTING PAGE - AdSphere #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories | AdSphere</title>
+    <link rel="icon" type="image/png" href="/services/assets/images/adsphere.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #4338ca, #6d28d9);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .category-card {
+            transition: all 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
+    <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+        <a href="/" class="flex items-center space-x-3">
+            <img src="/services/assets/images/icc.png" alt="AdSphere" class="h-10">
+            <span class="font-bold text-xl">AdSphere</span>
+        </a>
+        <div class="flex items-center gap-4">
+            <a href="/" class="text-white/80 hover:text-white transition">Home</a>
+            <a href="/browse" class="text-white/80 hover:text-white transition">Browse Ads</a>
+            <a href="/login" class="px-4 py-2 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-opacity-90 transition">
+                Login
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-16 px-4 max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Browse Categories</h1>
+        <p class="text-white/70 text-lg">Find exactly what you're looking for</p>
+    </div>
+
+    {% if categories %}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {% for cat in categories %}
+        <a href="/category/{{ cat.slug }}" class="category-card group">
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-indigo-500/50 hover:bg-white/20">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas {{ cat.icon or 'fa-tag' }} text-2xl text-white"></i>
+                </div>
+                <h3 class="text-center font-semibold text-lg capitalize">{{ cat.name }}</h3>
+                {% if cat.ad_count is defined %}
+                <p class="text-center text-white/50 text-sm mt-1">{{ cat.ad_count }} ads</p>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-20">
+        <i class="fas fa-folder-open text-6xl text-white/30 mb-4"></i>
+        <h3 class="text-xl font-semibold text-white/70">No categories available yet</h3>
+        <p class="text-white/50 mt-2">Check back soon!</p>
+    </div>
+    {% endif %}
+</main>
+
+<!-- Footer -->
+<footer class="bg-black/20 backdrop-blur-md border-t border-white/10 py-8 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center text-white/50 text-sm">
+        &copy; {{ current_year }} AdSphere. All rights reserved.
+    </div>
+</footer>
+
+</body>
+</html>
+

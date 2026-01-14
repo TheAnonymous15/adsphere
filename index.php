@@ -72,6 +72,20 @@ if ($maintenanceMode === 1) {
 // ------------------------------
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $queryString = $_SERVER['QUERY_STRING'] ?? '';
+
+// ------------------------------
+// Bypass router for /services/api/ paths
+// These are public API endpoints that don't require auth
+// ------------------------------
+if (strpos($uri, 'services/api/') === 0) {
+    $filePath = __DIR__ . '/' . $uri;
+    if (file_exists($filePath) && pathinfo($filePath, PATHINFO_EXTENSION) === 'php') {
+        // Don't start session for API calls - let the API handle it
+        require $filePath;
+        exit;
+    }
+}
+
 $slug = $uri === '' ? 'home' : strtolower(preg_replace('/[^a-z0-9_-]/i', '', $uri));
 
 // ------------------------------

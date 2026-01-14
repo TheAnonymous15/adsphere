@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }} | AdSphere</title>
+    <link rel="icon" type="image/png" href="/services/assets/images/adsphere.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #4338ca, #6d28d9);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
+    <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+        <a href="/" class="flex items-center space-x-3">
+            <img src="/services/assets/images/icc.png" alt="AdSphere" class="h-10">
+            <span class="font-bold text-xl">AdSphere</span>
+        </a>
+        <div class="flex items-center space-x-6">
+            <a href="/" class="hover:text-indigo-300 transition">Home</a>
+            <a href="/browse" class="hover:text-indigo-300 transition">Browse</a>
+            <a href="/register" class="px-4 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-700 transition">Sign Up</a>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-16 px-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Category Header -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 border border-white/20">
+            <nav class="text-sm text-white/60 mb-4">
+                <a href="/" class="hover:text-white">Home</a>
+                <span class="mx-2">/</span>
+                <a href="/browse" class="hover:text-white">Browse</a>
+                <span class="mx-2">/</span>
+                <span class="text-white">{{ category.name }}</span>
+            </nav>
+
+            <h1 class="text-4xl font-bold mb-2">{{ category.name }}</h1>
+            {% if category.description %}
+            <p class="text-white/70">{{ category.description }}</p>
+            {% endif %}
+            <p class="text-white/50 mt-2">{{ total_ads }} ad{{ 's' if total_ads != 1 else '' }} in this category</p>
+        </div>
+
+        <!-- Ads Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for ad in ads %}
+            <div class="card-hover bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20">
+                <!-- Ad Image -->
+                <div class="relative h-48 overflow-hidden">
+                    {% if ad.media_type == 'video' %}
+                    <video class="w-full h-full object-cover" muted>
+                        <source src="/services/assets/{{ ad.media_path }}" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <i class="fas fa-play-circle text-4xl text-white/80"></i>
+                    </div>
+                    {% else %}
+                    <img src="/services/assets/{{ ad.media_path }}" alt="{{ ad.title }}" class="w-full h-full object-cover">
+                    {% endif %}
+                </div>
+
+                <!-- Ad Content -->
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white mb-2 truncate">{{ ad.title }}</h3>
+                    <p class="text-white/70 text-sm mb-4 line-clamp-2">{{ ad.description[:100] if ad.description else 'No description' }}...</p>
+
+                    <div class="flex items-center justify-between text-white/60 text-sm mb-4">
+                        <span><i class="fas fa-eye mr-1"></i> {{ ad.views }}</span>
+                        <span><i class="fas fa-heart mr-1"></i> {{ ad.likes }}</span>
+                        <span><i class="fas fa-star mr-1"></i> {{ ad.favorites }}</span>
+                    </div>
+
+                    <a href="/ad/{{ ad.id }}" class="block w-full px-4 py-2 bg-indigo-600 text-white text-center rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% if not ads %}
+            <div class="col-span-full text-center py-16">
+                <i class="fas fa-folder-open text-6xl text-white/30 mb-4"></i>
+                <h3 class="text-xl font-semibold text-white mb-2">No ads in this category</h3>
+                <p class="text-white/60">Check back later or browse other categories</p>
+                <a href="/browse" class="inline-block mt-4 px-6 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-700 transition">
+                    Browse All Ads
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-black/20 backdrop-blur-md py-8 text-center text-white/60 text-sm">
+    &copy; {{ current_year }} AdSphere. All rights reserved. | Powered by Python FastAPI
+</footer>
+
+</body>
+</html>
+

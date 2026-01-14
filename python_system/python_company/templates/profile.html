@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - {{ company_name }} - AdSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen">
+
+<!-- NAVBAR -->
+<nav class="bg-slate-900/80 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="/dashboard" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-ad text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold text-white">AdSphere</span>
+            </a>
+            <a href="/dashboard" class="text-gray-300 hover:text-white transition">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Company Profile</h1>
+        <p class="text-gray-400">Manage your company information</p>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="glass-effect rounded-xl p-8 mb-8">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span class="text-4xl font-bold text-white">{{ company_name[0] }}</span>
+            </div>
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl font-bold text-white">{{ company_name }}</h2>
+                <p class="text-gray-400">{{ company_data.get('contact_email', 'No email set') }}</p>
+                <span class="inline-block mt-2 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">
+                    <i class="fas fa-check-circle mr-1"></i>Active Account
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Form -->
+    <form id="profileForm" class="space-y-8">
+        <!-- Basic Info -->
+        <div class="glass-effect rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-white mb-6"><i class="fas fa-building mr-2 text-indigo-400"></i>Basic Information</h3>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">Company Name</label>
+                    <input type="text" name="company_name" value="{{ company_name }}"
+                           class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">Description</label>
+                    <textarea name="description" rows="4"
+                              class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                              placeholder="Tell us about your company">{{ company_data.get('description', '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="glass-effect rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-white mb-6"><i class="fas fa-address-card mr-2 text-green-400"></i>Contact Information</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">Email</label>
+                    <input type="email" name="email" value="{{ company_data.get('contact_email', '') }}"
+                           class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">Phone</label>
+                    <input type="tel" name="phone" value="{{ company_data.get('phone', '') }}"
+                           class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">WhatsApp</label>
+                    <input type="tel" name="whatsapp" value="{{ company_data.get('whatsapp', '') }}"
+                           class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">Website</label>
+                    <input type="url" name="website" value="{{ company_data.get('website', '') }}"
+                           class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           placeholder="https://yourcompany.com">
+                </div>
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="glass-effect rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-white mb-6"><i class="fas fa-map-marker-alt mr-2 text-red-400"></i>Address</h3>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">Address</label>
+                    <input type="text" name="address" value="{{ company_data.get('address', '') }}"
+                           class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           placeholder="Street address">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-300 text-sm font-medium mb-2">City</label>
+                        <input type="text" name="city" value="{{ company_data.get('city', '') }}"
+                               class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 text-sm font-medium mb-2">Country</label>
+                        <input type="text" name="country" value="{{ company_data.get('country', 'Kenya') }}"
+                               class="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="flex gap-4">
+            <button type="submit"
+                    class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-4 rounded-xl hover:opacity-90 transition">
+                <i class="fas fa-save mr-2"></i>Save Changes
+            </button>
+            <a href="/dashboard"
+               class="px-8 py-4 border border-white/20 text-gray-300 rounded-xl hover:bg-white/5 transition text-center">
+                Cancel
+            </a>
+        </div>
+    </form>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 py-6 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+        &copy; {{ current_year }} AdSphere. All rights reserved.
+    </div>
+</footer>
+
+<script>
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    try {
+        const response = await fetch('/api/update_profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert('Profile updated successfully!');
+        } else {
+            alert('Error: ' + (result.error || 'Update failed'));
+        }
+    } catch (error) {
+        alert('Error updating profile');
+    }
+});
+</script>
+</body>
+</html>
+

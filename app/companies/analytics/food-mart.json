@@ -1,6 +1,6 @@
 {
     "ad_id": "food-mart",
-    "total_views": 24,
+    "total_views": 26,
     "total_clicks": 0,
     "total_contacts": 0,
     "events": [
@@ -390,11 +390,38 @@
             "ip": "::1",
             "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
             "duration": 38
+        },
+        {
+            "type": "view",
+            "timestamp": 1767415706,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/143.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1767415721,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/143.0.0.0 Safari\/537.36",
+            "duration": 15
+        },
+        {
+            "type": "view",
+            "timestamp": 1767450112,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/143.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
         }
     ],
-    "updated_at": 1766407193,
-    "total_time_spent": 71876,
-    "avg_time_spent": 3782.95,
+    "updated_at": 1767450112,
+    "total_time_spent": 71891,
+    "avg_time_spent": 3594.55,
     "total_favorites": 1,
     "current_favorites": 1,
     "total_likes": 1

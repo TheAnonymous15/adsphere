@@ -1,0 +1,3 @@
+[2025-12-22 13:31:36] LOGOUT | User: admin | IP: ::1 | Status: SUCCESS
+[2025-12-22 13:31:44] LOGIN_ATTEMPT | User: admin | IP: ::1 | Status: INVALID_CREDENTIALS | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 508f368f9d47c9eb3c562ea58bf54761f406afd874f5a5e0a55ee9e6c1326e2a
+[2025-12-22 13:31:57] LOGIN_ATTEMPT | User: admin | IP: ::1 | Status: INVALID_CREDENTIALS | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: c8ee4cedc870c1a8fc787680b229df860528b691e30af6ac06253b9dca90d09f

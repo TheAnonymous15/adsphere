@@ -1,0 +1,287 @@
+1. Executive Summary
+This document defines the complete enterprise-grade architecture for a distributed multimodal AI content moderation platform. The system processes short video advertisements (≤1 min) uploaded by users. It operates in near real-time, scaling to 100+ videos per minute, across multiple Dockerized nodes.
+
+The system evaluates content for:
+
+nudity and explicit sexual content
+
+minors presence
+
+violence and gore
+
+weapons
+
+drugs/substances
+
+hate + extremist language
+
+fraudulent/illegal ads
+
+keyword-based violations
+
+metadata-based risks
+
+Processing includes:
+
+frame-based computer vision
+
+ASR speech transcription + NLP classification
+
+OCR text extraction
+
+metadata scanning
+
+decision engine scoring + thresholds
+
+audit logging + forensic preservation
+
+The platform is designed for high-risk compliance scenarios involving minors, including strong auditability guarantees and forensic retention options.
+
+The MVP persists logs to file storage. A future roadmap enables migration to persistent distributed databases.
+
+2. Requirements & Constraints
+2.1 Functional Requirements
+The system must:
+
+Accept uploaded video files and live video stream segments.
+
+Perform multimodal moderation:
+
+vision model evaluation per selected frames
+
+audio speech recognition + toxicity/Hate/NLP detection
+
+OCR + keyword list detection
+
+Produce one of 3 moderation outcomes:
+
+allow
+
+manual human review recommended
+
+block / reject content
+
+Record all moderation decisions in tamper-resistant logs
+
+Provide asynchronous job processing
+
+Provide an authenticated moderation API
+
+Cache fingerprints to avoid re-processing duplications
+
+2.2 Constraints
+No shared relational DB in MVP
+
+Logs persisted to local/attached scalable storage
+
+Runs on CPU-only initially
+
+Deployable via Docker
+
+Must support distributed multi-node scaling
+
+Must support GPU acceleration later without redesign
+
+Must not require proprietary paid models
+
+3. Threat Model & Abuse Scenarios
+The platform moderates high-risk categories where evasion is expected.
+
+3.1 Threat classes
+malicious uploaders
+
+automated bot upload storms
+
+users attempting moderation evasion
+
+adversarial attacks on ML models
+
+poisoning attacks
+
+hash-avoidance strategies
+
+metadata injection attacks
+
+video encoding manipulations
+
+3.2 Abuse Scenarios
+hidden encoded explicit content inside short frames
+
+insertion of 1–2 frame inappropriate flashes
+
+misleading thumbnails / safe first frame only
+
+audio-only illegal content
+
+phishing text shown briefly in video
+
+adversarial noise to trick violence/weapon classifiers
+
+ffmpeg extraction anomalies (variable FPS opcode)
+
+intentional metadata poisoning (EXIF malicious payloads)
+
+duplicate uploads w/ bit-level noise to bypass hashing
+
+concurrency exhaustion attacks targeting queues
+
+The specification addresses these via:
+
+redundant models per category
+
+uncertainty-aware routing
+
+frame sampling strategies
+
+multiple hash-based fingerprinting
+
+priority queue protections
+
+rate limits + API authentication
+
+4. Functional Specifications
+The system supports REST endpoints:
+
+Endpoint	Description
+POST /moderate/video	Upload + enqueue video
+GET /status/{job_id}	Get moderation state
+GET /result/{job_id}	Retrieve final moderation results
+POST /stream/start	Begin stream session
+POST /stream/frame	Submit encoded frame chunk
+POST /stream/end	End stream session
+
+Moderation job states:
+queued
+
+running
+
+waiting_subtask
+
+completed
+
+failed
+
+cancelled
+
+Moderation decision:
+allow
+
+review
+
+block
+
+5. Non-Functional Specifications
+5.1 Performance
+≥100 videos/min sustained throughput
+
+≤2 seconds median decision latency for uploads
+
+≤1 second median latency for stream segments
+
+5.2 Reliability & Durability
+message at-least-once delivery (Redis streams)
+
+worker crash-safe recovery
+
+persistent audit logs
+
+job replay via fingerprint skip logic
+
+5.3 Scalability
+linear horizontal scaling across nodes
+
+container-native architecture
+
+5.4 Security
+model sandboxing
+
+deterministic logging w/ metadata
+
+secure key/cert rotation
+
+no trust boundary between user and workers
+
+5.5 Privacy & Compliance
+child safety & CSAM resistance
+
+GDPR/CCPA alignment
+
+forensic retention hooks
+
+PHASE 2 sections (will be appended to the file):
+6. Distributed Architecture Overview
+node roles, fault isolation
+
+model servers vs. orchestrator nodes
+
+content-addressable storage
+
+worker pools
+
+redundancy + failover
+
+7. Deployment Topology (Docker multi-node)
+orchestration layout
+
+secure network zones
+
+registry + signing pipeline
+
+8. Message Queue + Priority Scheduling
+Redis Streams
+
+consumer groups
+
+dead letter queues
+
+replay semantics
+
+anti-DOS protections
+
+9. Moderation Pipeline Deep Dive
+adaptive routing engine
+
+frame sampling spec
+
+model batching architecture
+
+classifier confidence modeling
+
+review decision logic
+
+10. Content Fingerprinting / Caching
+perceptual hashing stack
+
+transient + persistent caches
+
+collision avoidance + risks
+
+
+11. Model Selection Rationale
+CPU-friendly free/OSS models
+
+fallback + redundancy rules
+
+12. Frame Sampling + Extraction Policy
+adaptive sampling
+
+handling adversarial hidden frames
+
+13. Model Batching + Worker Scheduling
+async execution
+
+minimizing latency + contention
+
+14. Live Stream Moderation Pipeline
+chunk buffering
+
+sliding window scoring
+
+low latency SLA
+
+15. Decision Engine + Risk Matrix
+allow / review / block
+
+category weighting + uncertainty logic
+
+

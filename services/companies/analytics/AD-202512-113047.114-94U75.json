@@ -1,6 +1,6 @@
 {
     "ad_id": "AD-202512-113047.114-94U75",
-    "total_views": 30,
+    "total_views": 32,
     "total_clicks": 0,
     "total_contacts": 0,
     "total_likes": 1,
@@ -8,8 +8,8 @@
     "total_favorites": 1,
     "total_unfavorites": 1,
     "current_favorites": 0,
-    "total_time_spent": 4284,
-    "avg_time_spent": 171.36,
+    "total_time_spent": 7692,
+    "avg_time_spent": 284.89,
     "events": [
         {
             "type": "view",
@@ -506,7 +506,41 @@
                 "referrer": "",
                 "page": "\/"
             }
+        },
+        {
+            "type": "view",
+            "timestamp": 1766526045,
+            "ip": "127.0.0.1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1766529341,
+            "ip": "127.0.0.1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/140.0.0.0 Safari\/537.36",
+            "duration": 3296
+        },
+        {
+            "type": "view",
+            "timestamp": 1768305609,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/143.0.0.0 Safari\/537.36",
+            "metadata": {
+                "referrer": "",
+                "page": "\/"
+            }
+        },
+        {
+            "type": "time_spent",
+            "timestamp": 1768305722,
+            "ip": "::1",
+            "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/143.0.0.0 Safari\/537.36",
+            "duration": 112
         }
     ],
-    "updated_at": 1766510776
+    "updated_at": 1768305722
 }

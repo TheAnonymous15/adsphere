@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - {{ company_name }} - AdSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen">
+
+<!-- NAVBAR -->
+<nav class="bg-slate-900/80 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-3">
+                <a href="/dashboard" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-ad text-white text-xl"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">AdSphere</span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex items-center gap-6">
+                <a href="/dashboard" class="text-gray-300 hover:text-white transition"><i class="fas fa-home mr-2"></i>Dashboard</a>
+                <a href="/my-ads" class="text-gray-300 hover:text-white transition"><i class="fas fa-ad mr-2"></i>My Ads</a>
+                <a href="/upload" class="text-gray-300 hover:text-white transition"><i class="fas fa-plus mr-2"></i>New Ad</a>
+                <a href="/analytics" class="text-indigo-400 font-medium"><i class="fas fa-chart-line mr-2"></i>Analytics</a>
+            </div>
+
+            <a href="/logout" class="text-gray-300 hover:text-white transition">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Analytics & Insights</h1>
+        <p class="text-gray-400">Track your ad performance and audience engagement</p>
+    </div>
+
+    <!-- Date Range Filter -->
+    <div class="glass-effect rounded-xl p-4 mb-8 flex flex-wrap gap-4 items-center">
+        <span class="text-gray-300">Time Range:</span>
+        <button class="px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm">7 Days</button>
+        <button class="px-4 py-2 bg-slate-700 text-gray-300 rounded-lg text-sm hover:bg-slate-600">30 Days</button>
+        <button class="px-4 py-2 bg-slate-700 text-gray-300 rounded-lg text-sm hover:bg-slate-600">90 Days</button>
+        <button class="px-4 py-2 bg-slate-700 text-gray-300 rounded-lg text-sm hover:bg-slate-600">All Time</button>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="glass-effect rounded-xl p-6 text-center">
+            <i class="fas fa-eye text-3xl text-blue-400 mb-2"></i>
+            <p class="text-3xl font-bold text-white" id="totalViews">0</p>
+            <p class="text-gray-400 text-sm">Total Views</p>
+        </div>
+        <div class="glass-effect rounded-xl p-6 text-center">
+            <i class="fas fa-heart text-3xl text-red-400 mb-2"></i>
+            <p class="text-3xl font-bold text-white" id="totalLikes">0</p>
+            <p class="text-gray-400 text-sm">Total Likes</p>
+        </div>
+        <div class="glass-effect rounded-xl p-6 text-center">
+            <i class="fas fa-star text-3xl text-yellow-400 mb-2"></i>
+            <p class="text-3xl font-bold text-white" id="totalFavorites">0</p>
+            <p class="text-gray-400 text-sm">Favorites</p>
+        </div>
+        <div class="glass-effect rounded-xl p-6 text-center">
+            <i class="fas fa-phone text-3xl text-green-400 mb-2"></i>
+            <p class="text-3xl font-bold text-white" id="totalContacts">0</p>
+            <p class="text-gray-400 text-sm">Contacts</p>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="glass-effect rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-white mb-4"><i class="fas fa-chart-area mr-2 text-indigo-400"></i>Views Over Time</h3>
+            <div id="viewsChart" style="height: 300px;"></div>
+        </div>
+        <div class="glass-effect rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-white mb-4"><i class="fas fa-chart-bar mr-2 text-purple-400"></i>Contact Methods</h3>
+            <div id="contactChart" style="height: 300px;"></div>
+        </div>
+    </div>
+
+    <!-- Performance by Ad -->
+    <div class="glass-effect rounded-xl p-6 mb-8">
+        <h3 class="text-lg font-semibold text-white mb-4"><i class="fas fa-trophy mr-2 text-yellow-400"></i>Top Performing Ads</h3>
+        <div id="topAds" class="space-y-4">
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                <p>Loading performance data...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="glass-effect rounded-xl p-6">
+        <h3 class="text-lg font-semibold text-white mb-4"><i class="fas fa-brain mr-2 text-pink-400"></i>AI Insights</h3>
+        <div id="aiInsights" class="space-y-3">
+            <div class="flex items-start gap-3 p-4 bg-indigo-500/10 rounded-lg">
+                <i class="fas fa-lightbulb text-yellow-400 mt-1"></i>
+                <p class="text-gray-300">Your ads perform best between 6 PM - 9 PM. Consider scheduling posts during these hours.</p>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-green-500/10 rounded-lg">
+                <i class="fas fa-chart-line text-green-400 mt-1"></i>
+                <p class="text-gray-300">WhatsApp is your most effective contact method with 45% of all inquiries.</p>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-purple-500/10 rounded-lg">
+                <i class="fas fa-users text-purple-400 mt-1"></i>
+                <p class="text-gray-300">Your target audience appears to be primarily mobile users (78%). Ensure your ads are mobile-optimized.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 py-6 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+        &copy; {{ current_year }} AdSphere. All rights reserved.
+    </div>
+</footer>
+
+<script>
+const companySlug = '{{ company_slug }}';
+
+// Load analytics data
+async function loadAnalytics() {
+    try {
+        const response = await fetch(`/api/dashboard_stats?company=${companySlug}`);
+        const data = await response.json();
+
+        if (data.success) {
+            document.getElementById('totalViews').textContent = data.performance?.total_views || 0;
+            document.getElementById('totalLikes').textContent = data.performance?.total_likes || 0;
+            document.getElementById('totalFavorites').textContent = data.performance?.total_favorites || 0;
+            document.getElementById('totalContacts').textContent = data.performance?.total_contacts || 0;
+
+            if (data.top_performers) {
+                renderTopAds(data.top_performers);
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load analytics:', error);
+    }
+}
+
+function renderTopAds(ads) {
+    const container = document.getElementById('topAds');
+
+    if (!ads || ads.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-4">No ad data available yet</p>';
+        return;
+    }
+
+    container.innerHTML = ads.map((ad, i) => `
+        <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-lg">
+            <span class="text-2xl font-bold ${i === 0 ? 'text-yellow-400' : i === 1 ? 'text-gray-400' : 'text-amber-600'}">#${i + 1}</span>
+            <div class="flex-1">
+                <h4 class="text-white font-medium">${ad.title}</h4>
+                <div class="flex gap-4 text-sm text-gray-500 mt-1">
+                    <span><i class="fas fa-eye mr-1"></i>${ad.views || 0}</span>
+                    <span><i class="fas fa-heart mr-1"></i>${ad.likes || 0}</span>
+                    <span><i class="fas fa-phone mr-1"></i>${ad.contacts || 0}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Initialize charts
+function initCharts() {
+    // Views Chart
+    const viewsOptions = {
+        series: [{
+            name: 'Views',
+            data: [30, 40, 35, 50, 49, 60, 70]
+        }],
+        chart: { type: 'area', height: 300, background: 'transparent', toolbar: { show: false } },
+        colors: ['#6366f1'],
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { type: 'gradient', gradient: { opacityFrom: 0.7, opacityTo: 0.1 } },
+        xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], labels: { style: { colors: '#9ca3af' } } },
+        yaxis: { labels: { style: { colors: '#9ca3af' } } },
+        grid: { borderColor: 'rgba(255,255,255,0.1)' },
+        theme: { mode: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#viewsChart"), viewsOptions).render();
+
+    // Contact Methods Chart
+    const contactOptions = {
+        series: [{ name: 'Contacts', data: [44, 55, 41, 17] }],
+        chart: { type: 'bar', height: 300, background: 'transparent', toolbar: { show: false } },
+        colors: ['#10b981', '#3b82f6', '#f59e0b', '#ec4899'],
+        plotOptions: { bar: { distributed: true, borderRadius: 8 } },
+        xaxis: { categories: ['WhatsApp', 'Phone', 'SMS', 'Email'], labels: { style: { colors: '#9ca3af' } } },
+        yaxis: { labels: { style: { colors: '#9ca3af' } } },
+        legend: { show: false },
+        grid: { borderColor: 'rgba(255,255,255,0.1)' },
+        theme: { mode: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#contactChart"), contactOptions).render();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadAnalytics();
+    initCharts();
+});
+</script>
+</body>
+</html>
+

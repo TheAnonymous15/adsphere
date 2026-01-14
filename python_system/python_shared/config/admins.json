@@ -1,0 +1,11 @@
+{
+    "admin": {
+        "username": "admin",
+        "password": "$argon2id$v=19$m=65536,t=4,p=2$b3lwcE9BVjV1SS84bVdKeg$I\/VcvFAmF4A5JqULPZQmSkoXWe9ZxUTCdVsq0Q\/SF3A",
+        "email": "admin@adsphere.com",
+        "role": "super_admin",
+        "created_at": 1766410304,
+        "2fa_enabled": false,
+        "2fa_secret": null
+    }
+}

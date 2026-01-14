@@ -25,6 +25,25 @@ require_once BASE_PATH . '/services/shared/bootstrap.php';
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestUri = rtrim($requestUri, '/') ?: '/';
 
+// Handle /services/api/ requests directly without auth
+if (strpos($requestUri, '/services/api/') === 0) {
+    $apiFile = BASE_PATH . $requestUri;
+    if (file_exists($apiFile) && pathinfo($apiFile, PATHINFO_EXTENSION) === 'php') {
+        require $apiFile;
+        exit;
+    }
+}
+
+// Handle /handlers/ requests (for registration, etc.)
+if (strpos($requestUri, '/handlers/') === 0) {
+    $handlerName = basename($requestUri, '.php');
+    $handlerFile = __DIR__ . '/handlers/' . $handlerName . '.php';
+    if (file_exists($handlerFile)) {
+        require $handlerFile;
+        exit;
+    }
+}
+
 // Public routes (no auth required)
 $publicRoutes = ['/login', '/login.php', '/register', '/health', '/api/auth', '/forgot-password'];
 

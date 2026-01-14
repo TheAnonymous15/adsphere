@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2FA Verification - AdSphere Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+<div class="glass rounded-2xl p-8 w-full max-w-md">
+    <div class="text-center mb-8">
+        <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-key text-white text-3xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-white">
+            {% if show_setup %}Setup 2FA{% else %}Verify 2FA{% endif %}
+        </h1>
+        <p class="text-gray-400 text-sm">
+            {% if show_setup %}Scan the QR code with your authenticator app{% else %}Enter the code from your authenticator app{% endif %}
+        </p>
+    </div>
+
+    {% if error %}
+        <div class="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg mb-6 text-sm">
+            <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+        </div>
+    {% endif %}
+
+    {% if show_setup %}
+        <!-- QR Code for setup -->
+        <div class="bg-white p-4 rounded-lg mb-6 text-center">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ otp_auth_url | urlencode }}"
+                 alt="QR Code" class="mx-auto">
+        </div>
+
+        <div class="bg-white/5 rounded-lg p-4 mb-6">
+            <p class="text-gray-400 text-xs mb-2">Manual key:</p>
+            <code class="text-green-400 text-sm break-all">{{ secret }}</code>
+        </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-6">
+        <div>
+            <label class="block text-gray-300 text-sm mb-2">Verification Code</label>
+            <input type="text" name="code" required maxlength="6" pattern="[0-9]{6}"
+                class="w-full bg-white/5 border border-white/10 text-white text-center text-2xl tracking-[0.5em] px-4 py-4 rounded-lg focus:outline-none focus:border-green-500 transition"
+                placeholder="000000" autofocus>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition">
+            <i class="fas fa-check mr-2"></i>Verify
+        </button>
+    </form>
+
+    <div class="mt-6 text-center">
+        <a href="/logout" class="text-gray-500 hover:text-gray-300 text-sm">
+            <i class="fas fa-arrow-left mr-1"></i>Back to login
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
+

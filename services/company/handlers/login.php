@@ -12,6 +12,8 @@ if (!isset($_SESSION['initiated'])) {
 }
 
 $metaBase = __DIR__ . "/../metadata/";
+  header("Location: /dashboard");
+    exit;
 
 // If already logged in redirect
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {

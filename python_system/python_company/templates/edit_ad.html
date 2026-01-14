@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ad - {{ ad.title | default('Ad') }} - AdSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen">
+
+<!-- NAVBAR -->
+<nav class="bg-slate-900/80 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-3">
+                <a href="/my-ads" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-edit text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">Edit Ad</h1>
+                        <p class="text-xs text-gray-400">{{ company_name | default('Company') }}</p>
+                    </div>
+                </a>
+            </div>
+            <a href="/my-ads" class="flex items-center gap-2 text-gray-300 hover:text-white transition">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Ads</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    {% if message %}
+    <div class="bg-green-500/10 border border-green-500/50 rounded-xl p-4 mb-6">
+        <i class="fas fa-check-circle text-green-400 mr-2"></i>{{ message }}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="bg-red-500/10 border border-red-500/50 rounded-xl p-4 mb-6">
+        <i class="fas fa-exclamation-triangle text-red-400 mr-2"></i>{{ error }}
+    </div>
+    {% endif %}
+
+    <div class="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-white/10">
+        <h2 class="text-2xl font-bold mb-6">Edit Advertisement</h2>
+
+        <form method="POST" action="/api/update_ad" enctype="multipart/form-data" class="space-y-6">
+            <input type="hidden" name="ad_id" value="{{ ad.id | default('') }}">
+            <input type="hidden" name="old_category" value="{{ ad.category | default('') }}">
+
+            <!-- Title -->
+            <div>
+                <label class="block text-sm font-medium mb-2">
+                    <i class="fas fa-heading mr-2"></i>Ad Title *
+                </label>
+                <input type="text" name="title" value="{{ ad.title | default('') }}" required maxlength="100"
+                    class="w-full bg-slate-900 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Enter ad title...">
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label class="block text-sm font-medium mb-2">
+                    <i class="fas fa-align-left mr-2"></i>Description *
+                </label>
+                <textarea name="description" rows="5" required maxlength="500"
+                    class="w-full bg-slate-900 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                    placeholder="Describe your ad...">{{ ad.description | default('') }}</textarea>
+                <p class="text-xs text-gray-400 mt-1">Maximum 500 characters</p>
+            </div>
+
+            <!-- Category -->
+            <div>
+                <label class="block text-sm font-medium mb-2">
+                    <i class="fas fa-tag mr-2"></i>Category *
+                </label>
+                <select name="category" required
+                    class="w-full bg-slate-900 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {{ 'selected' if cat == ad.category else '' }}>{{ cat | capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Current Media -->
+            <div>
+                <label class="block text-sm font-medium mb-2">
+                    <i class="fas fa-image mr-2"></i>Current Media
+                </label>
+                <div class="bg-slate-900 rounded-lg p-4 border border-gray-600">
+                    {% if ad.media_path %}
+                        {% if ad.media_type == 'video' %}
+                        <video class="w-full max-w-md rounded-lg" controls>
+                            <source src="/static/data/{{ ad.media_path }}">
+                        </video>
+                        {% else %}
+                        <img src="/static/data/{{ ad.media_path }}" alt="Current ad media" class="w-full max-w-md rounded-lg">
+                        {% endif %}
+                    {% else %}
+                    <div class="text-center py-8 text-gray-400">
+                        <i class="fas fa-image text-4xl mb-2"></i>
+                        <p>No media uploaded</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- New Media (Optional) -->
+            <div>
+                <label class="block text-sm font-medium mb-2">
+                    <i class="fas fa-upload mr-2"></i>Replace Media (Optional)
+                </label>
+                <div class="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-indigo-500 transition cursor-pointer"
+                    onclick="document.getElementById('mediaInput').click()">
+                    <input type="file" name="media" id="mediaInput" accept="image/*,video/*" class="hidden"
+                        onchange="previewMedia(this)">
+                    <div id="mediaPreview" class="hidden mb-4"></div>
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-500 mb-3"></i>
+                    <p class="text-gray-400">Click to upload new image or video</p>
+                    <p class="text-xs text-gray-500 mt-2">JPG, PNG, GIF, MP4, WebM supported</p>
+                </div>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex gap-4 pt-4">
+                <a href="/my-ads" class="flex-1 py-3 text-center border border-gray-600 rounded-lg hover:bg-white/10 transition">
+                    Cancel
+                </a>
+                <button type="submit" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold transition">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function previewMedia(input) {
+    const preview = document.getElementById('mediaPreview');
+    const file = input.files[0];
+    if (file) {
+        preview.classList.remove('hidden');
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" class="max-w-md mx-auto rounded-lg">`;
+            };
+            reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+            preview.innerHTML = `<p class="text-green-400"><i class="fas fa-video mr-2"></i>Video selected: ${file.name}</p>`;
+        }
+    }
+}
+</script>
+</body>
+</html>
+

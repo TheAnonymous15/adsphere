@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - AdSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateY(-100%); }
+            50% { transform: translateY(100%); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a1628, #0f2847, #1e3a8a, #1e40af, #0a1628);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.15), rgba(30, 64, 175, 0.1));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.2), 0 0 80px rgba(37, 99, 235, 0.1);
+        }
+
+        .login-container {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .security-badge {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, #60a5fa, transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        .grid-pattern {
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), 0 0 50px rgba(37, 99, 235, 0.3);
+            border-color: #3b82f6;
+            background: rgba(30, 58, 138, 0.2);
+        }
+
+        input {
+            background: rgba(30, 58, 138, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #e0f2fe;
+        }
+
+        input::placeholder {
+            color: #7dd3fc;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 grid-pattern relative overflow-hidden"
+      style="background-image: url('/services/assets/images/ad.jpg');">
+
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-blue-600/25 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-700/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/25 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl animate-pulse" style="animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container relative z-10 w-full max-w-md">
+
+        <!-- Security Badge -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center gap-3 bg-blue-600/20 border border-blue-500/50 rounded-full px-6 py-3 security-badge mb-4">
+                <i class="fas fa-shield-alt text-blue-400 text-xl"></i>
+                <span class="text-sm font-bold text-sky-100">SECURED BY 256-BIT ENCRYPTION</span>
+            </div>
+            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-sky-300 mb-2">
+                ADMIN ACCESS
+            </h1>
+            <p class="text-sky-300/70 text-sm">Super Administrator Control Panel</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="glass-card rounded-2xl p-8 relative overflow-hidden">
+            <div class="scan-line"></div>
+
+            <!-- Error Message -->
+            {% if error_msg %}
+                <div class="mb-6 p-4 bg-red-600/20 border border-red-600/50 rounded-xl flex items-center gap-3 animate-pulse">
+                    <i class="fas fa-exclamation-triangle text-red-400"></i>
+                    <div>
+                        <p class="text-red-400 font-semibold text-sm">{{ error_msg }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Success Message -->
+            {% if success_msg %}
+                <div class="mb-6 p-4 bg-green-600/20 border border-green-600/50 rounded-xl flex items-center gap-3">
+                    <i class="fas fa-check-circle text-green-400"></i>
+                    <div>
+                        <p class="text-green-400 font-semibold text-sm">{{ success_msg }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-6" autocomplete="off">
+
+                <!-- CSRF Token -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <!-- Username Field -->
+                <div class="relative">
+                    <label class="block text-sm font-bold text-sky-200 mb-2">
+                        <i class="fas fa-user-shield mr-2 text-cyan-400"></i>Username
+                    </label>
+                    <input
+                        type="text"
+                        name="username"
+                        required
+                        autocomplete="off"
+                        class="input-glow w-full px-4 py-3 text-white rounded-xl focus:outline-none transition-all"
+                        placeholder="Enter your admin username">
+                    <div class="absolute right-4 top-11 text-blue-400/50">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="relative">
+                    <label class="block text-sm font-bold text-sky-200 mb-2">
+                        <i class="fas fa-lock mr-2 text-cyan-400"></i>Password
+                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                        autocomplete="off"
+                        class="input-glow w-full px-4 text-white py-3 rounded-xl focus:outline-none transition-all"
+                        placeholder="Enter your secure password">
+                    <button
+                        type="button"
+                        onclick="togglePassword()"
+                        class="absolute right-4 top-11 text-blue-400/50 hover:text-cyan-400 transition">
+                        <i class="fas fa-eye" id="toggleIcon"></i>
+                    </button>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center gap-2 cursor-pointer text-sky-300/70 hover:text-sky-200 transition">
+                        <input type="checkbox" name="remember" class="rounded bg-blue-900/30 border-blue-500/30">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="w-full py-4 bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-600 hover:from-blue-700 hover:via-blue-800 hover:to-cyan-700 rounded-xl font-bold text-white text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-blue-500/60 relative overflow-hidden group">
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>AUTHENTICATE</span>
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+
+            </form>
+
+            <!-- Security Features -->
+            <div class="mt-8 pt-6 border-t border-white/10">
+                <p class="text-xs text-gray-500 text-center mb-3">Protected by:</p>
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                    <div class="text-center p-2 bg-green-600/10 rounded-lg">
+                        <i class="fas fa-shield-virus text-green-400 mb-1"></i>
+                        <p class="text-gray-400">CSRF</p>
+                    </div>
+                    <div class="text-center p-2 bg-blue-600/10 rounded-lg">
+                        <i class="fas fa-user-lock text-blue-400 mb-1"></i>
+                        <p class="text-gray-400">Rate Limit</p>
+                    </div>
+                    <div class="text-center p-2 bg-purple-600/10 rounded-lg">
+                        <i class="fas fa-fingerprint text-purple-400 mb-1"></i>
+                        <p class="text-gray-400">Session</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>System Operational</span>
+                <span>•</span>
+                <span id="systemTime">--:--:--</span>
+            </div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="mt-6 text-center text-sm text-sky-400/50">
+            <p>© 2024 AdSphere. All rights reserved.</p>
+            <div class="mt-2 flex items-center justify-center gap-4">
+                <a href="#" class="hover:text-cyan-400 transition">Privacy Policy</a>
+                <span>•</span>
+                <a href="#" class="hover:text-cyan-400 transition">Terms of Service</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Toggle Password Visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Update System Time
+        function updateSystemTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('systemTime').textContent = timeStr;
+        }
+
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Prevent multiple form submissions
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Authenticating...';
+        });
+
+        // Auto-focus username field
+        document.querySelector('input[name="username"]').focus();
+    </script>
+
+</body>
+</html>
+

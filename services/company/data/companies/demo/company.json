@@ -1,0 +1,12 @@
+{
+    "company_slug": "demo",
+    "company_name": "demo",
+    "email": "demo@demo.com",
+    "phone": "0712123123",
+    "password": "$argon2id$v=19$m=65536,t=4,p=1$dHdhQUUucXBOajNGQlNRMQ$dhMcph7gzLGHV0WY0dzdaCecGqDFXnUjDtxE\/5hMpTU",
+    "category": "fashion",
+    "status": "active",
+    "verified": false,
+    "created_at": "2026-01-13T15:27:19+03:00",
+    "updated_at": "2026-01-13T15:27:19+03:00"
+}

@@ -55,8 +55,25 @@ start_service() {
     fi
 
     echo -e "${BLUE}🚀 Starting $name on port $port...${NC}"
-    php -S localhost:$port -t "$SCRIPT_DIR/services/$dir" "$SCRIPT_DIR/services/$dir/index.php" > "$PID_DIR/$name.log" 2>&1 &
-    local pid=$!
+
+    # Handle moderator service differently (Python/FastAPI)
+    if [ "$name" = "moderator" ]; then
+        # Check if Python and uvicorn are available
+        if command -v python3 &> /dev/null; then
+            cd "$SCRIPT_DIR/services/moderator_services/moderation_service"
+            python3 -m uvicorn app.main:app --host 0.0.0.0 --port $port > "$PID_DIR/$name.log" 2>&1 &
+            local pid=$!
+            cd "$SCRIPT_DIR"
+        else
+            echo -e "${YELLOW}⚠️  Python3 not found, skipping moderator service${NC}"
+            return
+        fi
+    else
+        # PHP services
+        php -c "$SCRIPT_DIR/services/php.ini" -S localhost:$port -t "$SCRIPT_DIR/services/$dir" "$SCRIPT_DIR/services/$dir/index.php" > "$PID_DIR/$name.log" 2>&1 &
+        local pid=$!
+    fi
+
     echo $pid > "$PID_DIR/$name.pid"
     sleep 1
 
@@ -93,7 +110,7 @@ check_status() {
     echo -e "${BLUE}Service Status:${NC}"
     echo "─────────────────────────────────────────"
 
-    for service in public admin company; do
+    for service in public admin company moderator; do
         if [ -f "$PID_DIR/$service.pid" ]; then
             local pid=$(cat "$PID_DIR/$service.pid")
             if kill -0 $pid 2>/dev/null; then
@@ -102,6 +119,7 @@ check_status() {
                     public) port=8001 ;;
                     admin) port=8002 ;;
                     company) port=8003 ;;
+                    moderator) port=8004 ;;
                 esac
                 echo -e "${GREEN}✅ $service: Running on port $port (PID: $pid)${NC}"
             else
@@ -119,6 +137,7 @@ start_all() {
     start_service "public" 8001 "public"
     start_service "admin" 8002 "admin"
     start_service "company" 8003 "company"
+    start_service "moderator" 8004 "moderator_services"
     echo ""
     echo -e "${GREEN}All services started!${NC}"
     echo ""
@@ -126,6 +145,7 @@ start_all() {
     echo "  📢 Public:   http://localhost:8001"
     echo "  🔴 Admin:    http://localhost:8002"
     echo "  🔵 Company:  http://localhost:8003"
+    echo "  🤖 Moderator: http://localhost:8004"
     echo ""
 }
 
@@ -134,6 +154,7 @@ stop_all() {
     stop_service "public" 8001
     stop_service "admin" 8002
     stop_service "company" 8003
+    stop_service "moderator" 8004
     echo ""
 }
 
@@ -161,6 +182,9 @@ case "${1:-start}" in
     company)
         start_service "company" 8003 "company"
         ;;
+    moderator)
+        start_service "moderator" 8004 "moderator_services"
+        ;;
     logs)
         service=${2:-public}
         if [ -f "$PID_DIR/$service.log" ]; then
@@ -170,7 +194,7 @@ case "${1:-start}" in
         fi
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart|status|public|admin|company|logs [service]}"
+        echo "Usage: $0 {start|stop|restart|status|public|admin|company|moderator|logs [service]}"
         exit 1
         ;;
 esac

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ ad.title }} | AdSphere</title>
+    <link rel="icon" type="image/png" href="/static/images/adsphere.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #4338ca, #6d28d9);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
+    <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+        <a href="/" class="flex items-center space-x-3">
+            <img src="/static/images/icc.png" alt="AdSphere" class="h-10">
+            <span class="font-bold text-xl">AdSphere</span>
+        </a>
+        <div class="flex items-center space-x-6">
+            <a href="/" class="hover:text-indigo-300 transition">Home</a>
+            <a href="/browse" class="hover:text-indigo-300 transition">Browse</a>
+            <a href="/register" class="px-4 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-700 transition">Sign Up</a>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-16 px-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="mb-6 text-sm text-white/60">
+            <a href="/" class="hover:text-white">Home</a>
+            <span class="mx-2">/</span>
+            <a href="/browse" class="hover:text-white">Browse</a>
+            <span class="mx-2">/</span>
+            <a href="/category/{{ ad.category }}" class="hover:text-white">{{ ad.category }}</a>
+            <span class="mx-2">/</span>
+            <span class="text-white">{{ ad.title }}</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                <!-- Media -->
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 mb-6">
+                    {% if ad.media_type == 'video' %}
+                    <video controls class="w-full aspect-video object-cover">
+                        <source src="/static/{{ ad.media_path }}" type="video/mp4">
+                        Your browser does not support video.
+                    </video>
+                    {% else %}
+                    <img src="/static/{{ ad.media_path }}" alt="{{ ad.title }}" class="w-full aspect-video object-cover">
+                    {% endif %}
+                </div>
+
+                <!-- Title & Description -->
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-semibold rounded-full">{{ ad.category }}</span>
+                            <h1 class="text-3xl font-bold mt-3">{{ ad.title }}</h1>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="likeAd('{{ ad.id }}')" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition" title="Like">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button onclick="favoriteAd('{{ ad.id }}')" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition" title="Favorite">
+                                <i class="fas fa-star"></i>
+                            </button>
+                            <button onclick="shareAd()" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-white/80 leading-relaxed mb-6">{{ ad.description }}</p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-4 gap-4 pt-4 border-t border-white/20">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-indigo-400">{{ ad.views }}</div>
+                            <div class="text-sm text-white/60">Views</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-pink-400">{{ ad.likes }}</div>
+                            <div class="text-sm text-white/60">Likes</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-yellow-400">{{ ad.favorites }}</div>
+                            <div class="text-sm text-white/60">Favorites</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-400">{{ ad.contacts }}</div>
+                            <div class="text-sm text-white/60">Contacts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- Contact Card -->
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6 sticky top-24">
+                    <h3 class="text-xl font-bold mb-4">Contact Dealer</h3>
+                    <p class="text-white/70 text-sm mb-6">Get in touch with the advertiser</p>
+
+                    <div class="space-y-3">
+                        {% if ad.contact.phone %}
+                        <a href="tel:{{ ad.contact.phone }}" onclick="trackContact('{{ ad.id }}', 'call')"
+                           class="flex items-center p-4 bg-green-600/20 rounded-xl hover:bg-green-600/30 transition border border-green-500/30">
+                            <i class="fas fa-phone text-green-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="text-sm text-white/60">Call</div>
+                                <div class="text-white font-medium">{{ ad.contact.phone }}</div>
+                            </div>
+                        </a>
+                        {% endif %}
+
+                        {% if ad.contact.whatsapp %}
+                        <a href="https://wa.me/{{ ad.contact.whatsapp }}?text=Hi, I'm interested in: {{ ad.title }}" target="_blank" onclick="trackContact('{{ ad.id }}', 'whatsapp')"
+                           class="flex items-center p-4 bg-green-600/20 rounded-xl hover:bg-green-600/30 transition border border-green-500/30">
+                            <i class="fab fa-whatsapp text-green-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="text-sm text-white/60">WhatsApp</div>
+                                <div class="text-white font-medium">{{ ad.contact.whatsapp }}</div>
+                            </div>
+                        </a>
+                        {% endif %}
+
+                        {% if ad.contact.sms %}
+                        <a href="sms:{{ ad.contact.sms }}?body=Hi, I'm interested in: {{ ad.title }}" onclick="trackContact('{{ ad.id }}', 'sms')"
+                           class="flex items-center p-4 bg-blue-600/20 rounded-xl hover:bg-blue-600/30 transition border border-blue-500/30">
+                            <i class="fas fa-sms text-blue-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="text-sm text-white/60">SMS</div>
+                                <div class="text-white font-medium">{{ ad.contact.sms }}</div>
+                            </div>
+                        </a>
+                        {% endif %}
+
+                        {% if ad.contact.email %}
+                        <a href="mailto:{{ ad.contact.email }}?subject=Inquiry: {{ ad.title }}" onclick="trackContact('{{ ad.id }}', 'email')"
+                           class="flex items-center p-4 bg-purple-600/20 rounded-xl hover:bg-purple-600/30 transition border border-purple-500/30">
+                            <i class="fas fa-envelope text-purple-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="text-sm text-white/60">Email</div>
+                                <div class="text-white font-medium truncate">{{ ad.contact.email }}</div>
+                            </div>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Report Button -->
+                    <button onclick="reportAd('{{ ad.id }}')" class="w-full mt-4 px-4 py-2 text-red-400 text-sm hover:text-red-300 transition">
+                        <i class="fas fa-flag mr-2"></i> Report this ad
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Ads -->
+        {% if related_ads %}
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-6">Related Ads</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {% for rad in related_ads %}
+                <a href="/ad/{{ rad.id }}" class="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden border border-white/20 hover:border-indigo-500/50 transition">
+                    <img src="/static/{{ rad.media_path }}" alt="{{ rad.title }}" class="w-full h-32 object-cover">
+                    <div class="p-3">
+                        <h4 class="font-medium truncate">{{ rad.title }}</h4>
+                        <div class="text-sm text-white/60"><i class="fas fa-eye mr-1"></i> {{ rad.views }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-black/20 backdrop-blur-md py-8 text-center text-white/60 text-sm">
+    &copy; {{ current_year }} AdSphere. All rights reserved. | Powered by Python FastAPI
+</footer>
+
+<script>
+// Track contact events
+function trackContact(adId, type) {
+    fetch(`/api/track_interaction?ad_id=${adId}&event_type=${type}`, { method: 'POST' });
+}
+
+// Like ad
+function likeAd(adId) {
+    fetch(`/api/track_interaction?ad_id=${adId}&event_type=like`, { method: 'POST' })
+        .then(() => alert('Thanks for liking this ad!'));
+}
+
+// Favorite ad
+function favoriteAd(adId) {
+    fetch(`/api/track_interaction?ad_id=${adId}&event_type=favorite`, { method: 'POST' })
+        .then(() => alert('Added to favorites!'));
+}
+
+// Share ad
+function shareAd() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ ad.title }}',
+            text: '{{ ad.description[:100] if ad.description else "" }}',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+    }
+}
+
+// Report ad
+function reportAd(adId) {
+    const reason = prompt('Please describe why you are reporting this ad:');
+    if (reason) {
+        alert('Thank you for your report. We will review this ad.');
+    }
+}
+
+console.log('📄 Ad detail page loaded (Python FastAPI)');
+</script>
+
+</body>
+</html>
+

@@ -4,14 +4,14 @@
  * Hybrid SQLite + Files System
  * Features: Multiple images (up to 4), video upload, automatic compression
  ********************************************/
-session_start();
-
-if (!isset($_SESSION["logged_in"])) {
-    header("Location: login.php");
-    exit;
-}
-
-$loggedCompany = $_SESSION["company"];
+// session_start();
+//
+// if (!isset($_SESSION["logged_in"])) {
+//     header("Location: login.php");
+//     exit;
+// }
+//
+// $loggedCompany = $_SESSION["company"];
 
 $adsBase = __DIR__ . "/../data/";
 $metaBase = __DIR__ . "/../metadata/";

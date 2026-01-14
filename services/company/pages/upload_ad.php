@@ -5,6 +5,30 @@
  * Features: Multiple images (up to 4), video upload, automatic compression
  ********************************************/
 
+// Note: post_max_size and upload_max_filesize must be set in php.ini or .user.ini
+// These runtime settings help with execution time and memory
+@ini_set('max_execution_time', '300');
+@ini_set('max_input_time', '300');
+@ini_set('memory_limit', '256M');
+
+// Check if POST data was truncated due to size limits
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && empty($_FILES)) {
+    $contentLength = isset($_SERVER['CONTENT_LENGTH']) ? (int)$_SERVER['CONTENT_LENGTH'] : 0;
+    $postMaxSize = ini_get('post_max_size');
+
+    // Convert post_max_size to bytes
+    $postMaxBytes = (int)$postMaxSize;
+    $unit = strtoupper(substr($postMaxSize, -1));
+    if ($unit === 'M') $postMaxBytes *= 1024 * 1024;
+    elseif ($unit === 'K') $postMaxBytes *= 1024;
+    elseif ($unit === 'G') $postMaxBytes *= 1024 * 1024 * 1024;
+
+    if ($contentLength > $postMaxBytes) {
+        $msg = "❌ Upload failed: File size (" . round($contentLength / 1024 / 1024, 2) . "MB) exceeds server limit (" . $postMaxSize . "). Please use a smaller file or compress your media.";
+        $msgType = "error";
+    }
+}
+
 // Session already started by index.php router
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -22,22 +46,36 @@ if (!isset($_SESSION["company_logged_in"]) || !isset($_SESSION["company"])) {
 
 $loggedCompany = $_SESSION["company"];
 
+// Paths for storing ads and company data
 $adsBase = __DIR__ . "/../data/";
-$metaBase = __DIR__ . "/../metadata/";
+$metaBase = __DIR__ . "/../data/companies/";
 
-// Load the new database system
+// Load the database system
+require_once BASE_PATH . '/services/shared/database/Database.php';
 require_once BASE_PATH . '/services/shared/database/AdModel.php';
 $adModel = new AdModel();
 
-// Load NEW AI/ML Moderation Service Client
-require_once BASE_PATH . '/services/moderator_services/ModerationServiceClient.php';
-$moderationClient = new ModerationServiceClient('http://localhost:8002');
+// Load NEW AI/ML Moderation Service Client (optional - check if exists)
+$moderationClient = null;
+$moderationServicePath = BASE_PATH . '/services/moderator_services/ModerationServiceClient.php';
+if (file_exists($moderationServicePath)) {
+    require_once $moderationServicePath;
+    $moderationClient = new ModerationServiceClient('http://localhost:8004');
+}
 
 // Get company metadata with contact info (from database)
 $companyData = Database::getInstance()->queryOne(
     "SELECT * FROM companies WHERE company_slug = ?",
     [$loggedCompany]
 );
+
+// Fallback to file-based company data if not in database
+if (!$companyData) {
+    $companyJsonPath = $metaBase . $loggedCompany . '/company.json';
+    if (file_exists($companyJsonPath)) {
+        $companyData = json_decode(file_get_contents($companyJsonPath), true);
+    }
+}
 
 $contactInfo = [
     'phone' => $companyData['phone'] ?? null,
@@ -46,8 +84,43 @@ $contactInfo = [
     'whatsapp' => $companyData['whatsapp'] ?? null
 ];
 
-// Get assigned categories from database (with caching)
-$categories = $adModel->getCompanyCategories($loggedCompany);
+// Get assigned categories - first try from company.json file (which has category)
+$categories = [];
+$companyJsonPath = __DIR__ . "/../data/companies/" . $loggedCompany . '/company.json';
+
+if (file_exists($companyJsonPath)) {
+    $fileCompanyData = json_decode(file_get_contents($companyJsonPath), true);
+    if (!empty($fileCompanyData['category'])) {
+        $categorySlug = $fileCompanyData['category'];
+        $categories = [
+            ['category_slug' => $categorySlug, 'category_name' => ucfirst(str_replace('-', ' ', $categorySlug))]
+        ];
+
+        // Also use file data for contact info if not already loaded
+        if (empty($companyData)) {
+            $companyData = $fileCompanyData;
+            $contactInfo = [
+                'phone' => $companyData['phone'] ?? null,
+                'sms' => $companyData['sms'] ?? null,
+                'email' => $companyData['email'] ?? null,
+                'whatsapp' => $companyData['whatsapp'] ?? null
+            ];
+        }
+    }
+}
+
+// Fallback: try database company_categories table
+if (empty($categories)) {
+    $categories = $adModel->getCompanyCategories($loggedCompany);
+}
+
+// Fallback 2: try from companyData if it has category (unlikely from DB but possible)
+if (empty($categories) && !empty($companyData['category'])) {
+    $categorySlug = $companyData['category'];
+    $categories = [
+        ['category_slug' => $categorySlug, 'category_name' => ucfirst(str_replace('-', ' ', $categorySlug))]
+    ];
+}
 
 /******************************
  * IMAGE COMPRESSION FUNCTION
@@ -419,25 +492,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // Call the new moderation service with retry logic
+            // Call the new moderation service with retry logic (only if client is available)
             $moderationResult = null;
-            $maxRetries = 2;
-            $retryCount = 0;
 
-            while ($retryCount <= $maxRetries && $moderationResult === null) {
-                try {
-                    $moderationResult = $moderationClient->moderateRealtime(
-                        title: $title,
-                        description: $description,
-                        imageUrls: $imageUrls,
-                        videoUrls: $videoUrls,
-                        context: [
-                            'ad_id' => $adId,
-                            'company' => $loggedCompany,
-                            'category' => $category,
-                            'user_id' => $_SESSION['user_id'] ?? null,
-                            'source' => 'ad_upload',
-                            'media_type' => $mediaType
+            if ($moderationClient !== null) {
+                $maxRetries = 2;
+                $retryCount = 0;
+
+                while ($retryCount <= $maxRetries && $moderationResult === null) {
+                    try {
+                        $moderationResult = $moderationClient->moderateRealtime(
+                            title: $title,
+                            description: $description,
+                            imageUrls: $imageUrls,
+                            videoUrls: $videoUrls,
+                            context: [
+                                'ad_id' => $adId,
+                                'company' => $loggedCompany,
+                                'category' => $category,
+                                'user_id' => $_SESSION['user_id'] ?? null,
+                                'source' => 'ad_upload',
+                                'media_type' => $mediaType
                         ]
                     );
                 } catch (Exception $e) {
@@ -518,6 +593,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     implode(',', $flags)
                 ));
             }
+            } // End if ($moderationClient !== null)
             // ===== END AI MODERATION =====
 
             // Ensure adStatus is set (default to active if moderation was skipped)
@@ -964,42 +1040,70 @@ document.querySelectorAll('.image-input').forEach(input => {
 });
 
 // Video preview functionality
-document.getElementById('videoInput').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const container = document.getElementById('videoPreviewContainer');
+const videoInput = document.getElementById('videoInput');
+if (videoInput) {
+    videoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const container = document.getElementById('videoPreviewContainer');
+        const maxSizeMB = 100; // 100MB max
 
-    if (file && file.type.startsWith('video/')) {
-        const sizeMB = (file.size / 1024 / 1024).toFixed(2);
-        container.innerHTML = `
-            <div class="text-center">
-                <div class="inline-block bg-pink-500/20 p-6 rounded-2xl mb-4">
-                    <i class="fas fa-check-circle text-6xl text-pink-400"></i>
+        if (file && file.type.startsWith('video/')) {
+            const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+
+            // Check file size
+            if (parseFloat(sizeMB) > maxSizeMB) {
+                container.innerHTML = `
+                    <div class="text-center">
+                        <div class="inline-block bg-red-500/20 p-6 rounded-2xl mb-4">
+                            <i class="fas fa-exclamation-triangle text-6xl text-red-400"></i>
+                        </div>
+                        <p class="text-white text-xl font-bold mb-2">${file.name}</p>
+                        <p class="text-red-400 mb-2">Size: ${sizeMB} MB</p>
+                        <p class="text-red-400 text-sm"><i class="fas fa-times mr-1"></i>File too large! Maximum ${maxSizeMB}MB allowed.</p>
+                        <p class="text-gray-400 text-xs mt-2">Please compress the video or choose a smaller file.</p>
+                    </div>
+                `;
+                // Clear the input
+                this.value = '';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="text-center">
+                    <div class="inline-block bg-pink-500/20 p-6 rounded-2xl mb-4">
+                        <i class="fas fa-check-circle text-6xl text-pink-400"></i>
+                    </div>
+                    <p class="text-white text-xl font-bold mb-2">${file.name}</p>
+                    <p class="text-gray-400 mb-2">Size: ${sizeMB} MB</p>
+                    <p class="text-green-400 text-sm"><i class="fas fa-check mr-1"></i>Ready to upload</p>
                 </div>
-                <p class="text-white text-xl font-bold mb-2">${file.name}</p>
-                <p class="text-gray-400 mb-2">Size: ${sizeMB} MB</p>
-                <p class="text-green-400 text-sm"><i class="fas fa-check mr-1"></i>Ready to upload</p>
-            </div>
-        `;
-    }
-});
+            `;
+        }
+    });
+}
 
 // Form submission loading state
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    // Check terms agreement
-    const termsCheckbox = document.getElementById('termsCheckbox');
-    if (!termsCheckbox.checked) {
-        e.preventDefault();
-        alert('⚠️ Please agree to the Terms of Service and Advertising Policy before uploading.');
-        return;
-    }
+const uploadForm = document.getElementById('uploadForm');
+if (uploadForm) {
+    uploadForm.addEventListener('submit', function(e) {
+        // Check terms agreement
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        if (termsCheckbox && !termsCheckbox.checked) {
+            e.preventDefault();
+            alert('⚠️ Please agree to the Terms of Service and Advertising Policy before uploading.');
+            return;
+        }
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerHTML = `
-        <i class="fas fa-spinner fa-spin"></i>
-        <span>Uploading & AI Scanning...</span>
-    `;
-});
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = `
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Uploading & AI Scanning...</span>
+            `;
+        }
+    });
+}
 
 // Drag and drop support
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {

@@ -1,0 +1,600 @@
+{# ADSPHERE HOME PAGE - Combined single-file structure for optimal performance #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdSphere | The Future of Digital Advertising</title>
+    <link rel="icon" type="image/png" href="/services/assets/images/adsphere.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Shared Classes */
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+        .mobile-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: rgba(31, 41, 55, 0.9);
+            transition: all 0.3s;
+        }
+        .mobile-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: #4f46e5;
+        }
+
+        /* Hero Gradient Animation */
+        .animated-gradient {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+        }
+
+        /* Body Background Gradient */
+        body {
+            background: linear-gradient(135deg, #0b927e, #0b343b, #119585);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Ad Card Styles */
+        .ad-card {
+            break-inside: avoid;
+            transition: all 0.3s ease;
+        }
+        .ad-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="text-gray-900 font-sans leading-relaxed scroll-smooth">
+
+<!-- ============================================ -->
+<!-- HEADER / NAVIGATION -->
+<!-- ============================================ -->
+<header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
+    <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
+
+        <!-- Branding -->
+        <a href="/" class="flex items-center space-x-4 group cursor-pointer">
+            <div class="p-1 rounded-xl bg-white/20 backdrop-blur-lg shadow-md transition-transform group-hover:scale-105">
+                <img src="/services/assets/images/icc.png" alt="AdSphere Logo" class="h-12 w-auto object-contain">
+            </div>
+            <span class="text-xl font-bold text-white hidden sm:block">AdSphere</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="#ads-feed" class="nav-link">Browse Ads</a>
+            <a href="/categories" class="nav-link">Categories</a>
+            <a href="/register" class="px-5 py-2.5 bg-white text-indigo-600 rounded-xl font-semibold shadow hover:shadow-lg transition-all hover:-translate-y-0.5">Signup</a>
+            <a href="/login" class="px-5 py-2.5 border border-white/70 text-white rounded-xl font-semibold hover:bg-white hover:text-indigo-700 transition-all hover:-translate-y-0.5">Login</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden focus:outline-none text-white">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white/20 backdrop-blur-lg border-t border-white/10 shadow-xl">
+        <a href="#ads-feed" class="mobile-link">Browse Ads</a>
+        <a href="/categories" class="mobile-link">Categories</a>
+        <a href="/register" class="mobile-link font-semibold text-indigo-600">Signup</a>
+        <a href="/login" class="mobile-link font-semibold text-indigo-600">Login</a>
+    </div>
+</header>
+
+<!-- ============================================ -->
+<!-- HERO SECTION -->
+<!-- ============================================ -->
+<section class="relative animated-gradient text-white overflow-hidden pt-24 w-full h-auto">
+    <div class="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- LEFT COLUMN -->
+        <div class="flex flex-col justify-between h-full gap-8">
+            <!-- Branding / Headline -->
+            <div class="space-y-6 text-center md:text-left">
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight drop-shadow-lg">
+                    The Future of Digital Advertising
+                </h1>
+                <p class="text-xl md:text-2xl text-indigo-100 drop-shadow-sm">
+                    Create, manage, and deploy ads with AI-powered automation. Upload once, generate multiple formats, and scale performance automatically.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-6">
+                    <a href="#ads-feed" class="px-6 py-3 bg-white text-indigo-600 font-semibold rounded-xl shadow-lg transform transition hover:-translate-y-1 hover:shadow-2xl">
+                        Browse Ads
+                    </a>
+                    <a href="http://localhost:8003/login" class="px-6 py-3 border border-white text-white rounded-xl font-semibold hover:bg-white hover:text-indigo-600 transition transform hover:-translate-y-1">
+                        Post Your Ad
+                    </a>
+                </div>
+            </div>
+
+            <!-- Boost Subsection -->
+            <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg flex flex-col gap-4">
+                <h3 class="text-xl md:text-2xl font-bold text-white">Boost Your Ads Instantly</h3>
+                <p class="text-indigo-100 text-sm md:text-base">
+                    With AdSphere, you can automate campaigns, track performance, and scale your ad spend efficiently—all in one platform.
+                </p>
+                <a href="#ads-feed" class="mt-2 px-4 py-2 bg-indigo-500 text-white font-semibold rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-0.5 w-max">
+                    Explore Now
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="flex flex-col justify-between h-full gap-8">
+            <!-- Video Section -->
+            <div class="w-full rounded-3xl shadow-2xl overflow-hidden">
+                <div class="relative h-72 md:h-96 w-full rounded-2xl overflow-hidden">
+                    <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                        <source src="/services/assets/videos/ad.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Stats / Timeline -->
+            <div class="relative max-w-full">
+                <!-- Timeline Line -->
+                <div class="absolute top-1/2 transform -translate-y-1/2 left-0 right-0 h-1 bg-white/20"></div>
+
+                <div class="flex justify-between items-center relative z-10 text-white">
+                    <!-- Stat 1 -->
+                    <div class="flex flex-col items-center text-center w-1/3">
+                        <div class="p-4 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg transform transition-transform hover:scale-110">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="mt-4 text-3xl md:text-4xl font-extrabold" id="statAds">{{ stats.total_ads or 0 }}</div>
+                        <div class="text-indigo-100 text-sm md:text-base mt-1">Ads Created</div>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="flex flex-col items-center text-center w-1/3">
+                        <div class="p-4 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg transform transition-transform hover:scale-110">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="mt-4 text-3xl md:text-4xl font-extrabold" id="statViews">{{ stats.total_views or 0 }}</div>
+                        <div class="text-indigo-100 text-sm md:text-base mt-1">Total Views</div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="flex flex-col items-center text-center w-1/3">
+                        <div class="p-4 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg transform transition-transform hover:scale-110">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="mt-4 text-3xl md:text-4xl font-extrabold" id="statCompanies">{{ stats.total_companies or 0 }}</div>
+                        <div class="text-indigo-100 text-sm md:text-base mt-1">Active Sellers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ADS FEED SECTION -->
+<!-- ============================================ -->
+<section id="ads-feed" class="w-full text-white mt-20">
+
+    <!-- FILTERS -->
+    <div class="sticky top-20 bg-black/30 backdrop-blur-xl shadow py-4 z-40">
+        <div class="max-w-7xl mx-auto flex justify-between items-center px-3 gap-3 flex-wrap">
+
+            <div class="relative flex-1 min-w-[200px]">
+                <input id="search"
+                    class="text-black px-3 py-2 rounded w-full pr-12"
+                    placeholder="Search ads...">
+                <button id="voiceSearchBtn"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center transition-all"
+                    title="Voice Search">
+                    <i class="fas fa-microphone text-white text-sm"></i>
+                </button>
+            </div>
+
+            <select id="categoryFilter" class="text-black rounded px-3 py-2">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="sortFilter" class="text-black rounded px-3 py-2">
+                <option value="date">Latest</option>
+                <option value="views">Most Viewed</option>
+                <option value="favs">Favorites</option>
+            </select>
+
+            <button id="btnSearch" class="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-700 font-semibold">
+                Search
+            </button>
+
+        </div>
+    </div>
+
+    <h2 class="text-3xl font-bold mt-10 mb-4 px-4 max-w-7xl mx-auto">
+        Latest Ads
+    </h2>
+
+    <p id="no-results" class="hidden text-center text-gray-300 py-12 text-lg">
+        No ads found.
+    </p>
+
+    <!-- Ads Grid -->
+    <div id="ads-grid" class="max-w-7xl mx-auto columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 px-3">
+        <!-- Ads loaded via JavaScript -->
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="hidden py-10 max-w-7xl mx-auto px-4">
+        <div class="animate-pulse flex flex-col gap-4">
+            <div class="rounded-xl bg-white/10 h-60"></div>
+            <div class="rounded bg-white/10 h-4 w-3/4"></div>
+            <div class="rounded bg-white/10 h-4 w-1/2"></div>
+        </div>
+    </div>
+
+    <!-- Load More -->
+    <div id="loadMoreContainer" class="hidden text-center py-8">
+        <button id="loadMoreBtn" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all">
+            <i class="fas fa-plus mr-2"></i>Load More
+        </button>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CONTACT MODAL -->
+<!-- ============================================ -->
+<div id="contactDealerModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div id="contactDealerCard" class="w-full max-w-lg rounded-2xl bg-slate-900 p-8 shadow-xl transform scale-95 opacity-0 transition-all duration-300">
+
+        <!-- HEADER -->
+        <div class="mb-5 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white">Contact Seller</h3>
+            <button id="closeDealerModalBtn" class="text-white text-xl hover:text-gray-300">&times;</button>
+        </div>
+
+        <!-- YOUR INFO -->
+        <div class="mb-4 space-y-3">
+            <input id="senderName" type="text" placeholder="Your Name" maxlength="50"
+                class="w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            <input id="senderContact" type="text" placeholder="Your Phone/Email" maxlength="50"
+                class="w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+        </div>
+
+        <!-- MESSAGE -->
+        <textarea id="contactDealerMessage" rows="6" placeholder="Type your message..." maxlength="500"
+            class="mb-2 w-full rounded-xl border border-gray-700 bg-slate-800 p-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-sm"></textarea>
+        <div class="text-xs text-gray-400 text-right mb-4">
+            <span id="charCount">0</span>/500 characters
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="grid grid-cols-2 gap-2">
+            <button id="sendDealerWhatsApp" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 py-3 font-semibold hover:from-green-500 hover:to-emerald-400 transition-all duration-300 shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-2 text-white">
+                <i class="fab fa-whatsapp text-lg group-hover:scale-110 transition-transform"></i>
+                <span>WhatsApp</span>
+            </button>
+            <button id="sendDealerSMS" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 font-semibold hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2 text-white">
+                <i class="fas fa-sms text-lg group-hover:scale-110 transition-transform"></i>
+                <span>SMS</span>
+            </button>
+            <button id="sendDealerEmail" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 to-purple-500 py-3 font-semibold hover:from-indigo-500 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-indigo-500/30 flex items-center justify-center gap-2 text-white">
+                <i class="fas fa-envelope text-lg group-hover:scale-110 transition-transform"></i>
+                <span>Email</span>
+            </button>
+            <button id="callDealerNow" class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-red-600 to-rose-500 py-3 font-semibold hover:from-red-500 hover:to-rose-400 transition-all duration-300 shadow-lg hover:shadow-red-500/30 flex items-center justify-center gap-2 text-white">
+                <i class="fas fa-phone-alt text-lg group-hover:scale-110 transition-transform"></i>
+                <span>Call</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<footer class="w-full bg-black/20 backdrop-blur-md shadow-inner text-white mt-20 py-10">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-2xl">📢</span>
+                    <span class="text-xl font-bold">AdSphere</span>
+                </div>
+                <p class="text-white/60 text-sm">The future of digital advertising. AI-powered, efficient, and scalable.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-white/60 text-sm">
+                    <li><a href="/browse" class="hover:text-white">Browse Ads</a></li>
+                    <li><a href="/categories" class="hover:text-white">Categories</a></li>
+                    <li><a href="/register" class="hover:text-white">Sign Up</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">For Business</h4>
+                <ul class="space-y-2 text-white/60 text-sm">
+                    <li><a href="http://localhost:8003/register" class="hover:text-white">Register Company</a></li>
+                    <li><a href="http://localhost:8003/login" class="hover:text-white">Company Login</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Legal</h4>
+                <ul class="space-y-2 text-white/60 text-sm">
+                    <li><a href="/terms" class="hover:text-white">Terms of Service</a></li>
+                    <li><a href="/privacy" class="hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-white/20 pt-8 text-center text-white/50 text-sm">
+            &copy; {{ current_year }} AdSphere. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================ -->
+<!-- SCRIPTS -->
+<!-- ============================================ -->
+<script>
+// State
+let currentPage = 1;
+let totalAds = 0;
+let isLoading = false;
+let currentAd = null;
+
+// Mobile menu toggle
+const mobileBtn = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileBtn && mobileMenu) {
+    mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+}
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+        }
+    });
+});
+
+// Load ads
+async function loadAds(reset = false) {
+    if (isLoading) return;
+    isLoading = true;
+
+    const grid = document.getElementById('ads-grid');
+    const loading = document.getElementById('loading');
+    const noResults = document.getElementById('no-results');
+
+    if (reset) {
+        currentPage = 1;
+        grid.innerHTML = '';
+    }
+
+    loading.classList.remove('hidden');
+    noResults.classList.add('hidden');
+
+    const category = document.getElementById('categoryFilter').value;
+    const sort = document.getElementById('sortFilter').value;
+    const search = document.getElementById('search').value;
+
+    try {
+        const response = await fetch(`/api/ads?page=${currentPage}&category=${encodeURIComponent(category)}&sort=${sort}&search=${encodeURIComponent(search)}`);
+        const data = await response.json();
+
+        if (data.status === 'success' && data.ads) {
+            totalAds = data.total;
+
+            if (data.ads.length === 0 && currentPage === 1) {
+                noResults.classList.remove('hidden');
+                document.getElementById('loadMoreContainer').classList.add('hidden');
+            } else {
+                const adsHtml = data.ads.map(ad => createAdCard(ad)).join('');
+                grid.insertAdjacentHTML('beforeend', adsHtml);
+
+                // Show/hide load more
+                if (data.ads.length >= data.limit && currentPage * data.limit < totalAds) {
+                    document.getElementById('loadMoreContainer').classList.remove('hidden');
+                } else {
+                    document.getElementById('loadMoreContainer').classList.add('hidden');
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load ads:', error);
+    }
+
+    loading.classList.add('hidden');
+    isLoading = false;
+}
+
+// Create ad card HTML
+function createAdCard(ad) {
+    // media_path already contains full URL like /services/company/data/...
+    const mediaUrl = ad.media_path || '';
+    const hasMedia = mediaUrl && mediaUrl.length > 0;
+
+    return `
+        <div class="ad-card bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-4 break-inside-avoid">
+            ${hasMedia ? `
+                <div class="relative h-48 bg-gray-800">
+                    <img src="${mediaUrl}" alt="${escapeHtml(ad.title)}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center\\'><i class=\\'fas fa-image text-4xl text-gray-500\\'></i></div>'">
+                    <span class="absolute top-2 right-2 bg-black/50 backdrop-blur-sm px-2 py-1 rounded text-xs text-white capitalize">${escapeHtml(ad.category)}</span>
+                </div>
+            ` : `
+                <div class="h-32 bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
+                    <i class="fas fa-ad text-4xl text-white/50"></i>
+                </div>
+            `}
+
+            <div class="p-4">
+                <h3 class="font-bold text-white mb-1 truncate">${escapeHtml(ad.title)}</h3>
+                <p class="text-white/60 text-sm line-clamp-2 mb-3">${escapeHtml(ad.description || '')}</p>
+
+                <div class="flex items-center justify-between text-xs text-white/50 mb-3">
+                    <span><i class="fas fa-eye mr-1"></i>${ad.views || 0}</span>
+                    <span><i class="fas fa-heart mr-1"></i>${ad.favorites || 0}</span>
+                    <span><i class="fas fa-thumbs-up mr-1"></i>${ad.likes || 0}</span>
+                </div>
+
+                <div class="flex gap-2">
+                    <a href="/ad/${ad.id}" class="flex-1 text-center py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-all">
+                        View Details
+                    </a>
+                    <button onclick="openContactModal('${ad.id}', '${escapeHtml(ad.title)}', '${ad.contact?.phone || ''}', '${ad.contact?.email || ''}', '${ad.contact?.whatsapp || ''}')"
+                        class="py-2 px-3 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm transition-all">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Open contact modal
+function openContactModal(adId, title, phone, email, whatsapp) {
+    currentAd = { id: adId, title, phone, email, whatsapp };
+
+    const modal = document.getElementById('contactDealerModal');
+    const card = document.getElementById('contactDealerCard');
+    const message = document.getElementById('contactDealerMessage');
+
+    message.value = `Hi, I'm interested in your ad: "${title}"\n\nCan I get more information?`;
+    updateCharCount();
+
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        card.classList.remove('scale-95', 'opacity-0');
+        card.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+// Close contact modal
+function closeContactModal() {
+    const modal = document.getElementById('contactDealerModal');
+    const card = document.getElementById('contactDealerCard');
+
+    card.classList.add('scale-95', 'opacity-0');
+    card.classList.remove('scale-100', 'opacity-100');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+
+// Update character count
+function updateCharCount() {
+    const message = document.getElementById('contactDealerMessage');
+    const count = document.getElementById('charCount');
+    count.textContent = message.value.length;
+}
+
+// Contact actions
+document.getElementById('closeDealerModalBtn')?.addEventListener('click', closeContactModal);
+document.getElementById('contactDealerModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'contactDealerModal') closeContactModal();
+});
+document.getElementById('contactDealerMessage')?.addEventListener('input', updateCharCount);
+
+document.getElementById('sendDealerWhatsApp')?.addEventListener('click', () => {
+    if (!currentAd) return;
+    const message = document.getElementById('contactDealerMessage').value;
+    const phone = currentAd.whatsapp || currentAd.phone;
+    if (phone) {
+        window.open(`https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
+        trackContact(currentAd.id, 'whatsapp');
+    }
+});
+
+document.getElementById('sendDealerSMS')?.addEventListener('click', () => {
+    if (!currentAd) return;
+    const message = document.getElementById('contactDealerMessage').value;
+    if (currentAd.phone) {
+        window.open(`sms:${currentAd.phone}?body=${encodeURIComponent(message)}`, '_blank');
+        trackContact(currentAd.id, 'sms');
+    }
+});
+
+document.getElementById('sendDealerEmail')?.addEventListener('click', () => {
+    if (!currentAd) return;
+    const message = document.getElementById('contactDealerMessage').value;
+    if (currentAd.email) {
+        window.open(`mailto:${currentAd.email}?subject=Inquiry about: ${currentAd.title}&body=${encodeURIComponent(message)}`, '_blank');
+        trackContact(currentAd.id, 'email');
+    }
+});
+
+document.getElementById('callDealerNow')?.addEventListener('click', () => {
+    if (!currentAd) return;
+    if (currentAd.phone) {
+        window.open(`tel:${currentAd.phone}`, '_blank');
+        trackContact(currentAd.id, 'call');
+    }
+});
+
+// Track contact
+async function trackContact(adId, method) {
+    try {
+        await fetch(`/api/track_interaction?ad_id=${adId}&event_type=${method}`, { method: 'POST' });
+    } catch (e) {
+        console.error('Failed to track:', e);
+    }
+}
+
+// Search handlers
+document.getElementById('btnSearch')?.addEventListener('click', () => loadAds(true));
+document.getElementById('search')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loadAds(true);
+});
+document.getElementById('categoryFilter')?.addEventListener('change', () => loadAds(true));
+document.getElementById('sortFilter')?.addEventListener('change', () => loadAds(true));
+document.getElementById('loadMoreBtn')?.addEventListener('click', () => {
+    currentPage++;
+    loadAds(false);
+});
+
+// Helper
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text || '';
+    return div.innerHTML;
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    loadAds(true);
+    console.log('🏠 Home page loaded successfully');
+});
+</script>
+
+</body>
+</html>
+

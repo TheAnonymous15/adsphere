@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - {{ company_name }} - AdSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>.glass-effect { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }</style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen">
+<nav class="bg-slate-900/80 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="/dashboard" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-ad text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold text-white">AdSphere</span>
+            </a>
+            <a href="/dashboard" class="text-gray-300 hover:text-white transition"><i class="fas fa-arrow-left mr-2"></i>Back</a>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-white mb-8">Settings</h1>
+
+    <!-- Notifications -->
+    <div class="glass-effect rounded-xl p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4"><i class="fas fa-bell mr-2 text-yellow-400"></i>Notifications</h3>
+        <div class="space-y-4">
+            <label class="flex items-center justify-between cursor-pointer">
+                <span class="text-gray-300">Email notifications</span>
+                <input type="checkbox" checked class="w-5 h-5 rounded bg-slate-800 border-white/20 text-indigo-500">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+                <span class="text-gray-300">New contact alerts</span>
+                <input type="checkbox" checked class="w-5 h-5 rounded bg-slate-800 border-white/20 text-indigo-500">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+                <span class="text-gray-300">Weekly analytics report</span>
+                <input type="checkbox" class="w-5 h-5 rounded bg-slate-800 border-white/20 text-indigo-500">
+            </label>
+        </div>
+    </div>
+
+    <!-- Security -->
+    <div class="glass-effect rounded-xl p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4"><i class="fas fa-shield-alt mr-2 text-green-400"></i>Security</h3>
+        <div class="space-y-4">
+            <button class="w-full flex items-center justify-between p-4 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition">
+                <span class="text-gray-300"><i class="fas fa-key mr-2"></i>Change Password</span>
+                <i class="fas fa-chevron-right text-gray-500"></i>
+            </button>
+            <button class="w-full flex items-center justify-between p-4 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition">
+                <span class="text-gray-300"><i class="fas fa-mobile-alt mr-2"></i>Two-Factor Authentication</span>
+                <span class="text-yellow-400 text-sm">Not enabled</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="glass-effect rounded-xl p-6 border border-red-500/30">
+        <h3 class="text-lg font-semibold text-red-400 mb-4"><i class="fas fa-exclamation-triangle mr-2"></i>Danger Zone</h3>
+        <button class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition">
+            <i class="fas fa-trash mr-2"></i>Delete Account
+        </button>
+    </div>
+</main>
+
+<footer class="border-t border-white/10 py-6 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">&copy; {{ current_year }} AdSphere.</div>
+</footer>
+</body>
+</html>
+

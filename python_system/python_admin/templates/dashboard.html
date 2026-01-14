@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AdSphere Admin{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block extra_styles %}
+.stat-card:nth-child(2) { animation-delay: 0.5s; }
+.stat-card:nth-child(3) { animation-delay: 1s; }
+.stat-card:nth-child(4) { animation-delay: 1.5s; }
+
+.grid-pattern {
+    background-image:
+        linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up {
+    animation: countUp 0.5s ease-out forwards;
+}
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-8 grid-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-white">Dashboard</h1>
+                <p class="text-gray-400 mt-1">Welcome back, {{ admin_username }}</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 bg-green-500/20 border border-green-500/50 rounded-full px-4 py-2">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="text-green-400 text-sm font-medium">System Online</span>
+                </div>
+                <span class="text-gray-500 text-sm" id="currentTime"></span>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Companies -->
+            <div class="stat-card glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-building text-white text-xl"></i>
+                    </div>
+                    <span class="text-green-400 text-sm font-medium">
+                        <i class="fas fa-arrow-up mr-1"></i>12%
+                    </span>
+                </div>
+                <h3 class="text-gray-400 text-sm font-medium">Total Companies</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-companies">0</p>
+            </div>
+
+            <!-- Total Ads -->
+            <div class="stat-card glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-ad text-white text-xl"></i>
+                    </div>
+                    <span class="text-green-400 text-sm font-medium">
+                        <i class="fas fa-arrow-up mr-1"></i>8%
+                    </span>
+                </div>
+                <h3 class="text-gray-400 text-sm font-medium">Total Ads</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-ads">0</p>
+            </div>
+
+            <!-- Active Ads -->
+            <div class="stat-card glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-check-circle text-white text-xl"></i>
+                    </div>
+                    <span class="text-green-400 text-sm font-medium">
+                        <i class="fas fa-arrow-up mr-1"></i>5%
+                    </span>
+                </div>
+                <h3 class="text-gray-400 text-sm font-medium">Active Ads</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-active">0</p>
+            </div>
+
+            <!-- Flagged Content -->
+            <div class="stat-card glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-flag text-white text-xl"></i>
+                    </div>
+                    <span class="text-red-400 text-sm font-medium">
+                        <i class="fas fa-exclamation-circle mr-1"></i>Review
+                    </span>
+                </div>
+                <h3 class="text-gray-400 text-sm font-medium">Flagged Content</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-flagged">0</p>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Analytics Chart -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white">Platform Analytics</h3>
+                    <select class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-indigo-500">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last 90 Days</option>
+                    </select>
+                </div>
+                <canvas id="analyticsChart" height="250"></canvas>
+            </div>
+
+            <!-- Activity Chart -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white">Content Distribution</h3>
+                    <button class="text-gray-400 hover:text-white transition">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <canvas id="distributionChart" height="250"></canvas>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Recent Activity -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Quick Actions -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-white mb-6">Quick Actions</h3>
+                <div class="space-y-3">
+                    <a href="/companies" class="flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition group">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition">
+                            <i class="fas fa-plus text-blue-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-white">Add Company</p>
+                            <p class="text-sm text-gray-500">Register new company</p>
+                        </div>
+                    </a>
+                    <a href="/moderation" class="flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition group">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center group-hover:bg-purple-500/30 transition">
+                            <i class="fas fa-shield-alt text-purple-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-white">Content Moderation</p>
+                            <p class="text-sm text-gray-500">Review flagged content</p>
+                        </div>
+                    </a>
+                    <a href="/scanner" class="flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition group">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition">
+                            <i class="fas fa-satellite-dish text-green-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-white">Run Scanner</p>
+                            <p class="text-sm text-gray-500">Scan ads for violations</p>
+                        </div>
+                    </a>
+                    <a href="/analytics" class="flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition group">
+                        <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center group-hover:bg-amber-500/30 transition">
+                            <i class="fas fa-chart-bar text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-white">View Analytics</p>
+                            <p class="text-sm text-gray-500">Detailed statistics</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="lg:col-span-2 glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white">Recent Activity</h3>
+                    <a href="/logs" class="text-indigo-400 hover:text-indigo-300 text-sm transition">View All</a>
+                </div>
+                <div class="space-y-4" id="recentActivity">
+                    <div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-check text-green-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-medium">New company registered</p>
+                            <p class="text-sm text-gray-500">TechCorp Inc. joined the platform</p>
+                        </div>
+                        <span class="text-gray-500 text-sm">2 min ago</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-ad text-blue-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-medium">New ad submitted</p>
+                            <p class="text-sm text-gray-500">Premium ad awaiting review</p>
+                        </div>
+                        <span class="text-gray-500 text-sm">15 min ago</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                        <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-flag text-red-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-medium">Content flagged</p>
+                            <p class="text-sm text-gray-500">Ad #1234 flagged for review</p>
+                        </div>
+                        <span class="text-gray-500 text-sm">1 hour ago</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user-shield text-purple-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-medium">Admin login</p>
+                            <p class="text-sm text-gray-500">{{ admin_username }} logged in</p>
+                        </div>
+                        <span class="text-gray-500 text-sm">Just now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Update current time
+    function updateTime() {
+        const now = new Date();
+        document.getElementById('currentTime').textContent = now.toLocaleString();
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Fetch and display stats
+    async function loadStats() {
+        try {
+            const response = await fetch('/api/stats');
+            const data = await response.json();
+
+            if (data.success) {
+                animateValue('stat-companies', 0, data.stats.total_companies, 1000);
+                animateValue('stat-ads', 0, data.stats.total_ads, 1000);
+                animateValue('stat-active', 0, data.stats.active_ads, 1000);
+                animateValue('stat-flagged', 0, data.stats.flagged_ads, 1000);
+            }
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
+    }
+
+    function animateValue(id, start, end, duration) {
+        const element = document.getElementById(id);
+        const range = end - start;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const value = Math.floor(start + range * progress);
+            element.textContent = value.toLocaleString();
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    // Initialize charts
+    function initCharts() {
+        // Analytics Chart
+        const analyticsCtx = document.getElementById('analyticsChart').getContext('2d');
+        new Chart(analyticsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Views',
+                    data: [1200, 1900, 1500, 2100, 1800, 2400, 2200],
+                    borderColor: 'rgb(99, 102, 241)',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Contacts',
+                    data: [300, 450, 380, 520, 410, 580, 540],
+                    borderColor: 'rgb(168, 85, 247)',
+                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { color: '#9ca3af' }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#9ca3af' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#9ca3af' }
+                    }
+                }
+            }
+        });
+
+        // Distribution Chart
+        const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+        new Chart(distributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Active', 'Pending', 'Paused', 'Flagged'],
+                datasets: [{
+                    data: [65, 20, 10, 5],
+                    backgroundColor: [
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(99, 102, 241, 0.8)',
+                        'rgba(234, 179, 8, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#9ca3af' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStats();
+        initCharts();
+    });
+</script>
+{% endblock %}
+

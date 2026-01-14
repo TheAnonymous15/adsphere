@@ -1,0 +1,345 @@
+# AdSphere Moderation Policy Configuration
+# Defines category-specific rules, thresholds, and enforcement levels
+
+version: "1.0"
+updated: "2025-12-20"
+
+# Global settings
+global:
+  default_action: "review"  # Default when uncertain: approve/review/block
+  require_all_detectors: false  # If true, all detectors must run
+  fail_safe_mode: "review"  # On detector failure: approve/review/block
+
+# Category-specific policies
+categories:
+
+  # General/Unknown category
+  general:
+    required_detectors:
+      - text_rules
+      - text_detoxify
+    optional_detectors:
+      - nsfw_detector
+      - ocr_service
+    thresholds:
+      approve: 0.85
+      review: 0.70
+      reject: 0.50
+    enforcement: "standard"
+
+  # Electronics & Technology
+  electronics:
+    required_detectors:
+      - text_rules
+      - text_detoxify
+    thresholds:
+      approve: 0.80
+      review: 0.65
+      reject: 0.45
+    enforcement: "relaxed"
+    exceptions:
+      - allow_technical_terms: true
+
+  # Real Estate & Housing
+  housing:
+    required_detectors:
+      - text_rules
+      - text_detoxify
+      - ocr_service
+    thresholds:
+      approve: 0.85
+      review: 0.70
+      reject: 0.50
+    enforcement: "standard"
+
+  # Vehicles
+  vehicles:
+    required_detectors:
+      - text_rules
+      - text_detoxify
+    thresholds:
+      approve: 0.80
+      review: 0.65
+      reject: 0.45
+    enforcement: "relaxed"
+
+  # Jobs & Services
+  jobs:
+    required_detectors:
+      - text_rules
+      - text_detoxify
+      - ocr_service
+    thresholds:
+      approve: 0.85
+      review: 0.70
+      reject: 0.50
+    enforcement: "strict"
+    flags_always_review:
+      - "financial_promise"
+      - "work_from_home"
+
+  # Adult Services (strict)
+  adult:
+    required_detectors:
+      - text_rules
+      - text_detoxify
+      - nsfw_detector
+      - violence_detector
+    thresholds:
+      approve: 0.95  # Very high bar
+      review: 0.80
+      reject: 0.60
+    enforcement: "strict"
+    auto_block_categories:
+      - "sexual_content"
+      - "nudity"
+      - "minors"
+
+# Content type policies
+content_types:
+
+  text:
+    max_length: 5000
+    required_detectors:
+      - text_rules
+      - text_detoxify
+    min_confidence: 0.75
+
+  image:
+    max_size_mb: 10
+    required_detectors:
+      - nsfw_detector
+      - violence_detector
+      - weapon_detector
+      - ocr_service
+    min_confidence: 0.70
+
+  video:
+    max_size_mb: 100
+    max_duration_sec: 60
+    required_detectors:
+      - nsfw_detector
+      - violence_detector
+      - weapon_detector
+      - blood_detector
+      - ocr_service
+      - asr_service
+    min_confidence: 0.75
+    frame_sample_fps: 2.0
+
+# Detector-specific configurations
+detectors:
+
+  text_rules:
+    enabled: true
+    priority: 1  # Run first
+    critical_violations_auto_block: true
+
+  text_detoxify:
+    enabled: true
+    priority: 2
+    model: "original"  # original/unbiased/multilingual
+    min_confidence: 0.50
+
+  nsfw_detector:
+    enabled: true
+    priority: 3
+    models:
+      - open_nsfw2
+      - nudenet
+    aggregate_method: "max"  # max/average/weighted
+
+  violence_detector:
+    enabled: true
+    priority: 4
+    confidence_threshold: 0.25
+
+  weapon_detector:
+    enabled: true
+    priority: 4
+    confidence_threshold: 0.30
+
+  blood_detector:
+    enabled: true
+    priority: 5
+    method: "cnn"  # cnn/color_heuristic/both
+    fallback_to_heuristic: true
+
+  ocr_service:
+    enabled: true
+    priority: 6
+    languages: ["en"]
+    confidence_threshold: 0.50
+
+  asr_service:
+    enabled: true
+    priority: 7
+    model: "small"  # tiny/base/small/medium
+    transcribe_audio: true
+
+# Threshold matrix (category → risk type → threshold)
+thresholds:
+  nudity:
+    approve: 0.20
+    review: 0.40
+    reject: 0.60
+
+  sexual_content:
+    approve: 0.15
+    review: 0.30
+    reject: 0.50
+
+  violence:
+    approve: 0.20
+    review: 0.40
+    reject: 0.60
+
+  weapons:
+    approve: 0.10
+    review: 0.30
+    reject: 0.50
+
+  blood:
+    approve: 0.10
+    review: 0.30
+    reject: 0.50
+
+  hate:
+    approve: 0.10
+    review: 0.30
+    reject: 0.50
+
+  self_harm:
+    approve: 0.05
+    review: 0.15
+    reject: 0.30
+
+  drugs:
+    approve: 0.10
+    review: 0.30
+    reject: 0.50
+
+  scam_fraud:
+    approve: 0.10
+    review: 0.30
+    reject: 0.50
+
+  spam:
+    approve: 0.20
+    review: 0.50
+    reject: 0.70
+
+# Enforcement levels
+enforcement_levels:
+
+  relaxed:
+    description: "Lenient moderation for low-risk categories"
+    allow_borderline: true
+    require_multiple_flags: true
+    human_review_threshold: 0.60
+
+  standard:
+    description: "Balanced moderation for most categories"
+    allow_borderline: false
+    require_multiple_flags: false
+    human_review_threshold: 0.70
+
+  strict:
+    description: "Strict moderation for high-risk categories"
+    allow_borderline: false
+    require_multiple_flags: false
+    human_review_threshold: 0.80
+    auto_escalate_on_flags: true
+
+# Exception rules
+exceptions:
+
+  # Whitelisted terms (won't trigger flags)
+  whitelisted_terms:
+    - "fake flowers"
+    - "fake grass"
+    - "replica"
+    - "imitation"
+
+  # Trusted user tiers
+  trusted_users:
+    tier_1:  # Verified companies
+      threshold_adjustment: -0.05  # More lenient
+      skip_detectors: []
+    tier_2:  # Long-standing users
+      threshold_adjustment: -0.02
+      skip_detectors: []
+    tier_3:  # New users
+      threshold_adjustment: +0.05  # More strict
+      skip_detectors: []
+
+  # Time-based exceptions
+  promotional_periods:
+    black_friday:
+      dates: ["2025-11-29"]
+      categories: ["electronics", "general"]
+      allow_marketing_keywords: true
+    christmas:
+      dates: ["2025-12-24", "2025-12-25"]
+      categories: ["all"]
+      allow_marketing_keywords: true
+
+# Action mappings
+actions:
+
+  approve:
+    immediate_publish: true
+    notify_user: false
+    log_level: "INFO"
+
+  review:
+    queue_for_manual: true
+    notify_user: true
+    notify_admins: true
+    log_level: "WARNING"
+    max_review_time_hours: 24
+
+  block:
+    immediate_reject: true
+    notify_user: true
+    notify_admins: true
+    log_level: "ERROR"
+    store_violation: true
+    escalate_on_repeat: true
+
+# Notification settings
+notifications:
+
+  user_notifications:
+    approved:
+      enabled: false
+    review:
+      enabled: true
+      message: "Your ad is under review. We'll notify you within 24 hours."
+    blocked:
+      enabled: true
+      message: "Your ad was rejected due to policy violations."
+      include_reasons: true
+
+  admin_notifications:
+    review_queue_threshold: 50
+    critical_violations: true
+    daily_summary: true
+
+# Audit and compliance
+audit:
+  log_all_decisions: true
+  retention_days: 365
+  include_raw_scores: true
+  include_detector_details: true
+  tamper_evident: true
+  export_format: "json"
+
+# Performance settings
+performance:
+  cache_enabled: true
+  cache_ttl_seconds: 3600
+  parallel_detectors: true
+  max_concurrent_jobs: 10
+  timeout_seconds: 300
+

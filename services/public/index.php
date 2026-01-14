@@ -73,6 +73,15 @@ if ($maintenanceMode === 1) {
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $queryString = $_SERVER['QUERY_STRING'] ?? '';
 
+// Handle /services/api/ requests (from dashboard on same port)
+if (strpos($uri, 'services/api/') === 0) {
+    $apiFile = BASE_PATH . '/' . $uri;
+    if (file_exists($apiFile) && pathinfo($apiFile, PATHINFO_EXTENSION) === 'php') {
+        require $apiFile;
+        exit;
+    }
+}
+
 // Handle API requests separately
 if (strpos($uri, 'api/') === 0) {
     $apiEndpoint = substr($uri, 4); // Remove 'api/'

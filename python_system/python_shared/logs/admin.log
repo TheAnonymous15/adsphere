@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Users/danielkinyua/Downloads/projects/ad/adsphere/python_system/app.py", line 18, in <module>
+    from auth import AuthService, TokenService, PasswordService, get_current_user, get_current_company, get_current_admin
+  File "/Users/danielkinyua/Downloads/projects/ad/adsphere/python_system/auth.py", line 7, in <module>
+    from fastapi.security import HTTPBearer, HTTPAuthCredentials
+ImportError: cannot import name 'HTTPAuthCredentials' from 'fastapi.security' (/Users/danielkinyua/Downloads/projects/ad/adsphere/python_system/venv/lib/python3.12/site-packages/fastapi/security/__init__.py). Did you mean: 'HTTPBasicCredentials'?

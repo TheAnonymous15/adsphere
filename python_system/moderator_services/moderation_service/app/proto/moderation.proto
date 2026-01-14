@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package moderation;
+
+message ModerationFrame {
+  string task_id = 1;
+  int64 sequence = 2;                // ordering
+  bool final = 3;
+  bytes payload = 4;                 // e.g., JSON chunk, bytes etc
+}

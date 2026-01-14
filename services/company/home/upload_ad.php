@@ -6,29 +6,47 @@
  ********************************************/
 session_start();
 
-if (!isset($_SESSION["logged_in"])) {
-    header("Location: login.php");
+// Define BASE_PATH if not defined
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+}
+
+if (!isset($_SESSION["company_logged_in"]) || $_SESSION["company_logged_in"] !== true) {
+    header("Location: /login");
     exit;
 }
 
 $loggedCompany = $_SESSION["company"];
 
 $adsBase = __DIR__ . "/../data/";
-$metaBase = __DIR__ . "/../metadata/";
+$metaBase = __DIR__ . "/../data/companies/";
 
 // Load the new database system
-require_once __DIR__ . '/../../database/AdModel.php';
+require_once BASE_PATH . '/services/shared/database/Database.php';
+require_once BASE_PATH . '/services/shared/database/AdModel.php';
 $adModel = new AdModel();
 
-// Load NEW AI/ML Moderation Service Client
-require_once BASE_PATH . '/services/moderator_services/ModerationServiceClient.php';
-$moderationClient = new ModerationServiceClient('http://localhost:8002');
+// Load NEW AI/ML Moderation Service Client (optional - check if exists)
+$moderationClient = null;
+$moderationServicePath = BASE_PATH . '/services/moderator_services/ModerationServiceClient.php';
+if (file_exists($moderationServicePath)) {
+    require_once $moderationServicePath;
+    $moderationClient = new ModerationServiceClient('http://localhost:8004');
+}
 
 // Get company metadata with contact info (from database)
 $companyData = Database::getInstance()->queryOne(
     "SELECT * FROM companies WHERE company_slug = ?",
     [$loggedCompany]
 );
+
+// Fallback to file-based company data if not in database
+if (!$companyData) {
+    $companyJsonPath = $metaBase . $loggedCompany . '/company.json';
+    if (file_exists($companyJsonPath)) {
+        $companyData = json_decode(file_get_contents($companyJsonPath), true);
+    }
+}
 
 $contactInfo = [
     'phone' => $companyData['phone'] ?? null,
@@ -37,8 +55,43 @@ $contactInfo = [
     'whatsapp' => $companyData['whatsapp'] ?? null
 ];
 
-// Get assigned categories from database (with caching)
-$categories = $adModel->getCompanyCategories($loggedCompany);
+// Get assigned categories - first try from company.json file (which has category)
+$categories = [];
+$companyJsonPath = __DIR__ . "/../data/companies/" . $loggedCompany . '/company.json';
+
+if (file_exists($companyJsonPath)) {
+    $fileCompanyData = json_decode(file_get_contents($companyJsonPath), true);
+    if (!empty($fileCompanyData['category'])) {
+        $categorySlug = $fileCompanyData['category'];
+        $categories = [
+            ['category_slug' => $categorySlug, 'category_name' => ucfirst(str_replace('-', ' ', $categorySlug))]
+        ];
+
+        // Also use file data for contact info if not already loaded
+        if (empty($companyData)) {
+            $companyData = $fileCompanyData;
+            $contactInfo = [
+                'phone' => $companyData['phone'] ?? null,
+                'sms' => $companyData['sms'] ?? null,
+                'email' => $companyData['email'] ?? null,
+                'whatsapp' => $companyData['whatsapp'] ?? null
+            ];
+        }
+    }
+}
+
+// Fallback: try database company_categories table
+if (empty($categories)) {
+    $categories = $adModel->getCompanyCategories($loggedCompany);
+}
+
+// Fallback 2: try from companyData if it has category
+if (empty($categories) && !empty($companyData['category'])) {
+    $categorySlug = $companyData['category'];
+    $categories = [
+        ['category_slug' => $categorySlug, 'category_name' => ucfirst(str_replace('-', ' ', $categorySlug))]
+    ];
+}
 
 /******************************
  * IMAGE COMPRESSION FUNCTION
@@ -410,32 +463,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // Call the new moderation service with retry logic
+            // Call the new moderation service with retry logic (only if client is available)
             $moderationResult = null;
-            $maxRetries = 2;
-            $retryCount = 0;
 
-            while ($retryCount <= $maxRetries && $moderationResult === null) {
-                try {
-                    $moderationResult = $moderationClient->moderateRealtime(
-                        title: $title,
-                        description: $description,
-                        imageUrls: $imageUrls,
-                        videoUrls: $videoUrls,
-                        context: [
-                            'ad_id' => $adId,
-                            'company' => $loggedCompany,
-                            'category' => $category,
-                            'user_id' => $_SESSION['user_id'] ?? null,
-                            'source' => 'ad_upload',
-                            'media_type' => $mediaType
-                        ]
-                    );
-                } catch (Exception $e) {
-                    error_log("[MODERATION] Retry $retryCount failed: " . $e->getMessage());
-                    $retryCount++;
-                    if ($retryCount <= $maxRetries) {
-                        usleep(500000); // Wait 500ms before retry
+            if ($moderationClient !== null) {
+                $maxRetries = 2;
+                $retryCount = 0;
+
+                while ($retryCount <= $maxRetries && $moderationResult === null) {
+                    try {
+                        $moderationResult = $moderationClient->moderateRealtime(
+                            title: $title,
+                            description: $description,
+                            imageUrls: $imageUrls,
+                            videoUrls: $videoUrls,
+                            context: [
+                                'ad_id' => $adId,
+                                'company' => $loggedCompany,
+                                'category' => $category,
+                                'user_id' => $_SESSION['user_id'] ?? null,
+                                'source' => 'ad_upload',
+                                'media_type' => $mediaType
+                            ]
+                        );
+                    } catch (Exception $e) {
+                        error_log("[MODERATION] Retry $retryCount failed: " . $e->getMessage());
+                        $retryCount++;
+                        if ($retryCount <= $maxRetries) {
+                            usleep(500000); // Wait 500ms before retry
+                        }
                     }
                 }
             }

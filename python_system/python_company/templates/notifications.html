@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - {{ company_name }} - AdSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>.glass-effect { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }</style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen">
+<nav class="bg-slate-900/80 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="/dashboard" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-ad text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold text-white">AdSphere</span>
+            </a>
+            <a href="/dashboard" class="text-gray-300 hover:text-white transition"><i class="fas fa-arrow-left mr-2"></i>Back</a>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-white">Notifications</h1>
+        <button class="text-indigo-400 hover:text-indigo-300 transition text-sm">Mark all as read</button>
+    </div>
+
+    <div class="space-y-4">
+        <!-- Sample notifications -->
+        <div class="glass-effect rounded-xl p-4 flex items-start gap-4">
+            <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-eye text-green-400"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-white">Your ad "Modern Apartment" received 50 new views</p>
+                <p class="text-gray-500 text-sm mt-1">2 hours ago</p>
+            </div>
+            <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+        </div>
+
+        <div class="glass-effect rounded-xl p-4 flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-phone text-blue-400"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-white">New contact request on "Business Laptop"</p>
+                <p class="text-gray-500 text-sm mt-1">5 hours ago</p>
+            </div>
+            <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+        </div>
+
+        <div class="glass-effect rounded-xl p-4 flex items-start gap-4 opacity-60">
+            <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-heart text-purple-400"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-white">Your ad was added to 3 favorites</p>
+                <p class="text-gray-500 text-sm mt-1">Yesterday</p>
+            </div>
+        </div>
+
+        <div class="glass-effect rounded-xl p-4 flex items-start gap-4 opacity-60">
+            <div class="w-10 h-10 bg-yellow-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-line text-yellow-400"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-white">Weekly analytics report is ready</p>
+                <p class="text-gray-500 text-sm mt-1">2 days ago</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="border-t border-white/10 py-6 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">&copy; {{ current_year }} AdSphere.</div>
+</footer>
+</body>
+</html>
+

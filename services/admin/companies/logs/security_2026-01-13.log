@@ -1,0 +1,4 @@
+[2026-01-13 15:04:27] LOGIN_ATTEMPT | User: admin | IP: ::1 | Status: INVALID_CREDENTIALS | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: f7c467db0fdfe2eec644ca045ac65ebdb64243e8a4f697e165276106f13fc320
+[2026-01-13 15:04:40] LOGIN_2FA_PENDING | User: admin | IP: ::1 | Status: PENDING | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 6ffa29f783e800a3ae02f34578a40194cb1e353101f396303758c5a84ae30c69
+[2026-01-13 15:30:44] LOGIN_ATTEMPT | User: Unknown | IP: ::1 | Status: CSRF_FAIL | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: fb436f91e0ce230aa0916209b6ec7bf28cb423ce4a68e676e5a8ad663f1505f1
+[2026-01-13 15:30:54] LOGIN_2FA_PENDING | User: admin | IP: ::1 | Status: PENDING | UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap | HMAC: 815ad5afdd779c264166d0d10a8d9e6f325dfd6989297bfe27fb9e809a931fea

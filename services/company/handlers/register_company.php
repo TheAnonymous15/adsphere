@@ -8,7 +8,7 @@
 header('Content-Type: application/json');
 
 // Load database system
-require_once __DIR__ . '/../../database/Database.php';
+require_once __DIR__ . '/../../shared/database/Database.php';
 
 $db = Database::getInstance();
 
@@ -45,9 +45,15 @@ try {
     // Generate company slug
     $companySlug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $companyName), '-'));
 
-    // Check if company already exists
+    // Check if company already exists in database
     $existing = $db->queryOne("SELECT company_slug FROM companies WHERE company_slug = ?", [$companySlug]);
     if ($existing) {
+        throw new Exception('Company with this name already exists');
+    }
+
+    // Also check if company exists in file system
+    $companiesPath = __DIR__ . '/../data/companies/' . $companySlug;
+    if (is_dir($companiesPath)) {
         throw new Exception('Company with this name already exists');
     }
 
@@ -122,6 +128,48 @@ try {
         $companyDir = $adsBase . $category . '/' . $companySlug;
         if (!is_dir($companyDir)) {
             mkdir($companyDir, 0755, true);
+        }
+
+        // ============================================
+        // ALSO CREATE IN FILE-BASED COMPANIES DIRECTORY
+        // (For login system compatibility)
+        // ============================================
+        $companiesPath = __DIR__ . '/../data/companies/';
+        $companyFilePath = $companiesPath . $companySlug;
+
+        if (!is_dir($companiesPath)) {
+            mkdir($companiesPath, 0755, true);
+        }
+
+        if (!is_dir($companyFilePath)) {
+            mkdir($companyFilePath, 0755, true);
+
+            // Create company.json file (used by login system)
+            $companyFileData = [
+                'company_slug' => $companySlug,
+                'company_name' => $companyName,
+                'email' => $email,
+                'phone' => $phone,
+                'sms' => $sms,
+                'whatsapp' => $whatsapp,
+                'website' => $website,
+                'description' => $description,
+                'category' => $category,
+                'status' => 'active',
+                'verified' => false,
+                'created_at' => date('c', $now),
+                'updated_at' => date('c', $now)
+            ];
+
+            file_put_contents(
+                $companyFilePath . '/company.json',
+                json_encode($companyFileData, JSON_PRETTY_PRINT),
+                LOCK_EX
+            );
+
+            // Create subdirectories for ads and analytics
+            mkdir($companyFilePath . '/ads', 0755, true);
+            mkdir($companyFilePath . '/analytics', 0755, true);
         }
 
         // Log activity

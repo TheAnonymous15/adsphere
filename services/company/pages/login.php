@@ -21,6 +21,7 @@ if (!defined('BASE_PATH')) {
 }
 
 $metaBase = __DIR__ . "/../metadata/";
+$companiesBase = __DIR__ . "/../data/companies/";
 
 // If already logged in redirect
 if (isset($_SESSION['company_logged_in']) && $_SESSION['company_logged_in'] === true) {
@@ -110,9 +111,14 @@ function validateEmail($email) {
 // PASSWORD VERIFICATION
 // ============================================
 function verifyPassword($inputPassword, $company) {
-    // Check if company has a hashed password
+    // Check if company has a hashed password (password_hash field)
     if (isset($company['password_hash'])) {
         return password_verify($inputPassword, $company['password_hash']);
+    }
+
+    // Check for password field (from data/companies registration)
+    if (isset($company['password'])) {
+        return password_verify($inputPassword, $company['password']);
     }
 
     // Fallback to static password (TEMPORARY - should be removed in production)
@@ -153,27 +159,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $companyData = null;
                 $matchedFile = null;
 
-                // Search for company by email
-                foreach (scandir($metaBase) as $file) {
+                // Search for company by email in metadata directory
+                if (is_dir($metaBase)) {
+                    foreach (scandir($metaBase) as $file) {
+                        if ($file === "." || $file === "..") continue;
+                        if (!str_ends_with($file, ".json")) continue;
 
-                    if ($file === "." || $file === "..") continue;
-                    if (!str_ends_with($file, ".json")) continue;
+                        $raw = file_get_contents("$metaBase/$file");
+                        $company = json_decode($raw, true);
 
-                    $raw = file_get_contents("$metaBase/$file");
-                    $company = json_decode($raw, true);
+                        if (!$company) continue;
 
-                    if (!$company) continue;
+                        $cEmail = $company["contact"]["email"] ?? null;
 
-                    $cEmail = $company["contact"]["email"] ?? null;
+                        if ($cEmail && strtolower($cEmail) === strtolower($email)) {
+                            // Verify password
+                            if (verifyPassword($password, $company)) {
+                                $authenticated = true;
+                                $companyData = $company;
+                                $matchedFile = $file;
+                                break;
+                            }
+                        }
+                    }
+                }
 
-                    if ($cEmail && strtolower($cEmail) === strtolower($email)) {
+                // If not found in metadata, search in data/companies directory
+                if (!$authenticated && is_dir($companiesBase)) {
+                    foreach (scandir($companiesBase) as $dir) {
+                        if ($dir === "." || $dir === "..") continue;
 
-                        // Verify password
-                        if (verifyPassword($password, $company)) {
-                            $authenticated = true;
-                            $companyData = $company;
-                            $matchedFile = $file;
-                            break;
+                        $companyJsonPath = "$companiesBase/$dir/company.json";
+                        if (!file_exists($companyJsonPath)) continue;
+
+                        $raw = file_get_contents($companyJsonPath);
+                        $company = json_decode($raw, true);
+
+                        if (!$company) continue;
+
+                        // Check email field directly (new structure)
+                        $cEmail = $company["email"] ?? null;
+
+                        if ($cEmail && strtolower($cEmail) === strtolower($email)) {
+                            // Verify password
+                            if (verifyPassword($password, $company)) {
+                                $authenticated = true;
+                                // Map to expected format
+                                $companyData = [
+                                    'slug' => $company['company_slug'] ?? $dir,
+                                    'name' => $company['company_name'] ?? $dir,
+                                    'contact' => [
+                                        'email' => $company['email'],
+                                        'phone' => $company['phone'] ?? ''
+                                    ],
+                                    'category' => $company['category'] ?? '',
+                                    'status' => $company['status'] ?? 'active'
+                                ];
+                                $matchedFile = "$dir/company.json";
+                                break;
+                            }
                         }
                     }
                 }
